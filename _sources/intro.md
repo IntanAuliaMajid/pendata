@@ -1,9 +1,11 @@
-# Welcome to your Jupyter Book
+# Penambangan Data IF4D
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+Penambangan data (data mining) adalah proses ekstraksi informasi atau pola yang berguna dari kumpulan data besar. Teknik ini menggunakan metode statistik, kecerdasan buatan, dan pembelajaran mesin untuk menemukan hubungan tersembunyi dalam data.  
+
+Nama : INTAN AULIA MAJID  
+NIM  : 230411100001  
+Prodi : Teknik Informatika  
+Email : 230411100001@student.trunojoyo.ac.id  
 
 Check out the content pages bundled with this sample book to see more.
 
