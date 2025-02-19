@@ -6,8 +6,3 @@ Nama : INTAN AULIA MAJID
 NIM  : 230411100001  
 Prodi : Teknik Informatika  
 Email : 230411100001@student.trunojoyo.ac.id  
-
-Check out the content pages bundled with this sample book to see more.
-
-```{tableofcontents}
-```

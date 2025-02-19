@@ -6,6 +6,3 @@ Nama : INTAN AULIA MAJID
 NIM  : 230411100001  
 Prodi : Teknik Informatika  
 Email : 230411100001@student.trunojoyo.ac.id  
-
-```{tableofcontents}
-```
