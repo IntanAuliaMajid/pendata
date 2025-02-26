@@ -1,0 +1,1241 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Penggabungan Data &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'MemahamiData';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo (2).jpg" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="_static/logo (2).jpg" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Penambangan Data IF4D
+                </a>
+            </li>
+        </ul>
+        
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/IntanAuliaMajid/pendata" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/IntanAuliaMajid/pendata/issues/new?title=Issue%20on%20page%20%2FMemahamiData.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/MemahamiData.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Penggabungan Data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Penggabungan Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling">Profiling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi">Visualisasi</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><em>Langkah-Langkah dalam Data Understanding</em></p>
+<ol class="arabic simple">
+<li><p>Pengumpulan data</p></li>
+<li><p>Sampling : mengambil data sebagian untuk menarik kesimpulan</p></li>
+<li><p>Profiling data : mengamati data, tipe data, kategori dan tingkatannya, memprofiling data bahwa data tersebut ordinal, mencatat apakah data tersebut berkualitas</p></li>
+<li><p>Korelasi dan Asosiasi : menganalisis hubungan antar kolom</p></li>
+<li><p>Eksplorasi data</p></li>
+<li><p>Identifikasi masalah data</p></li>
+<li><p>Validasi data : sumber datanya jelas.</p></li>
+</ol>
+<p><em>Pengumpulan Data</em></p>
+<ul class="simple">
+<li><p>Mengumpulkan data dari berbagai sumber, seperti database, file CSV, API, atau sensor.</p></li>
+<li><p>Memastikan bahwa semua data yang relevan telah dikumpulkan sesuai tujuan analisis.</p></li>
+</ul>
+<p><em>Visualisasi Data</em></p>
+<ul class="simple">
+<li><p>Histogram : untuk melihat distribusi data numerik</p></li>
+<li><p>Box plot : untuk mmendeteksi outlierts</p></li>
+<li><p>Scatter plot : hubungan antara 2 variabel</p></li>
+<li><p>Bar chart/Pie chart.</p></li>
+</ul>
+<p><em>identifikasi masalah data :</em></p>
+<ol class="arabic simple">
+<li><p>missing values : menemukan data yang hilang atau tidak lengkap</p></li>
+<li><p>outliers : mendeteksi nilai nilai ekstrem yang mungkin melakukan kesalahan atau anomali</p></li>
+<li><p>duplikasi data : mengidentifikasi baris atau entri yang duplikat</p></li>
+<li><p>inkonsistensi : memeriksa apakah ada ketidaksesuaian dalam format atau nilai data.</p></li>
+</ol>
+<p><em>manfaat data understanding :</em></p>
+<ol class="arabic simple">
+<li><p>meningkatkan kualitas data</p></li>
+<li><p>menghemat waktu dan biaya : menghindari kesalahan analisis yang disebabkan oleh data buruk</p></li>
+<li><p>mendukung pengambilan keputusan : memberikan wawasan awal yang berguna untuk merumuskan strategi analisis</p></li>
+<li><p>mengurangi resiko kesalahan model.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">psycopg2</span>
+<span class="kn">import</span> <span class="nn">pymysql</span>
+
+<span class="c1"># Koneksi ke PostgreSQL</span>
+<span class="n">pg_conn</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+    <span class="n">dbname</span><span class="o">=</span><span class="s2">&quot;defaultdb&quot;</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="s2">&quot;avnadmin&quot;</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;AVNS_5bqIZxzsDaHWU730NZ6&quot;</span><span class="p">,</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;pg-108cd813-irispendatpostgresql.i.aivencloud.com&quot;</span><span class="p">,</span>
+    <span class="n">port</span><span class="o">=</span><span class="s2">&quot;11381&quot;</span>
+<span class="p">)</span>
+<span class="n">pg_cur</span> <span class="o">=</span> <span class="n">pg_conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="c1"># Koneksi ke MySQL</span>
+<span class="n">mysql_conn</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">&quot;mysql-1fe77f3f-irismysqlpendat.i.aivencloud.com&quot;</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="s2">&quot;avnadmin&quot;</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s2">&quot;AVNS_X_mleJti5QlbqZ6h_xN&quot;</span><span class="p">,</span>
+    <span class="n">database</span><span class="o">=</span><span class="s2">&quot;defaultdb&quot;</span><span class="p">,</span>
+    <span class="n">port</span><span class="o">=</span><span class="mi">20846</span><span class="p">,</span>
+    <span class="n">ssl</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ssl&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+<span class="p">)</span>
+<span class="n">mysql_cur</span> <span class="o">=</span> <span class="n">mysql_conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="c1"># Ambil data dari PostgreSQL</span>
+<span class="n">pg_cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT id, sepal_length, sepal_width, class FROM irispostgresql;&quot;</span><span class="p">)</span>
+<span class="n">pg_data</span> <span class="o">=</span> <span class="n">pg_cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="c1"># Ambil data dari MySQL</span>
+<span class="n">mysql_cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT id, petal_length, petal_width, class FROM irismysql;&quot;</span><span class="p">)</span>
+<span class="n">mysql_data</span> <span class="o">=</span> <span class="n">mysql_cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="c1"># Tampilkan data PostgreSQL</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data from PostgreSQL:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">pg_data</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data from PostgreSQL:
+(1, 5.1, 3.5, &#39;Iris-setosa&#39;)
+(2, 4.9, 3.0, &#39;Iris-setosa&#39;)
+(3, 4.7, 3.2, &#39;Iris-setosa&#39;)
+(4, 4.6, 3.1, &#39;Iris-setosa&#39;)
+(5, 5.0, 3.6, &#39;Iris-setosa&#39;)
+(6, 5.4, 3.9, &#39;Iris-setosa&#39;)
+(7, 4.6, 3.4, &#39;Iris-setosa&#39;)
+(8, 5.0, 3.4, &#39;Iris-setosa&#39;)
+(9, 4.4, 2.9, &#39;Iris-setosa&#39;)
+(10, 4.9, 3.1, &#39;Iris-setosa&#39;)
+(11, 5.4, 3.7, &#39;Iris-setosa&#39;)
+(12, 4.8, 3.4, &#39;Iris-setosa&#39;)
+(13, 4.8, 3.0, &#39;Iris-setosa&#39;)
+(14, 4.3, 3.0, &#39;Iris-setosa&#39;)
+(15, 5.8, 4.0, &#39;Iris-setosa&#39;)
+(16, 5.7, 4.4, &#39;Iris-setosa&#39;)
+(17, 5.4, 3.9, &#39;Iris-setosa&#39;)
+(18, 5.1, 3.5, &#39;Iris-setosa&#39;)
+(19, 5.7, 3.8, &#39;Iris-setosa&#39;)
+(20, 5.1, 3.8, &#39;Iris-setosa&#39;)
+(21, 5.4, 3.4, &#39;Iris-setosa&#39;)
+(22, 5.1, 3.7, &#39;Iris-setosa&#39;)
+(23, 4.6, 3.6, &#39;Iris-setosa&#39;)
+(24, 5.1, 3.3, &#39;Iris-setosa&#39;)
+(25, 4.8, 3.4, &#39;Iris-setosa&#39;)
+(26, 5.0, 3.0, &#39;Iris-setosa&#39;)
+(27, 5.0, 3.4, &#39;Iris-setosa&#39;)
+(28, 5.2, 3.5, &#39;Iris-setosa&#39;)
+(29, 5.2, 3.4, &#39;Iris-setosa&#39;)
+(30, 4.7, 3.2, &#39;Iris-setosa&#39;)
+(31, 4.8, 3.1, &#39;Iris-setosa&#39;)
+(32, 5.4, 3.4, &#39;Iris-setosa&#39;)
+(33, 5.2, 4.1, &#39;Iris-setosa&#39;)
+(34, 5.5, 4.2, &#39;Iris-setosa&#39;)
+(35, 4.9, 3.1, &#39;Iris-setosa&#39;)
+(36, 5.0, 3.2, &#39;Iris-setosa&#39;)
+(37, 5.5, 3.5, &#39;Iris-setosa&#39;)
+(38, 4.9, 3.1, &#39;Iris-setosa&#39;)
+(39, 4.4, 3.0, &#39;Iris-setosa&#39;)
+(40, 5.1, 3.4, &#39;Iris-setosa&#39;)
+(41, 5.0, 3.5, &#39;Iris-setosa&#39;)
+(42, 4.5, 2.3, &#39;Iris-setosa&#39;)
+(43, 4.4, 3.2, &#39;Iris-setosa&#39;)
+(44, 5.0, 3.5, &#39;Iris-setosa&#39;)
+(45, 5.1, 3.8, &#39;Iris-setosa&#39;)
+(46, 4.8, 3.0, &#39;Iris-setosa&#39;)
+(47, 5.1, 3.8, &#39;Iris-setosa&#39;)
+(48, 4.6, 3.2, &#39;Iris-setosa&#39;)
+(49, 5.3, 3.7, &#39;Iris-setosa&#39;)
+(50, 5.0, 3.3, &#39;Iris-setosa&#39;)
+(51, 7.0, 3.2, &#39;Iris-versicolor&#39;)
+(52, 6.4, 3.2, &#39;Iris-versicolor&#39;)
+(53, 6.9, 3.1, &#39;Iris-versicolor&#39;)
+(54, 5.5, 2.3, &#39;Iris-versicolor&#39;)
+(55, 6.5, 2.8, &#39;Iris-versicolor&#39;)
+(56, 5.7, 2.8, &#39;Iris-versicolor&#39;)
+(57, 6.3, 3.3, &#39;Iris-versicolor&#39;)
+(58, 4.9, 2.4, &#39;Iris-versicolor&#39;)
+(59, 6.6, 2.9, &#39;Iris-versicolor&#39;)
+(60, 5.2, 2.7, &#39;Iris-versicolor&#39;)
+(61, 5.0, 2.0, &#39;Iris-versicolor&#39;)
+(62, 5.9, 3.0, &#39;Iris-versicolor&#39;)
+(63, 6.0, 2.2, &#39;Iris-versicolor&#39;)
+(64, 6.1, 2.9, &#39;Iris-versicolor&#39;)
+(65, 5.6, 2.9, &#39;Iris-versicolor&#39;)
+(66, 6.7, 3.1, &#39;Iris-versicolor&#39;)
+(67, 5.6, 3.0, &#39;Iris-versicolor&#39;)
+(68, 5.8, 2.7, &#39;Iris-versicolor&#39;)
+(69, 6.2, 2.2, &#39;Iris-versicolor&#39;)
+(70, 5.6, 2.5, &#39;Iris-versicolor&#39;)
+(71, 5.9, 3.2, &#39;Iris-versicolor&#39;)
+(72, 6.1, 2.8, &#39;Iris-versicolor&#39;)
+(73, 6.3, 2.5, &#39;Iris-versicolor&#39;)
+(74, 6.1, 2.8, &#39;Iris-versicolor&#39;)
+(75, 6.4, 2.9, &#39;Iris-versicolor&#39;)
+(76, 6.6, 3.0, &#39;Iris-versicolor&#39;)
+(77, 6.8, 2.8, &#39;Iris-versicolor&#39;)
+(78, 6.7, 3.0, &#39;Iris-versicolor&#39;)
+(79, 6.0, 2.9, &#39;Iris-versicolor&#39;)
+(80, 5.7, 2.6, &#39;Iris-versicolor&#39;)
+(81, 5.5, 2.4, &#39;Iris-versicolor&#39;)
+(82, 5.5, 2.4, &#39;Iris-versicolor&#39;)
+(83, 5.8, 2.7, &#39;Iris-versicolor&#39;)
+(84, 6.0, 2.7, &#39;Iris-versicolor&#39;)
+(85, 5.4, 3.0, &#39;Iris-versicolor&#39;)
+(86, 6.0, 3.4, &#39;Iris-versicolor&#39;)
+(87, 6.7, 3.1, &#39;Iris-versicolor&#39;)
+(88, 6.3, 2.3, &#39;Iris-versicolor&#39;)
+(89, 5.6, 3.0, &#39;Iris-versicolor&#39;)
+(90, 5.5, 2.5, &#39;Iris-versicolor&#39;)
+(91, 5.5, 2.6, &#39;Iris-versicolor&#39;)
+(92, 6.1, 3.0, &#39;Iris-versicolor&#39;)
+(93, 5.8, 2.6, &#39;Iris-versicolor&#39;)
+(94, 5.0, 2.3, &#39;Iris-versicolor&#39;)
+(95, 5.6, 2.7, &#39;Iris-versicolor&#39;)
+(96, 5.7, 3.0, &#39;Iris-versicolor&#39;)
+(97, 5.7, 2.9, &#39;Iris-versicolor&#39;)
+(98, 6.2, 2.9, &#39;Iris-versicolor&#39;)
+(99, 5.1, 2.5, &#39;Iris-versicolor&#39;)
+(100, 5.7, 2.8, &#39;Iris-versicolor&#39;)
+(101, 6.3, 3.3, &#39;Iris-virginica&#39;)
+(102, 5.8, 2.7, &#39;Iris-virginica&#39;)
+(103, 7.1, 3.0, &#39;Iris-virginica&#39;)
+(104, 6.3, 2.9, &#39;Iris-virginica&#39;)
+(105, 6.5, 3.0, &#39;Iris-virginica&#39;)
+(106, 7.6, 3.0, &#39;Iris-virginica&#39;)
+(107, 4.9, 2.5, &#39;Iris-virginica&#39;)
+(108, 7.3, 2.9, &#39;Iris-virginica&#39;)
+(109, 6.7, 2.5, &#39;Iris-virginica&#39;)
+(110, 7.2, 3.6, &#39;Iris-virginica&#39;)
+(111, 6.5, 3.2, &#39;Iris-virginica&#39;)
+(112, 6.4, 2.7, &#39;Iris-virginica&#39;)
+(113, 6.8, 3.0, &#39;Iris-virginica&#39;)
+(114, 5.7, 2.5, &#39;Iris-virginica&#39;)
+(115, 5.8, 2.8, &#39;Iris-virginica&#39;)
+(116, 6.4, 3.2, &#39;Iris-virginica&#39;)
+(117, 6.5, 3.0, &#39;Iris-virginica&#39;)
+(118, 7.7, 3.8, &#39;Iris-virginica&#39;)
+(119, 7.7, 2.6, &#39;Iris-virginica&#39;)
+(120, 6.0, 2.2, &#39;Iris-virginica&#39;)
+(121, 6.9, 3.2, &#39;Iris-virginica&#39;)
+(122, 5.6, 2.8, &#39;Iris-virginica&#39;)
+(123, 7.7, 2.8, &#39;Iris-virginica&#39;)
+(124, 6.3, 2.7, &#39;Iris-virginica&#39;)
+(125, 6.7, 3.3, &#39;Iris-virginica&#39;)
+(126, 7.2, 3.2, &#39;Iris-virginica&#39;)
+(127, 6.2, 2.8, &#39;Iris-virginica&#39;)
+(128, 6.1, 3.0, &#39;Iris-virginica&#39;)
+(129, 6.4, 2.8, &#39;Iris-virginica&#39;)
+(130, 7.2, 3.0, &#39;Iris-virginica&#39;)
+(131, 7.4, 2.8, &#39;Iris-virginica&#39;)
+(132, 7.9, 3.8, &#39;Iris-virginica&#39;)
+(133, 6.4, 2.8, &#39;Iris-virginica&#39;)
+(134, 6.3, 2.8, &#39;Iris-virginica&#39;)
+(135, 6.1, 2.6, &#39;Iris-virginica&#39;)
+(136, 7.7, 3.0, &#39;Iris-virginica&#39;)
+(137, 6.3, 3.4, &#39;Iris-virginica&#39;)
+(138, 6.4, 3.1, &#39;Iris-virginica&#39;)
+(139, 6.0, 3.0, &#39;Iris-virginica&#39;)
+(140, 6.9, 3.1, &#39;Iris-virginica&#39;)
+(141, 6.7, 3.1, &#39;Iris-virginica&#39;)
+(142, 6.9, 3.1, &#39;Iris-virginica&#39;)
+(143, 5.8, 2.7, &#39;Iris-virginica&#39;)
+(144, 6.8, 3.2, &#39;Iris-virginica&#39;)
+(145, 6.7, 3.3, &#39;Iris-virginica&#39;)
+(146, 6.7, 3.0, &#39;Iris-virginica&#39;)
+(147, 6.3, 2.5, &#39;Iris-virginica&#39;)
+(148, 6.5, 3.0, &#39;Iris-virginica&#39;)
+(149, 6.2, 3.4, &#39;Iris-virginica&#39;)
+(150, 5.9, 3.0, &#39;Iris-virginica&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>DATABASE MYSQL</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tampilkan data MySQL</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Data from MySQL:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">mysql_data</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data from MySQL:
+(1, 1.4, 0.2, &#39;Iris-setosa&#39;)
+(2, 1.4, 0.2, &#39;Iris-setosa&#39;)
+(3, 1.3, 0.2, &#39;Iris-setosa&#39;)
+(4, 1.5, 0.2, &#39;Iris-setosa&#39;)
+(5, 1.4, 0.2, &#39;Iris-setosa&#39;)
+(6, 1.7, 0.4, &#39;Iris-setosa&#39;)
+(7, 1.4, 0.3, &#39;Iris-setosa&#39;)
+(8, 1.5, 0.2, &#39;Iris-setosa&#39;)
+(9, 1.4, 0.2, &#39;Iris-setosa&#39;)
+(10, 1.5, 0.1, &#39;Iris-setosa&#39;)
+(11, 1.5, 0.2, &#39;Iris-setosa&#39;)
+(12, 1.6, 0.2, &#39;Iris-setosa&#39;)
+(13, 1.4, 0.1, &#39;Iris-setosa&#39;)
+(14, 1.1, 0.1, &#39;Iris-setosa&#39;)
+(15, 1.2, 0.2, &#39;Iris-setosa&#39;)
+(16, 1.5, 0.4, &#39;Iris-setosa&#39;)
+(17, 1.3, 0.4, &#39;Iris-setosa&#39;)
+(18, 1.4, 0.3, &#39;Iris-setosa&#39;)
+(19, 1.7, 0.3, &#39;Iris-setosa&#39;)
+(20, 1.5, 0.3, &#39;Iris-setosa&#39;)
+(21, 1.7, 0.2, &#39;Iris-setosa&#39;)
+(22, 1.5, 0.4, &#39;Iris-setosa&#39;)
+(23, 1.0, 0.2, &#39;Iris-setosa&#39;)
+(24, 1.7, 0.5, &#39;Iris-setosa&#39;)
+(25, 1.9, 0.2, &#39;Iris-setosa&#39;)
+(26, 1.6, 0.2, &#39;Iris-setosa&#39;)
+(27, 1.6, 0.4, &#39;Iris-setosa&#39;)
+(28, 1.5, 0.2, &#39;Iris-setosa&#39;)
+(29, 1.4, 0.2, &#39;Iris-setosa&#39;)
+(30, 1.6, 0.2, &#39;Iris-setosa&#39;)
+(31, 1.6, 0.2, &#39;Iris-setosa&#39;)
+(32, 1.5, 0.4, &#39;Iris-setosa&#39;)
+(33, 1.5, 0.1, &#39;Iris-setosa&#39;)
+(34, 1.4, 0.2, &#39;Iris-setosa&#39;)
+(35, 1.5, 0.1, &#39;Iris-setosa&#39;)
+(36, 1.2, 0.2, &#39;Iris-setosa&#39;)
+(37, 1.3, 0.2, &#39;Iris-setosa&#39;)
+(38, 1.5, 0.1, &#39;Iris-setosa&#39;)
+(39, 1.3, 0.2, &#39;Iris-setosa&#39;)
+(40, 1.5, 0.2, &#39;Iris-setosa&#39;)
+(41, 1.3, 0.3, &#39;Iris-setosa&#39;)
+(42, 1.3, 0.3, &#39;Iris-setosa&#39;)
+(43, 1.3, 0.2, &#39;Iris-setosa&#39;)
+(44, 1.6, 0.6, &#39;Iris-setosa&#39;)
+(45, 1.9, 0.4, &#39;Iris-setosa&#39;)
+(46, 1.4, 0.3, &#39;Iris-setosa&#39;)
+(47, 1.6, 0.2, &#39;Iris-setosa&#39;)
+(48, 1.4, 0.2, &#39;Iris-setosa&#39;)
+(49, 1.5, 0.2, &#39;Iris-setosa&#39;)
+(50, 1.4, 0.2, &#39;Iris-setosa&#39;)
+(51, 4.7, 1.4, &#39;Iris-versicolor&#39;)
+(52, 4.5, 1.5, &#39;Iris-versicolor&#39;)
+(53, 4.9, 1.5, &#39;Iris-versicolor&#39;)
+(54, 4.0, 1.3, &#39;Iris-versicolor&#39;)
+(55, 4.6, 1.5, &#39;Iris-versicolor&#39;)
+(56, 4.5, 1.3, &#39;Iris-versicolor&#39;)
+(57, 4.7, 1.6, &#39;Iris-versicolor&#39;)
+(58, 3.3, 1.0, &#39;Iris-versicolor&#39;)
+(59, 4.6, 1.3, &#39;Iris-versicolor&#39;)
+(60, 3.9, 1.4, &#39;Iris-versicolor&#39;)
+(61, 3.5, 1.0, &#39;Iris-versicolor&#39;)
+(62, 4.2, 1.5, &#39;Iris-versicolor&#39;)
+(63, 4.0, 1.0, &#39;Iris-versicolor&#39;)
+(64, 4.7, 1.4, &#39;Iris-versicolor&#39;)
+(65, 3.6, 1.3, &#39;Iris-versicolor&#39;)
+(66, 4.4, 1.4, &#39;Iris-versicolor&#39;)
+(67, 4.5, 1.5, &#39;Iris-versicolor&#39;)
+(68, 4.1, 1.0, &#39;Iris-versicolor&#39;)
+(69, 4.5, 1.5, &#39;Iris-versicolor&#39;)
+(70, 3.9, 1.1, &#39;Iris-versicolor&#39;)
+(71, 4.8, 1.8, &#39;Iris-versicolor&#39;)
+(72, 4.0, 1.3, &#39;Iris-versicolor&#39;)
+(73, 4.9, 1.5, &#39;Iris-versicolor&#39;)
+(74, 4.7, 1.2, &#39;Iris-versicolor&#39;)
+(75, 4.3, 1.3, &#39;Iris-versicolor&#39;)
+(76, 4.4, 1.4, &#39;Iris-versicolor&#39;)
+(77, 4.8, 1.4, &#39;Iris-versicolor&#39;)
+(78, 5.0, 1.7, &#39;Iris-versicolor&#39;)
+(79, 4.5, 1.5, &#39;Iris-versicolor&#39;)
+(80, 3.5, 1.0, &#39;Iris-versicolor&#39;)
+(81, 3.8, 1.1, &#39;Iris-versicolor&#39;)
+(82, 3.7, 1.0, &#39;Iris-versicolor&#39;)
+(83, 3.9, 1.2, &#39;Iris-versicolor&#39;)
+(84, 5.1, 1.6, &#39;Iris-versicolor&#39;)
+(85, 4.5, 1.5, &#39;Iris-versicolor&#39;)
+(86, 4.5, 1.6, &#39;Iris-versicolor&#39;)
+(87, 4.7, 1.5, &#39;Iris-versicolor&#39;)
+(88, 4.4, 1.3, &#39;Iris-versicolor&#39;)
+(89, 4.1, 1.3, &#39;Iris-versicolor&#39;)
+(90, 4.0, 1.3, &#39;Iris-versicolor&#39;)
+(91, 4.4, 1.2, &#39;Iris-versicolor&#39;)
+(92, 4.6, 1.4, &#39;Iris-versicolor&#39;)
+(93, 4.0, 1.2, &#39;Iris-versicolor&#39;)
+(94, 3.3, 1.0, &#39;Iris-versicolor&#39;)
+(95, 4.2, 1.3, &#39;Iris-versicolor&#39;)
+(96, 4.2, 1.2, &#39;Iris-versicolor&#39;)
+(97, 4.2, 1.3, &#39;Iris-versicolor&#39;)
+(98, 4.3, 1.3, &#39;Iris-versicolor&#39;)
+(99, 3.0, 1.1, &#39;Iris-versicolor&#39;)
+(100, 4.1, 1.3, &#39;Iris-versicolor&#39;)
+(101, 6.0, 2.5, &#39;Iris-virginica&#39;)
+(102, 5.1, 1.9, &#39;Iris-virginica&#39;)
+(103, 5.9, 2.1, &#39;Iris-virginica&#39;)
+(104, 5.6, 1.8, &#39;Iris-virginica&#39;)
+(105, 5.8, 2.2, &#39;Iris-virginica&#39;)
+(106, 6.6, 2.1, &#39;Iris-virginica&#39;)
+(107, 4.5, 1.7, &#39;Iris-virginica&#39;)
+(108, 6.3, 1.8, &#39;Iris-virginica&#39;)
+(109, 5.8, 1.8, &#39;Iris-virginica&#39;)
+(110, 6.1, 2.5, &#39;Iris-virginica&#39;)
+(111, 5.1, 2.0, &#39;Iris-virginica&#39;)
+(112, 5.3, 1.9, &#39;Iris-virginica&#39;)
+(113, 5.5, 2.1, &#39;Iris-virginica&#39;)
+(114, 5.0, 2.0, &#39;Iris-virginica&#39;)
+(115, 5.1, 2.4, &#39;Iris-virginica&#39;)
+(116, 5.3, 2.3, &#39;Iris-virginica&#39;)
+(117, 5.5, 1.8, &#39;Iris-virginica&#39;)
+(118, 6.7, 2.2, &#39;Iris-virginica&#39;)
+(119, 6.9, 2.3, &#39;Iris-virginica&#39;)
+(120, 5.0, 1.5, &#39;Iris-virginica&#39;)
+(121, 5.7, 2.3, &#39;Iris-virginica&#39;)
+(122, 4.9, 2.0, &#39;Iris-virginica&#39;)
+(123, 6.7, 2.0, &#39;Iris-virginica&#39;)
+(124, 4.9, 1.8, &#39;Iris-virginica&#39;)
+(125, 5.7, 2.1, &#39;Iris-virginica&#39;)
+(126, 6.0, 1.8, &#39;Iris-virginica&#39;)
+(127, 4.8, 1.8, &#39;Iris-virginica&#39;)
+(128, 4.9, 1.8, &#39;Iris-virginica&#39;)
+(129, 5.6, 2.1, &#39;Iris-virginica&#39;)
+(130, 5.8, 1.6, &#39;Iris-virginica&#39;)
+(131, 6.1, 1.9, &#39;Iris-virginica&#39;)
+(132, 6.4, 2.0, &#39;Iris-virginica&#39;)
+(133, 5.6, 2.2, &#39;Iris-virginica&#39;)
+(134, 5.1, 1.5, &#39;Iris-virginica&#39;)
+(135, 5.6, 1.4, &#39;Iris-virginica&#39;)
+(136, 6.1, 2.3, &#39;Iris-virginica&#39;)
+(137, 5.6, 2.4, &#39;Iris-virginica&#39;)
+(138, 5.5, 1.8, &#39;Iris-virginica&#39;)
+(139, 4.8, 1.8, &#39;Iris-virginica&#39;)
+(140, 5.4, 2.1, &#39;Iris-virginica&#39;)
+(141, 5.6, 2.4, &#39;Iris-virginica&#39;)
+(142, 5.1, 2.3, &#39;Iris-virginica&#39;)
+(143, 5.1, 1.9, &#39;Iris-virginica&#39;)
+(144, 5.9, 2.3, &#39;Iris-virginica&#39;)
+(145, 5.7, 2.5, &#39;Iris-virginica&#39;)
+(146, 5.2, 2.3, &#39;Iris-virginica&#39;)
+(147, 5.0, 1.9, &#39;Iris-virginica&#39;)
+(148, 5.2, 2.0, &#39;Iris-virginica&#39;)
+(149, 5.4, 2.3, &#39;Iris-virginica&#39;)
+(150, 5.1, 1.8, &#39;Iris-virginica&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="penggabungan-data">
+<h1>Penggabungan Data<a class="headerlink" href="#penggabungan-data" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ambil data dari PostgreSQL</span>
+<span class="n">pg_cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT id, sepal_length, sepal_width, class FROM irispostgresql;&quot;</span><span class="p">)</span>
+<span class="n">pg_data</span> <span class="o">=</span> <span class="n">pg_cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="c1"># Ambil data dari MySQL</span>
+<span class="n">mysql_cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT id, petal_length, petal_width, class FROM irismysql;&quot;</span><span class="p">)</span>
+<span class="n">mysql_data</span> <span class="o">=</span> <span class="n">mysql_cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="c1"># Simpan data dari PostgreSQL dalam dictionary berdasarkan ID</span>
+<span class="n">dict_pg</span> <span class="o">=</span> <span class="p">{</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="p">{</span><span class="s2">&quot;sepal_length&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;sepal_width&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">]}</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">pg_data</span><span class="p">}</span>
+
+<span class="c1"># Gabungkan data dari MySQL</span>
+<span class="n">merged_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">mysql_data</span><span class="p">:</span>
+    <span class="n">id_</span><span class="p">,</span> <span class="n">petal_length</span><span class="p">,</span> <span class="n">petal_width</span><span class="p">,</span> <span class="n">class_</span> <span class="o">=</span> <span class="n">row</span>
+    <span class="k">if</span> <span class="n">id_</span> <span class="ow">in</span> <span class="n">dict_pg</span><span class="p">:</span>  <span class="c1"># Jika ID ada di PostgreSQL, gabungkan datanya</span>
+        <span class="n">merged_row</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">id_</span><span class="p">,</span>
+            <span class="s2">&quot;sepal_length&quot;</span><span class="p">:</span> <span class="n">dict_pg</span><span class="p">[</span><span class="n">id_</span><span class="p">][</span><span class="s2">&quot;sepal_length&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;sepal_width&quot;</span><span class="p">:</span> <span class="n">dict_pg</span><span class="p">[</span><span class="n">id_</span><span class="p">][</span><span class="s2">&quot;sepal_width&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;petal_length&quot;</span><span class="p">:</span> <span class="n">petal_length</span><span class="p">,</span>
+            <span class="s2">&quot;petal_width&quot;</span><span class="p">:</span> <span class="n">petal_width</span><span class="p">,</span>
+            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">class_</span>  <span class="c1"># Bisa pakai salah satu class (diasumsikan sama)</span>
+        <span class="p">}</span>
+        <span class="n">merged_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">merged_row</span><span class="p">)</span>
+
+<span class="c1"># Cetak hasil gabungan</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Merged Data:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">merged_data</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Merged Data:
+{&#39;id&#39;: 1, &#39;sepal_length&#39;: 5.1, &#39;sepal_width&#39;: 3.5, &#39;petal_length&#39;: 1.4, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 2, &#39;sepal_length&#39;: 4.9, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 1.4, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 3, &#39;sepal_length&#39;: 4.7, &#39;sepal_width&#39;: 3.2, &#39;petal_length&#39;: 1.3, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 4, &#39;sepal_length&#39;: 4.6, &#39;sepal_width&#39;: 3.1, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 5, &#39;sepal_length&#39;: 5.0, &#39;sepal_width&#39;: 3.6, &#39;petal_length&#39;: 1.4, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 6, &#39;sepal_length&#39;: 5.4, &#39;sepal_width&#39;: 3.9, &#39;petal_length&#39;: 1.7, &#39;petal_width&#39;: 0.4, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 7, &#39;sepal_length&#39;: 4.6, &#39;sepal_width&#39;: 3.4, &#39;petal_length&#39;: 1.4, &#39;petal_width&#39;: 0.3, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 8, &#39;sepal_length&#39;: 5.0, &#39;sepal_width&#39;: 3.4, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 9, &#39;sepal_length&#39;: 4.4, &#39;sepal_width&#39;: 2.9, &#39;petal_length&#39;: 1.4, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 10, &#39;sepal_length&#39;: 4.9, &#39;sepal_width&#39;: 3.1, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.1, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 11, &#39;sepal_length&#39;: 5.4, &#39;sepal_width&#39;: 3.7, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 12, &#39;sepal_length&#39;: 4.8, &#39;sepal_width&#39;: 3.4, &#39;petal_length&#39;: 1.6, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 13, &#39;sepal_length&#39;: 4.8, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 1.4, &#39;petal_width&#39;: 0.1, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 14, &#39;sepal_length&#39;: 4.3, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 1.1, &#39;petal_width&#39;: 0.1, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 15, &#39;sepal_length&#39;: 5.8, &#39;sepal_width&#39;: 4.0, &#39;petal_length&#39;: 1.2, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 16, &#39;sepal_length&#39;: 5.7, &#39;sepal_width&#39;: 4.4, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.4, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 17, &#39;sepal_length&#39;: 5.4, &#39;sepal_width&#39;: 3.9, &#39;petal_length&#39;: 1.3, &#39;petal_width&#39;: 0.4, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 18, &#39;sepal_length&#39;: 5.1, &#39;sepal_width&#39;: 3.5, &#39;petal_length&#39;: 1.4, &#39;petal_width&#39;: 0.3, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 19, &#39;sepal_length&#39;: 5.7, &#39;sepal_width&#39;: 3.8, &#39;petal_length&#39;: 1.7, &#39;petal_width&#39;: 0.3, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 20, &#39;sepal_length&#39;: 5.1, &#39;sepal_width&#39;: 3.8, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.3, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 21, &#39;sepal_length&#39;: 5.4, &#39;sepal_width&#39;: 3.4, &#39;petal_length&#39;: 1.7, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 22, &#39;sepal_length&#39;: 5.1, &#39;sepal_width&#39;: 3.7, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.4, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 23, &#39;sepal_length&#39;: 4.6, &#39;sepal_width&#39;: 3.6, &#39;petal_length&#39;: 1.0, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 24, &#39;sepal_length&#39;: 5.1, &#39;sepal_width&#39;: 3.3, &#39;petal_length&#39;: 1.7, &#39;petal_width&#39;: 0.5, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 25, &#39;sepal_length&#39;: 4.8, &#39;sepal_width&#39;: 3.4, &#39;petal_length&#39;: 1.9, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 26, &#39;sepal_length&#39;: 5.0, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 1.6, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 27, &#39;sepal_length&#39;: 5.0, &#39;sepal_width&#39;: 3.4, &#39;petal_length&#39;: 1.6, &#39;petal_width&#39;: 0.4, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 28, &#39;sepal_length&#39;: 5.2, &#39;sepal_width&#39;: 3.5, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 29, &#39;sepal_length&#39;: 5.2, &#39;sepal_width&#39;: 3.4, &#39;petal_length&#39;: 1.4, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 30, &#39;sepal_length&#39;: 4.7, &#39;sepal_width&#39;: 3.2, &#39;petal_length&#39;: 1.6, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 31, &#39;sepal_length&#39;: 4.8, &#39;sepal_width&#39;: 3.1, &#39;petal_length&#39;: 1.6, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 32, &#39;sepal_length&#39;: 5.4, &#39;sepal_width&#39;: 3.4, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.4, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 33, &#39;sepal_length&#39;: 5.2, &#39;sepal_width&#39;: 4.1, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.1, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 34, &#39;sepal_length&#39;: 5.5, &#39;sepal_width&#39;: 4.2, &#39;petal_length&#39;: 1.4, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 35, &#39;sepal_length&#39;: 4.9, &#39;sepal_width&#39;: 3.1, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.1, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 36, &#39;sepal_length&#39;: 5.0, &#39;sepal_width&#39;: 3.2, &#39;petal_length&#39;: 1.2, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 37, &#39;sepal_length&#39;: 5.5, &#39;sepal_width&#39;: 3.5, &#39;petal_length&#39;: 1.3, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 38, &#39;sepal_length&#39;: 4.9, &#39;sepal_width&#39;: 3.1, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.1, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 39, &#39;sepal_length&#39;: 4.4, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 1.3, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 40, &#39;sepal_length&#39;: 5.1, &#39;sepal_width&#39;: 3.4, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 41, &#39;sepal_length&#39;: 5.0, &#39;sepal_width&#39;: 3.5, &#39;petal_length&#39;: 1.3, &#39;petal_width&#39;: 0.3, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 42, &#39;sepal_length&#39;: 4.5, &#39;sepal_width&#39;: 2.3, &#39;petal_length&#39;: 1.3, &#39;petal_width&#39;: 0.3, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 43, &#39;sepal_length&#39;: 4.4, &#39;sepal_width&#39;: 3.2, &#39;petal_length&#39;: 1.3, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 44, &#39;sepal_length&#39;: 5.0, &#39;sepal_width&#39;: 3.5, &#39;petal_length&#39;: 1.6, &#39;petal_width&#39;: 0.6, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 45, &#39;sepal_length&#39;: 5.1, &#39;sepal_width&#39;: 3.8, &#39;petal_length&#39;: 1.9, &#39;petal_width&#39;: 0.4, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 46, &#39;sepal_length&#39;: 4.8, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 1.4, &#39;petal_width&#39;: 0.3, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 47, &#39;sepal_length&#39;: 5.1, &#39;sepal_width&#39;: 3.8, &#39;petal_length&#39;: 1.6, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 48, &#39;sepal_length&#39;: 4.6, &#39;sepal_width&#39;: 3.2, &#39;petal_length&#39;: 1.4, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 49, &#39;sepal_length&#39;: 5.3, &#39;sepal_width&#39;: 3.7, &#39;petal_length&#39;: 1.5, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 50, &#39;sepal_length&#39;: 5.0, &#39;sepal_width&#39;: 3.3, &#39;petal_length&#39;: 1.4, &#39;petal_width&#39;: 0.2, &#39;class&#39;: &#39;Iris-setosa&#39;}
+{&#39;id&#39;: 51, &#39;sepal_length&#39;: 7.0, &#39;sepal_width&#39;: 3.2, &#39;petal_length&#39;: 4.7, &#39;petal_width&#39;: 1.4, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 52, &#39;sepal_length&#39;: 6.4, &#39;sepal_width&#39;: 3.2, &#39;petal_length&#39;: 4.5, &#39;petal_width&#39;: 1.5, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 53, &#39;sepal_length&#39;: 6.9, &#39;sepal_width&#39;: 3.1, &#39;petal_length&#39;: 4.9, &#39;petal_width&#39;: 1.5, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 54, &#39;sepal_length&#39;: 5.5, &#39;sepal_width&#39;: 2.3, &#39;petal_length&#39;: 4.0, &#39;petal_width&#39;: 1.3, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 55, &#39;sepal_length&#39;: 6.5, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 4.6, &#39;petal_width&#39;: 1.5, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 56, &#39;sepal_length&#39;: 5.7, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 4.5, &#39;petal_width&#39;: 1.3, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 57, &#39;sepal_length&#39;: 6.3, &#39;sepal_width&#39;: 3.3, &#39;petal_length&#39;: 4.7, &#39;petal_width&#39;: 1.6, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 58, &#39;sepal_length&#39;: 4.9, &#39;sepal_width&#39;: 2.4, &#39;petal_length&#39;: 3.3, &#39;petal_width&#39;: 1.0, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 59, &#39;sepal_length&#39;: 6.6, &#39;sepal_width&#39;: 2.9, &#39;petal_length&#39;: 4.6, &#39;petal_width&#39;: 1.3, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 60, &#39;sepal_length&#39;: 5.2, &#39;sepal_width&#39;: 2.7, &#39;petal_length&#39;: 3.9, &#39;petal_width&#39;: 1.4, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 61, &#39;sepal_length&#39;: 5.0, &#39;sepal_width&#39;: 2.0, &#39;petal_length&#39;: 3.5, &#39;petal_width&#39;: 1.0, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 62, &#39;sepal_length&#39;: 5.9, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 4.2, &#39;petal_width&#39;: 1.5, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 63, &#39;sepal_length&#39;: 6.0, &#39;sepal_width&#39;: 2.2, &#39;petal_length&#39;: 4.0, &#39;petal_width&#39;: 1.0, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 64, &#39;sepal_length&#39;: 6.1, &#39;sepal_width&#39;: 2.9, &#39;petal_length&#39;: 4.7, &#39;petal_width&#39;: 1.4, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 65, &#39;sepal_length&#39;: 5.6, &#39;sepal_width&#39;: 2.9, &#39;petal_length&#39;: 3.6, &#39;petal_width&#39;: 1.3, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 66, &#39;sepal_length&#39;: 6.7, &#39;sepal_width&#39;: 3.1, &#39;petal_length&#39;: 4.4, &#39;petal_width&#39;: 1.4, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 67, &#39;sepal_length&#39;: 5.6, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 4.5, &#39;petal_width&#39;: 1.5, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 68, &#39;sepal_length&#39;: 5.8, &#39;sepal_width&#39;: 2.7, &#39;petal_length&#39;: 4.1, &#39;petal_width&#39;: 1.0, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 69, &#39;sepal_length&#39;: 6.2, &#39;sepal_width&#39;: 2.2, &#39;petal_length&#39;: 4.5, &#39;petal_width&#39;: 1.5, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 70, &#39;sepal_length&#39;: 5.6, &#39;sepal_width&#39;: 2.5, &#39;petal_length&#39;: 3.9, &#39;petal_width&#39;: 1.1, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 71, &#39;sepal_length&#39;: 5.9, &#39;sepal_width&#39;: 3.2, &#39;petal_length&#39;: 4.8, &#39;petal_width&#39;: 1.8, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 72, &#39;sepal_length&#39;: 6.1, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 4.0, &#39;petal_width&#39;: 1.3, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 73, &#39;sepal_length&#39;: 6.3, &#39;sepal_width&#39;: 2.5, &#39;petal_length&#39;: 4.9, &#39;petal_width&#39;: 1.5, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 74, &#39;sepal_length&#39;: 6.1, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 4.7, &#39;petal_width&#39;: 1.2, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 75, &#39;sepal_length&#39;: 6.4, &#39;sepal_width&#39;: 2.9, &#39;petal_length&#39;: 4.3, &#39;petal_width&#39;: 1.3, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 76, &#39;sepal_length&#39;: 6.6, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 4.4, &#39;petal_width&#39;: 1.4, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 77, &#39;sepal_length&#39;: 6.8, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 4.8, &#39;petal_width&#39;: 1.4, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 78, &#39;sepal_length&#39;: 6.7, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 5.0, &#39;petal_width&#39;: 1.7, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 79, &#39;sepal_length&#39;: 6.0, &#39;sepal_width&#39;: 2.9, &#39;petal_length&#39;: 4.5, &#39;petal_width&#39;: 1.5, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 80, &#39;sepal_length&#39;: 5.7, &#39;sepal_width&#39;: 2.6, &#39;petal_length&#39;: 3.5, &#39;petal_width&#39;: 1.0, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 81, &#39;sepal_length&#39;: 5.5, &#39;sepal_width&#39;: 2.4, &#39;petal_length&#39;: 3.8, &#39;petal_width&#39;: 1.1, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 82, &#39;sepal_length&#39;: 5.5, &#39;sepal_width&#39;: 2.4, &#39;petal_length&#39;: 3.7, &#39;petal_width&#39;: 1.0, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 83, &#39;sepal_length&#39;: 5.8, &#39;sepal_width&#39;: 2.7, &#39;petal_length&#39;: 3.9, &#39;petal_width&#39;: 1.2, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 84, &#39;sepal_length&#39;: 6.0, &#39;sepal_width&#39;: 2.7, &#39;petal_length&#39;: 5.1, &#39;petal_width&#39;: 1.6, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 85, &#39;sepal_length&#39;: 5.4, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 4.5, &#39;petal_width&#39;: 1.5, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 86, &#39;sepal_length&#39;: 6.0, &#39;sepal_width&#39;: 3.4, &#39;petal_length&#39;: 4.5, &#39;petal_width&#39;: 1.6, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 87, &#39;sepal_length&#39;: 6.7, &#39;sepal_width&#39;: 3.1, &#39;petal_length&#39;: 4.7, &#39;petal_width&#39;: 1.5, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 88, &#39;sepal_length&#39;: 6.3, &#39;sepal_width&#39;: 2.3, &#39;petal_length&#39;: 4.4, &#39;petal_width&#39;: 1.3, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 89, &#39;sepal_length&#39;: 5.6, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 4.1, &#39;petal_width&#39;: 1.3, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 90, &#39;sepal_length&#39;: 5.5, &#39;sepal_width&#39;: 2.5, &#39;petal_length&#39;: 4.0, &#39;petal_width&#39;: 1.3, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 91, &#39;sepal_length&#39;: 5.5, &#39;sepal_width&#39;: 2.6, &#39;petal_length&#39;: 4.4, &#39;petal_width&#39;: 1.2, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 92, &#39;sepal_length&#39;: 6.1, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 4.6, &#39;petal_width&#39;: 1.4, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 93, &#39;sepal_length&#39;: 5.8, &#39;sepal_width&#39;: 2.6, &#39;petal_length&#39;: 4.0, &#39;petal_width&#39;: 1.2, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 94, &#39;sepal_length&#39;: 5.0, &#39;sepal_width&#39;: 2.3, &#39;petal_length&#39;: 3.3, &#39;petal_width&#39;: 1.0, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 95, &#39;sepal_length&#39;: 5.6, &#39;sepal_width&#39;: 2.7, &#39;petal_length&#39;: 4.2, &#39;petal_width&#39;: 1.3, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 96, &#39;sepal_length&#39;: 5.7, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 4.2, &#39;petal_width&#39;: 1.2, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 97, &#39;sepal_length&#39;: 5.7, &#39;sepal_width&#39;: 2.9, &#39;petal_length&#39;: 4.2, &#39;petal_width&#39;: 1.3, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 98, &#39;sepal_length&#39;: 6.2, &#39;sepal_width&#39;: 2.9, &#39;petal_length&#39;: 4.3, &#39;petal_width&#39;: 1.3, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 99, &#39;sepal_length&#39;: 5.1, &#39;sepal_width&#39;: 2.5, &#39;petal_length&#39;: 3.0, &#39;petal_width&#39;: 1.1, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 100, &#39;sepal_length&#39;: 5.7, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 4.1, &#39;petal_width&#39;: 1.3, &#39;class&#39;: &#39;Iris-versicolor&#39;}
+{&#39;id&#39;: 101, &#39;sepal_length&#39;: 6.3, &#39;sepal_width&#39;: 3.3, &#39;petal_length&#39;: 6.0, &#39;petal_width&#39;: 2.5, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 102, &#39;sepal_length&#39;: 5.8, &#39;sepal_width&#39;: 2.7, &#39;petal_length&#39;: 5.1, &#39;petal_width&#39;: 1.9, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 103, &#39;sepal_length&#39;: 7.1, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 5.9, &#39;petal_width&#39;: 2.1, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 104, &#39;sepal_length&#39;: 6.3, &#39;sepal_width&#39;: 2.9, &#39;petal_length&#39;: 5.6, &#39;petal_width&#39;: 1.8, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 105, &#39;sepal_length&#39;: 6.5, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 5.8, &#39;petal_width&#39;: 2.2, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 106, &#39;sepal_length&#39;: 7.6, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 6.6, &#39;petal_width&#39;: 2.1, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 107, &#39;sepal_length&#39;: 4.9, &#39;sepal_width&#39;: 2.5, &#39;petal_length&#39;: 4.5, &#39;petal_width&#39;: 1.7, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 108, &#39;sepal_length&#39;: 7.3, &#39;sepal_width&#39;: 2.9, &#39;petal_length&#39;: 6.3, &#39;petal_width&#39;: 1.8, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 109, &#39;sepal_length&#39;: 6.7, &#39;sepal_width&#39;: 2.5, &#39;petal_length&#39;: 5.8, &#39;petal_width&#39;: 1.8, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 110, &#39;sepal_length&#39;: 7.2, &#39;sepal_width&#39;: 3.6, &#39;petal_length&#39;: 6.1, &#39;petal_width&#39;: 2.5, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 111, &#39;sepal_length&#39;: 6.5, &#39;sepal_width&#39;: 3.2, &#39;petal_length&#39;: 5.1, &#39;petal_width&#39;: 2.0, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 112, &#39;sepal_length&#39;: 6.4, &#39;sepal_width&#39;: 2.7, &#39;petal_length&#39;: 5.3, &#39;petal_width&#39;: 1.9, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 113, &#39;sepal_length&#39;: 6.8, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 5.5, &#39;petal_width&#39;: 2.1, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 114, &#39;sepal_length&#39;: 5.7, &#39;sepal_width&#39;: 2.5, &#39;petal_length&#39;: 5.0, &#39;petal_width&#39;: 2.0, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 115, &#39;sepal_length&#39;: 5.8, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 5.1, &#39;petal_width&#39;: 2.4, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 116, &#39;sepal_length&#39;: 6.4, &#39;sepal_width&#39;: 3.2, &#39;petal_length&#39;: 5.3, &#39;petal_width&#39;: 2.3, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 117, &#39;sepal_length&#39;: 6.5, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 5.5, &#39;petal_width&#39;: 1.8, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 118, &#39;sepal_length&#39;: 7.7, &#39;sepal_width&#39;: 3.8, &#39;petal_length&#39;: 6.7, &#39;petal_width&#39;: 2.2, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 119, &#39;sepal_length&#39;: 7.7, &#39;sepal_width&#39;: 2.6, &#39;petal_length&#39;: 6.9, &#39;petal_width&#39;: 2.3, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 120, &#39;sepal_length&#39;: 6.0, &#39;sepal_width&#39;: 2.2, &#39;petal_length&#39;: 5.0, &#39;petal_width&#39;: 1.5, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 121, &#39;sepal_length&#39;: 6.9, &#39;sepal_width&#39;: 3.2, &#39;petal_length&#39;: 5.7, &#39;petal_width&#39;: 2.3, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 122, &#39;sepal_length&#39;: 5.6, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 4.9, &#39;petal_width&#39;: 2.0, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 123, &#39;sepal_length&#39;: 7.7, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 6.7, &#39;petal_width&#39;: 2.0, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 124, &#39;sepal_length&#39;: 6.3, &#39;sepal_width&#39;: 2.7, &#39;petal_length&#39;: 4.9, &#39;petal_width&#39;: 1.8, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 125, &#39;sepal_length&#39;: 6.7, &#39;sepal_width&#39;: 3.3, &#39;petal_length&#39;: 5.7, &#39;petal_width&#39;: 2.1, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 126, &#39;sepal_length&#39;: 7.2, &#39;sepal_width&#39;: 3.2, &#39;petal_length&#39;: 6.0, &#39;petal_width&#39;: 1.8, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 127, &#39;sepal_length&#39;: 6.2, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 4.8, &#39;petal_width&#39;: 1.8, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 128, &#39;sepal_length&#39;: 6.1, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 4.9, &#39;petal_width&#39;: 1.8, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 129, &#39;sepal_length&#39;: 6.4, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 5.6, &#39;petal_width&#39;: 2.1, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 130, &#39;sepal_length&#39;: 7.2, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 5.8, &#39;petal_width&#39;: 1.6, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 131, &#39;sepal_length&#39;: 7.4, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 6.1, &#39;petal_width&#39;: 1.9, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 132, &#39;sepal_length&#39;: 7.9, &#39;sepal_width&#39;: 3.8, &#39;petal_length&#39;: 6.4, &#39;petal_width&#39;: 2.0, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 133, &#39;sepal_length&#39;: 6.4, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 5.6, &#39;petal_width&#39;: 2.2, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 134, &#39;sepal_length&#39;: 6.3, &#39;sepal_width&#39;: 2.8, &#39;petal_length&#39;: 5.1, &#39;petal_width&#39;: 1.5, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 135, &#39;sepal_length&#39;: 6.1, &#39;sepal_width&#39;: 2.6, &#39;petal_length&#39;: 5.6, &#39;petal_width&#39;: 1.4, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 136, &#39;sepal_length&#39;: 7.7, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 6.1, &#39;petal_width&#39;: 2.3, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 137, &#39;sepal_length&#39;: 6.3, &#39;sepal_width&#39;: 3.4, &#39;petal_length&#39;: 5.6, &#39;petal_width&#39;: 2.4, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 138, &#39;sepal_length&#39;: 6.4, &#39;sepal_width&#39;: 3.1, &#39;petal_length&#39;: 5.5, &#39;petal_width&#39;: 1.8, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 139, &#39;sepal_length&#39;: 6.0, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 4.8, &#39;petal_width&#39;: 1.8, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 140, &#39;sepal_length&#39;: 6.9, &#39;sepal_width&#39;: 3.1, &#39;petal_length&#39;: 5.4, &#39;petal_width&#39;: 2.1, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 141, &#39;sepal_length&#39;: 6.7, &#39;sepal_width&#39;: 3.1, &#39;petal_length&#39;: 5.6, &#39;petal_width&#39;: 2.4, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 142, &#39;sepal_length&#39;: 6.9, &#39;sepal_width&#39;: 3.1, &#39;petal_length&#39;: 5.1, &#39;petal_width&#39;: 2.3, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 143, &#39;sepal_length&#39;: 5.8, &#39;sepal_width&#39;: 2.7, &#39;petal_length&#39;: 5.1, &#39;petal_width&#39;: 1.9, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 144, &#39;sepal_length&#39;: 6.8, &#39;sepal_width&#39;: 3.2, &#39;petal_length&#39;: 5.9, &#39;petal_width&#39;: 2.3, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 145, &#39;sepal_length&#39;: 6.7, &#39;sepal_width&#39;: 3.3, &#39;petal_length&#39;: 5.7, &#39;petal_width&#39;: 2.5, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 146, &#39;sepal_length&#39;: 6.7, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 5.2, &#39;petal_width&#39;: 2.3, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 147, &#39;sepal_length&#39;: 6.3, &#39;sepal_width&#39;: 2.5, &#39;petal_length&#39;: 5.0, &#39;petal_width&#39;: 1.9, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 148, &#39;sepal_length&#39;: 6.5, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 5.2, &#39;petal_width&#39;: 2.0, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 149, &#39;sepal_length&#39;: 6.2, &#39;sepal_width&#39;: 3.4, &#39;petal_length&#39;: 5.4, &#39;petal_width&#39;: 2.3, &#39;class&#39;: &#39;Iris-virginica&#39;}
+{&#39;id&#39;: 150, &#39;sepal_length&#39;: 5.9, &#39;sepal_width&#39;: 3.0, &#39;petal_length&#39;: 5.1, &#39;petal_width&#39;: 1.8, &#39;class&#39;: &#39;Iris-virginica&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="profiling">
+<h1>Profiling<a class="headerlink" href="#profiling" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Konversi ke DataFrame</span>
+<span class="n">df_pg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pg_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;sepal_length&quot;</span><span class="p">,</span> <span class="s2">&quot;sepal_width&quot;</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span><span class="p">])</span>
+<span class="n">df_mysql</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mysql_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;petal_length&quot;</span><span class="p">,</span> <span class="s2">&quot;petal_width&quot;</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span><span class="p">])</span>
+
+<span class="c1"># Gabungkan berdasarkan id</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_pg</span><span class="p">,</span> <span class="n">df_mysql</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+
+<span class="c1"># Lihat 5 data pertama</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="c1"># Ringkasan tipe data</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Tipe Data:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
+
+<span class="c1"># Ringkasan statistik numerik</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Ringkasan Statistik Numerik:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+
+<span class="c1"># Cek frekuensi variabel kategorikal (class)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Frekuensi Kelas:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   id  sepal_length  sepal_width        class  petal_length  petal_width
+0   1           5.1          3.5  Iris-setosa           1.4          0.2
+1   2           4.9          3.0  Iris-setosa           1.4          0.2
+2   3           4.7          3.2  Iris-setosa           1.3          0.2
+3   4           4.6          3.1  Iris-setosa           1.5          0.2
+4   5           5.0          3.6  Iris-setosa           1.4          0.2
+
+Tipe Data:
+id                int64
+sepal_length    float64
+sepal_width     float64
+class            object
+petal_length    float64
+petal_width     float64
+dtype: object
+
+Ringkasan Statistik Numerik:
+               id  sepal_length  sepal_width  petal_length  petal_width
+count  150.000000    150.000000   150.000000    150.000000   150.000000
+mean    75.500000      5.843333     3.054000      3.758667     1.198667
+std     43.445368      0.828066     0.433594      1.764420     0.763161
+min      1.000000      4.300000     2.000000      1.000000     0.100000
+25%     38.250000      5.100000     2.800000      1.600000     0.300000
+50%     75.500000      5.800000     3.000000      4.350000     1.300000
+75%    112.750000      6.400000     3.300000      5.100000     1.800000
+max    150.000000      7.900000     4.400000      6.900000     2.500000
+
+Frekuensi Kelas:
+class
+Iris-setosa        50
+Iris-versicolor    50
+Iris-virginica     50
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<section id="visualisasi">
+<h2>Visualisasi<a class="headerlink" href="#visualisasi" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Buat histogram untuk semua variabel numerik</span>
+<span class="n">df</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="c1"># Tampilkan plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Histogram Distribusi Variabel Numerik&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/119c38b01ff9fa113c50ecb9190a98add4225f72bbd77cabb6801be89a2c85be.png" src="_images/119c38b01ff9fa113c50ecb9190a98add4225f72bbd77cabb6801be89a2c85be.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Loop untuk membuat boxplot setiap variabel numerik</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s2">&quot;sepal_length&quot;</span><span class="p">,</span> <span class="s2">&quot;sepal_width&quot;</span><span class="p">,</span> <span class="s2">&quot;petal_length&quot;</span><span class="p">,</span> <span class="s2">&quot;petal_width&quot;</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;skyblue&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Box Plot </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/51f68a8c8ef4d02a86d986da3318eb2ef697a9800460ae55fd6706bc23501f15.png" src="_images/51f68a8c8ef4d02a86d986da3318eb2ef697a9800460ae55fd6706bc23501f15.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;sepal_length&quot;</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;petal_length&quot;</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">],</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;Set2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Scatter Plot: Sepal Length vs Petal Length&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Sepal Length&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Petal Length&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/64eff3e52ce132852ee4c64968c830782e1e1ac5a54443a65a1a037df9d0a429.png" src="_images/64eff3e52ce132852ee4c64968c830782e1e1ac5a54443a65a1a037df9d0a429.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">],</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;pastel&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribusi Kelas dalam Dataset&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Jumlah&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_12067/786563332.py:2: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+
+  sns.countplot(x=df[&quot;class&quot;], palette=&quot;pastel&quot;)
+</pre></div>
+</div>
+<img alt="_images/3eacfa93f41be45d6bd329f7b6d0e643a7a0fef4881b9c536def064cac424702.png" src="_images/3eacfa93f41be45d6bd329f7b6d0e643a7a0fef4881b9c536def064cac424702.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;pie&quot;</span><span class="p">,</span> <span class="n">autopct</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%1.1f%%</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;#ff9999&quot;</span><span class="p">,</span> <span class="s2">&quot;#66b3ff&quot;</span><span class="p">,</span> <span class="s2">&quot;#99ff99&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Proporsi Kelas dalam Dataset&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/91ddc200b5e6205ccde40ca64e7f55f95b209584f32012b472ada91fd77a7f69.png" src="_images/91ddc200b5e6205ccde40ca64e7f55f95b209584f32012b472ada91fd77a7f69.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Penggabungan Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling">Profiling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi">Visualisasi</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
