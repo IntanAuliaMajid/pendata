@@ -1,5 +1,5 @@
 Traceback (most recent call last):
-  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+  File "/workspaces/pendata/.conda/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
     executenb(
   File "/home/codespace/.local/lib/python3.12/site-packages/nbclient/client.py", line 1314, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
@@ -7,7 +7,7 @@ Traceback (most recent call last):
   File "/home/codespace/.local/lib/python3.12/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
     return loop.run_until_complete(inner)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/python/3.12.1/lib/python3.12/asyncio/base_events.py", line 684, in run_until_complete
+  File "/workspaces/pendata/.conda/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
     return future.result()
            ^^^^^^^^^^^^^^^
   File "/home/codespace/.local/lib/python3.12/site-packages/nbclient/client.py", line 709, in async_execute
@@ -18,57 +18,76 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import pandas as pd
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-from sklearn.neighbors import NearestNeighbors
-from sklearn.preprocessing import StandardScaler
-from IPython.display import display
+import psycopg2
 
-# 1. Magic command agar grafik muncul di Jupyter Notebook
-%matplotlib inline  
+# Step 1: Connect to PostgreSQL server
+connection = psycopg2.connect(
+    host="pg-108cd813-irispendatpostgresql.i.aivencloud.com",        # Host PostgreSQL
+    database="defaultdb",  # Nama database
+    user="avnadmin",   # Username PostgreSQL
+    password="AVNS_5bqIZxzsDaHWU730NZ6",       # Password PostgreSQL
+    port=11381         # Port default PostgreSQL
+)
 
-# 2. Load dataset
-iris = pd.read_csv("hasil_gabungan.csv")
+try:
+    # Step 2: Create a cursor object
+    with connection.cursor() as cursor:
+        # Step 3: Execute a query to fetch data
+        sql = "SELECT * FROM irispostgresql;"  # Ubah sesuai tabel yang ingin diambil
+        cursor.execute(sql)
 
-# 5. Gunakan NearestNeighbors untuk mencari K tetangga terdekat
-k = 5
-nbrs = NearestNeighbors(n_neighbors=k)
-nbrs.fit(iris_scaled)
+        # Step 4: Fetch all data
+        data = cursor.fetchall()
 
-# 6. Hitung jarak rata-rata ke K tetangga terdekat
-distances, indices = nbrs.kneighbors(iris_scaled)
-mean_distances = distances.mean(axis=1)
+        # Step 5: Print fetched data
+        for row in data:
+            print(row)
 
-# 7. Tentukan threshold outlier
-threshold = np.percentile(mean_distances, 95)
-outliers = np.where(mean_distances > threshold)[0]
-
-# 8. Tambahkan informasi outlier ke dataset
-iris["outlier"] = "Normal"
-iris.loc[outliers, "outlier"] = "Outlier"
-
-# 9. Tampilkan hanya data outlier
-print("Data dengan label outlier:")
-display(iris[iris["outlier"] == "Outlier"])
-
-# 10. Scatter plot (Hanya ditampilkan di Jupyter Notebook, tidak disimpan)
-plt.figure(figsize=(8,6))
-sns.scatterplot(data=iris, x="petal_length", y="petal_width", hue="outlier", palette={"Normal": "blue", "Outlier": "red"})
-plt.title("Deteksi Outlier dengan KNN (Petal Length vs Petal Width)")
-
+finally:
+    # Step 6: Close the connection
+    connection.close()
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[12], line 18[0m
-[1;32m     16[0m k [38;5;241m=[39m [38;5;241m5[39m
-[1;32m     17[0m nbrs [38;5;241m=[39m NearestNeighbors(n_neighbors[38;5;241m=[39mk)
-[0;32m---> 18[0m nbrs[38;5;241m.[39mfit([43miris_scaled[49m)
-[1;32m     20[0m [38;5;66;03m# 6. Hitung jarak rata-rata ke K tetangga terdekat[39;00m
-[1;32m     21[0m distances, indices [38;5;241m=[39m nbrs[38;5;241m.[39mkneighbors(iris_scaled)
+[0;31mImportError[0m                               Traceback (most recent call last)
+Cell [0;32mIn[5], line 1[0m
+[0;32m----> 1[0m [38;5;28;01mimport[39;00m [38;5;21;01mpsycopg2[39;00m
+[1;32m      3[0m [38;5;66;03m# Step 1: Connect to PostgreSQL server[39;00m
+[1;32m      4[0m connection [38;5;241m=[39m psycopg2[38;5;241m.[39mconnect(
+[1;32m      5[0m     host[38;5;241m=[39m[38;5;124m"[39m[38;5;124mpg-108cd813-irispendatpostgresql.i.aivencloud.com[39m[38;5;124m"[39m,        [38;5;66;03m# Host PostgreSQL[39;00m
+[1;32m      6[0m     database[38;5;241m=[39m[38;5;124m"[39m[38;5;124mdefaultdb[39m[38;5;124m"[39m,  [38;5;66;03m# Nama database[39;00m
+[0;32m   (...)[0m
+[1;32m      9[0m     port[38;5;241m=[39m[38;5;241m11381[39m         [38;5;66;03m# Port default PostgreSQL[39;00m
+[1;32m     10[0m )
 
-[0;31mNameError[0m: name 'iris_scaled' is not defined
+File [0;32m/workspaces/pendata/.conda/lib/python3.12/site-packages/psycopg2/__init__.py:51[0m
+[1;32m      1[0m [38;5;124;03m"""A Python driver for PostgreSQL[39;00m
+[1;32m      2[0m 
+[1;32m      3[0m [38;5;124;03mpsycopg is a PostgreSQL_ database adapter for the Python_ programming[39;00m
+[0;32m   (...)[0m
+[1;32m     17[0m [38;5;124;03m    TimeFromTicks, Timestamp, TimestampFromTicks[39;00m
+[1;32m     18[0m [38;5;124;03m"""[39;00m
+[1;32m     19[0m [38;5;66;03m# psycopg/__init__.py - initialization of the psycopg module[39;00m
+[1;32m     20[0m [38;5;66;03m#[39;00m
+[1;32m     21[0m [38;5;66;03m# Copyright (C) 2003-2019 Federico Di Gregorio  <fog@debian.org>[39;00m
+[0;32m   (...)[0m
+[1;32m     48[0m 
+[1;32m     49[0m [38;5;66;03m# Import the DBAPI-2.0 stuff into top-level module.[39;00m
+[0;32m---> 51[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpsycopg2[39;00m[38;5;21;01m.[39;00m[38;5;21;01m_psycopg[39;00m [38;5;28;01mimport[39;00m (                     [38;5;66;03m# noqa[39;00m
+[1;32m     52[0m     BINARY, NUMBER, STRING, DATETIME, ROWID,
+[1;32m     53[0m 
+[1;32m     54[0m     Binary, Date, Time, Timestamp,
+[1;32m     55[0m     DateFromTicks, TimeFromTicks, TimestampFromTicks,
+[1;32m     56[0m 
+[1;32m     57[0m     Error, [38;5;167;01mWarning[39;00m, DataError, DatabaseError, ProgrammingError, IntegrityError,
+[1;32m     58[0m     InterfaceError, InternalError, NotSupportedError, OperationalError,
+[1;32m     59[0m 
+[1;32m     60[0m     _connect, apilevel, threadsafety, paramstyle,
+[1;32m     61[0m     __version__, __libpq_version__,
+[1;32m     62[0m )
+[1;32m     65[0m [38;5;66;03m# Register default adapters.[39;00m
+[1;32m     67[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpsycopg2[39;00m [38;5;28;01mimport[39;00m extensions [38;5;28;01mas[39;00m _ext
+
+[0;31mImportError[0m: /lib/x86_64-linux-gnu/libp11-kit.so.0: undefined symbol: ffi_type_pointer, version LIBFFI_BASE_7.0
 
