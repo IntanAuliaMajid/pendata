@@ -32,10 +32,6 @@ from IPython.display import display
 # 2. Load dataset
 iris = pd.read_csv("hasil_gabungan.csv")
 
-# 4. Standarisasi data agar memiliki skala yang sama
-scaler = StandardScaler()
-iris_scaled = scaler.fit_transform(iris_numeric)
-
 # 5. Gunakan NearestNeighbors untuk mencari K tetangga terdekat
 k = 5
 nbrs = NearestNeighbors(n_neighbors=k)
@@ -67,12 +63,12 @@ plt.title("Deteksi Outlier dengan KNN (Petal Length vs Petal Width)")
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[12], line 17[0m
-[1;32m     15[0m [38;5;66;03m# 4. Standarisasi data agar memiliki skala yang sama[39;00m
-[1;32m     16[0m scaler [38;5;241m=[39m StandardScaler()
-[0;32m---> 17[0m iris_scaled [38;5;241m=[39m scaler[38;5;241m.[39mfit_transform([43miris_numeric[49m)
-[1;32m     19[0m [38;5;66;03m# 5. Gunakan NearestNeighbors untuk mencari K tetangga terdekat[39;00m
-[1;32m     20[0m k [38;5;241m=[39m [38;5;241m5[39m
+Cell [0;32mIn[12], line 18[0m
+[1;32m     16[0m k [38;5;241m=[39m [38;5;241m5[39m
+[1;32m     17[0m nbrs [38;5;241m=[39m NearestNeighbors(n_neighbors[38;5;241m=[39mk)
+[0;32m---> 18[0m nbrs[38;5;241m.[39mfit([43miris_scaled[49m)
+[1;32m     20[0m [38;5;66;03m# 6. Hitung jarak rata-rata ke K tetangga terdekat[39;00m
+[1;32m     21[0m distances, indices [38;5;241m=[39m nbrs[38;5;241m.[39mkneighbors(iris_scaled)
 
-[0;31mNameError[0m: name 'iris_numeric' is not defined
+[0;31mNameError[0m: name 'iris_scaled' is not defined
 
