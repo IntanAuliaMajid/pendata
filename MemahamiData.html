@@ -382,6 +382,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling">Profiling</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi">Visualisasi</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-outlier-menggunakan-k-nearest-neighbors-knn">Deteksi Outlier menggunakan K-Nearest Neighbors (KNN)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lof">LOF</a></li>
 </ul>
             </nav>
         </div>
@@ -18077,6 +18078,75 @@ Outlier didefinisikan sebagai data yang memiliki jarak rata-rata terbesar diband
 </div>
 </div>
 </section>
+<section id="lof">
+<h2>LOF<a class="headerlink" href="#lof" title="Link to this heading">#</a></h2>
+<p>Untuk memahami LOF, kita harus mempelajari beberapa konsep secara berurutan :</p>
+<ol class="arabic simple">
+<li><p>Menghitung Jarak Euclidean<br />
+Menggunakan rumus Euclidean Distance antara setiap titik dalam dataset.</p></li>
+<li><p>Menentukan K-Tetangga Terdekat (K-Nearest Neighbors, K-NN)
+Pilih 𝐾 tetangga terdekat untuk setiap titik. K-Distance (p) adalah jarak ke titik tetangga ke-k terdekat. Tetangga k-NN(p) adalah semua titik yang jaraknya ≤ K-Distance (p).<br />
+Contoh: Jika 𝐾=3, maka untuk titik p, kita cari 3 titik tetangga terdekatnya berdasarkan Euclidean Distance.</p></li>
+<li><p>Reachability Distance (RD)
+Reachability Distance (RD) adalah ukuran yang digunakan untuk menentukan seberapa jauh sebuah titik dari tetangga terdekatnya dalam algoritma Local Outlier Factor (LOF). Konsep ini membantu mengatasi masalah ketika titik tertentu memiliki tetangga yang sangat dekat, sehingga memberikan hasil yang lebih stabil dalam analisis outlier.</p></li>
+<li><p>Local Reachability Density (LRD)
+Semakin tinggi nilai LRD, semakin padat daerah di sekitar titik tersebut. Sebaliknya, jika LRD rendah, berarti titik tersebut lebih jarang dibandingkan tetangganya, yang bisa menunjukkan bahwa itu adalah outlier.</p></li>
+<li><p>Local Outlier Factor (LOF)
+local outlier factor, disingkat LOF adalah algoritme untuk mencari titik-titik data yang menyimpang (anomali) dengan mengukur simpangan setempat tiap titik data terhadap para tetangganya. LOF mengukur seberapa jauh titik tersebut menyimpang dari kelompoknya. Jika LOF tinggi, berarti titik tersebut lebih jarang dibanding tetangganya dan kemungkinan besar outlier.</p></li>
+</ol>
+<ul class="simple">
+<li><p>Jika LOF mendekati 1, maka titik tersebut memiliki kepadatan yang mirip dengan tetangganya (bukan outlier).</p></li>
+<li><p>Jika LOF jauh lebih besar dari 1, titik tersebut terisolasi dan dianggap outlier.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">LocalOutlierFactor</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">28</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">29</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">45</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">34</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">27</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">24</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">31</span><span class="p">]</span>
+<span class="p">])</span>
+
+<span class="n">clf</span> <span class="o">=</span> <span class="n">LocalOutlierFactor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">contamination</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># n_errors = (y_pred != ground_truth).sum()</span>
+<span class="n">X_scores</span> <span class="o">=</span> <span class="o">-</span><span class="n">clf</span><span class="o">.</span><span class="n">negative_outlier_factor_</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">X_scores</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.941310200816062
+0.9607623180858641
+1.1238240795576575
+0.9516183597834947
+5.866411414014737
+1.3703223433836556
+1.201259424738023
+0.9037975094239724
+1.6544642849631612
+0.900287851526223
+[ 1  1  1  1 -1  1  1  1  1  1]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Berikut ini contoh perhitungan manualnya :<br />
+<a class="reference external" href="https://docs.google.com/spreadsheets/d/1eEwZd-1uf-vFn91dW7GIkZ02WTyED5s8uygvm-PYG7g/edit?gid=1443130143#gid=1443130143">https://docs.google.com/spreadsheets/d/1eEwZd-1uf-vFn91dW7GIkZ02WTyED5s8uygvm-PYG7g/edit?gid=1443130143#gid=1443130143</a></p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -18141,6 +18211,7 @@ Outlier didefinisikan sebagai data yang memiliki jarak rata-rata terbesar diband
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling">Profiling</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi">Visualisasi</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-outlier-menggunakan-k-nearest-neighbors-knn">Deteksi Outlier menggunakan K-Nearest Neighbors (KNN)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lof">LOF</a></li>
 </ul>
   </nav></div>
 
