@@ -444,7 +444,20 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pymysql in /workspaces/pendata/.conda/lib/python3.12/site-packages (1.1.1)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting pymysql
+  Using cached PyMySQL-1.1.1-py3-none-any.whl.metadata (4.4 kB)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Using cached PyMySQL-1.1.1-py3-none-any.whl (44 kB)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Installing collected packages: pymysql
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Successfully installed pymysql-1.1.1
+
+<span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> A new release of pip is available: <span class=" -Color -Color-Red">24.3.1</span> -&gt; <span class=" -Color -Color-Green">25.0.1</span>
+<span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> To update, run: <span class=" -Color -Color-Green">python3 -m pip install --upgrade pip</span>
 </pre></div>
 </div>
 </div>
@@ -456,7 +469,17 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: psycopg2 in /workspaces/pendata/.conda/lib/python3.12/site-packages (2.9.10)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting psycopg2
+  Using cached psycopg2-2.9.10-cp312-cp312-linux_x86_64.whl
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Installing collected packages: psycopg2
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Successfully installed psycopg2-2.9.10
+
+<span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> A new release of pip is available: <span class=" -Color -Color-Red">24.3.1</span> -&gt; <span class=" -Color -Color-Green">25.0.1</span>
+<span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> To update, run: <span class=" -Color -Color-Green">python3 -m pip install --upgrade pip</span>
 </pre></div>
 </div>
 </div>
@@ -492,22 +515,22 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">gaierror</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
-<span class="nn">File /workspaces/pendata/.conda/lib/python3.12/site-packages/pymysql/connections.py:649,</span> in <span class="ni">Connection.connect</span><span class="nt">(self, sock)</span>
+<span class="nn">File /usr/local/python/3.12.1/lib/python3.12/site-packages/pymysql/connections.py:649,</span> in <span class="ni">Connection.connect</span><span class="nt">(self, sock)</span>
 <span class="g g-Whitespace">    </span><span class="mi">648</span> <span class="k">try</span><span class="p">:</span>
 <span class="ne">--&gt; </span><span class="mi">649</span>     <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">create_connection</span><span class="p">(</span>
 <span class="g g-Whitespace">    </span><span class="mi">650</span>         <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">connect_timeout</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
 <span class="g g-Whitespace">    </span><span class="mi">651</span>     <span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">652</span>     <span class="k">break</span>
 
-<span class="nn">File /workspaces/pendata/.conda/lib/python3.12/socket.py:841,</span> in <span class="ni">create_connection</span><span class="nt">(address, timeout, source_address, all_errors)</span>
-<span class="g g-Whitespace">    </span><span class="mi">840</span> <span class="n">exceptions</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="ne">--&gt; </span><span class="mi">841</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">getaddrinfo</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">842</span>     <span class="n">af</span><span class="p">,</span> <span class="n">socktype</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">canonname</span><span class="p">,</span> <span class="n">sa</span> <span class="o">=</span> <span class="n">res</span>
+<span class="nn">File /usr/local/python/3.12.1/lib/python3.12/socket.py:828,</span> in <span class="ni">create_connection</span><span class="nt">(address, timeout, source_address, all_errors)</span>
+<span class="g g-Whitespace">    </span><span class="mi">827</span> <span class="n">exceptions</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="ne">--&gt; </span><span class="mi">828</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">getaddrinfo</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">829</span>     <span class="n">af</span><span class="p">,</span> <span class="n">socktype</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">canonname</span><span class="p">,</span> <span class="n">sa</span> <span class="o">=</span> <span class="n">res</span>
 
-<span class="nn">File /workspaces/pendata/.conda/lib/python3.12/socket.py:978,</span> in <span class="ni">getaddrinfo</span><span class="nt">(host, port, family, type, proto, flags)</span>
-<span class="g g-Whitespace">    </span><span class="mi">977</span> <span class="n">addrlist</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="ne">--&gt; </span><span class="mi">978</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">_socket</span><span class="o">.</span><span class="n">getaddrinfo</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">flags</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">979</span>     <span class="n">af</span><span class="p">,</span> <span class="n">socktype</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">canonname</span><span class="p">,</span> <span class="n">sa</span> <span class="o">=</span> <span class="n">res</span>
+<span class="nn">File /usr/local/python/3.12.1/lib/python3.12/socket.py:963,</span> in <span class="ni">getaddrinfo</span><span class="nt">(host, port, family, type, proto, flags)</span>
+<span class="g g-Whitespace">    </span><span class="mi">962</span> <span class="n">addrlist</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="ne">--&gt; </span><span class="mi">963</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">_socket</span><span class="o">.</span><span class="n">getaddrinfo</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">flags</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">964</span>     <span class="n">af</span><span class="p">,</span> <span class="n">socktype</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">canonname</span><span class="p">,</span> <span class="n">sa</span> <span class="o">=</span> <span class="n">res</span>
 
 <span class="ne">gaierror</span>: [Errno -2] Name or service not known
 
@@ -528,12 +551,12 @@ document.write(`
 <span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
 <span class="g g-Whitespace">     </span><span class="mi">14</span>         <span class="c1"># Step 3: membuat database</span>
 
-<span class="nn">File /workspaces/pendata/.conda/lib/python3.12/site-packages/pymysql/connections.py:361,</span> in <span class="ni">Connection.__init__</span><span class="nt">(self, user, password, host, database, unix_socket, port, charset, collation, sql_mode, read_default_file, conv, use_unicode, client_flag, cursorclass, init_command, connect_timeout, read_default_group, autocommit, local_infile, max_allowed_packet, defer_connect, auth_plugin_map, read_timeout, write_timeout, bind_address, binary_prefix, program_name, server_public_key, ssl, ssl_ca, ssl_cert, ssl_disabled, ssl_key, ssl_key_password, ssl_verify_cert, ssl_verify_identity, compress, named_pipe, passwd, db)</span>
+<span class="nn">File /usr/local/python/3.12.1/lib/python3.12/site-packages/pymysql/connections.py:361,</span> in <span class="ni">Connection.__init__</span><span class="nt">(self, user, password, host, database, unix_socket, port, charset, collation, sql_mode, read_default_file, conv, use_unicode, client_flag, cursorclass, init_command, connect_timeout, read_default_group, autocommit, local_infile, max_allowed_packet, defer_connect, auth_plugin_map, read_timeout, write_timeout, bind_address, binary_prefix, program_name, server_public_key, ssl, ssl_ca, ssl_cert, ssl_disabled, ssl_key, ssl_key_password, ssl_verify_cert, ssl_verify_identity, compress, named_pipe, passwd, db)</span>
 <span class="g g-Whitespace">    </span><span class="mi">359</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="g g-Whitespace">    </span><span class="mi">360</span> <span class="k">else</span><span class="p">:</span>
 <span class="ne">--&gt; </span><span class="mi">361</span>     <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
 
-<span class="nn">File /workspaces/pendata/.conda/lib/python3.12/site-packages/pymysql/connections.py:716,</span> in <span class="ni">Connection.connect</span><span class="nt">(self, sock)</span>
+<span class="nn">File /usr/local/python/3.12.1/lib/python3.12/site-packages/pymysql/connections.py:716,</span> in <span class="ni">Connection.connect</span><span class="nt">(self, sock)</span>
 <span class="g g-Whitespace">    </span><span class="mi">714</span>     <span class="k">if</span> <span class="n">DEBUG</span><span class="p">:</span>
 <span class="g g-Whitespace">    </span><span class="mi">715</span>         <span class="nb">print</span><span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">traceback</span><span class="p">)</span>
 <span class="ne">--&gt; </span><span class="mi">716</span>     <span class="k">raise</span> <span class="n">exc</span>
