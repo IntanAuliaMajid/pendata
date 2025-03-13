@@ -490,7 +490,59 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Database &#39;my_new_database&#39; created successfully.
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">gaierror</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
+<span class="nn">File /workspaces/pendata/.conda/lib/python3.12/site-packages/pymysql/connections.py:649,</span> in <span class="ni">Connection.connect</span><span class="nt">(self, sock)</span>
+<span class="g g-Whitespace">    </span><span class="mi">648</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">649</span>     <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">create_connection</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">650</span>         <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">connect_timeout</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="g g-Whitespace">    </span><span class="mi">651</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">652</span>     <span class="k">break</span>
+
+<span class="nn">File /workspaces/pendata/.conda/lib/python3.12/socket.py:841,</span> in <span class="ni">create_connection</span><span class="nt">(address, timeout, source_address, all_errors)</span>
+<span class="g g-Whitespace">    </span><span class="mi">840</span> <span class="n">exceptions</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="ne">--&gt; </span><span class="mi">841</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">getaddrinfo</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">842</span>     <span class="n">af</span><span class="p">,</span> <span class="n">socktype</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">canonname</span><span class="p">,</span> <span class="n">sa</span> <span class="o">=</span> <span class="n">res</span>
+
+<span class="nn">File /workspaces/pendata/.conda/lib/python3.12/socket.py:978,</span> in <span class="ni">getaddrinfo</span><span class="nt">(host, port, family, type, proto, flags)</span>
+<span class="g g-Whitespace">    </span><span class="mi">977</span> <span class="n">addrlist</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="ne">--&gt; </span><span class="mi">978</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">_socket</span><span class="o">.</span><span class="n">getaddrinfo</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">flags</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">979</span>     <span class="n">af</span><span class="p">,</span> <span class="n">socktype</span><span class="p">,</span> <span class="n">proto</span><span class="p">,</span> <span class="n">canonname</span><span class="p">,</span> <span class="n">sa</span> <span class="o">=</span> <span class="n">res</span>
+
+<span class="ne">gaierror</span>: [Errno -2] Name or service not known
+
+<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">pymysql</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># Step 1: Konfigurasi koneksi ke MySQL Aiven</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">host</span><span class="o">=</span><span class="s1">&#39;mysql-1fe77f3f-irismysqlpendat.i.aivencloud.com&#39;</span><span class="p">,</span>        <span class="c1"># Host where the MySQL server is located</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">user</span><span class="o">=</span><span class="s1">&#39;avnadmin&#39;</span><span class="p">,</span>    <span class="c1"># Your MySQL username</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="n">port</span><span class="o">=</span><span class="mi">20846</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">password</span><span class="o">=</span><span class="s1">&#39;AVNS_X_mleJti5QlbqZ6h_xN&#39;</span> <span class="c1"># Your MySQL password</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="c1"># Step 2: Membuat cursor</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>         <span class="c1"># Step 3: membuat database</span>
+
+<span class="nn">File /workspaces/pendata/.conda/lib/python3.12/site-packages/pymysql/connections.py:361,</span> in <span class="ni">Connection.__init__</span><span class="nt">(self, user, password, host, database, unix_socket, port, charset, collation, sql_mode, read_default_file, conv, use_unicode, client_flag, cursorclass, init_command, connect_timeout, read_default_group, autocommit, local_infile, max_allowed_packet, defer_connect, auth_plugin_map, read_timeout, write_timeout, bind_address, binary_prefix, program_name, server_public_key, ssl, ssl_ca, ssl_cert, ssl_disabled, ssl_key, ssl_key_password, ssl_verify_cert, ssl_verify_identity, compress, named_pipe, passwd, db)</span>
+<span class="g g-Whitespace">    </span><span class="mi">359</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">360</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">361</span>     <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+
+<span class="nn">File /workspaces/pendata/.conda/lib/python3.12/site-packages/pymysql/connections.py:716,</span> in <span class="ni">Connection.connect</span><span class="nt">(self, sock)</span>
+<span class="g g-Whitespace">    </span><span class="mi">714</span>     <span class="k">if</span> <span class="n">DEBUG</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">715</span>         <span class="nb">print</span><span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">traceback</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">716</span>     <span class="k">raise</span> <span class="n">exc</span>
+<span class="g g-Whitespace">    </span><span class="mi">718</span> <span class="c1"># If e is neither DatabaseError or IOError, It&#39;s a bug.</span>
+<span class="g g-Whitespace">    </span><span class="mi">719</span> <span class="c1"># But raising AssertionError hides original error.</span>
+<span class="g g-Whitespace">    </span><span class="mi">720</span> <span class="c1"># So just reraise it.</span>
+<span class="g g-Whitespace">    </span><span class="mi">721</span> <span class="k">raise</span>
+
+<span class="ne">OperationalError</span>: (2003, &quot;Can&#39;t connect to MySQL server on &#39;mysql-1fe77f3f-irismysqlpendat.i.aivencloud.com&#39; ([Errno -2] Name or service not known)&quot;)
 </pre></div>
 </div>
 </div>
@@ -719,47 +771,156 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ImportError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">psycopg2</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># Step 1: Connect to PostgreSQL server</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">host</span><span class="o">=</span><span class="s2">&quot;pg-108cd813-irispendatpostgresql.i.aivencloud.com&quot;</span><span class="p">,</span>        <span class="c1"># Host PostgreSQL</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">database</span><span class="o">=</span><span class="s2">&quot;defaultdb&quot;</span><span class="p">,</span>  <span class="c1"># Nama database</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">port</span><span class="o">=</span><span class="mi">11381</span>         <span class="c1"># Port default PostgreSQL</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="p">)</span>
-
-<span class="n">File</span> <span class="o">/</span><span class="n">workspaces</span><span class="o">/</span><span class="n">pendata</span><span class="o">/.</span><span class="n">conda</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.12</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">psycopg2</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">51</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;A Python driver for PostgreSQL</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span><span class="sd"> </span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span><span class="sd"> psycopg is a PostgreSQL_ database adapter for the Python_ programming</span>
-<span class="sd">   (...)</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span><span class="sd">     TimeFromTicks, Timestamp, TimestampFromTicks</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="c1"># psycopg/__init__.py - initialization of the psycopg module</span>
-<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="c1">#</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="c1"># Copyright (C) 2003-2019 Federico Di Gregorio  &lt;fog@debian.org&gt;</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">48</span> 
-<span class="g g-Whitespace">     </span><span class="mi">49</span> <span class="c1"># Import the DBAPI-2.0 stuff into top-level module.</span>
-<span class="ne">---&gt; </span><span class="mi">51</span> <span class="kn">from</span> <span class="nn">psycopg2._psycopg</span> <span class="kn">import</span> <span class="p">(</span>                     <span class="c1"># noqa</span>
-<span class="g g-Whitespace">     </span><span class="mi">52</span>     <span class="n">BINARY</span><span class="p">,</span> <span class="n">NUMBER</span><span class="p">,</span> <span class="n">STRING</span><span class="p">,</span> <span class="n">DATETIME</span><span class="p">,</span> <span class="n">ROWID</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">53</span> 
-<span class="g g-Whitespace">     </span><span class="mi">54</span>     <span class="n">Binary</span><span class="p">,</span> <span class="n">Date</span><span class="p">,</span> <span class="n">Time</span><span class="p">,</span> <span class="n">Timestamp</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">55</span>     <span class="n">DateFromTicks</span><span class="p">,</span> <span class="n">TimeFromTicks</span><span class="p">,</span> <span class="n">TimestampFromTicks</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">56</span> 
-<span class="g g-Whitespace">     </span><span class="mi">57</span>     <span class="n">Error</span><span class="p">,</span> <span class="ne">Warning</span><span class="p">,</span> <span class="n">DataError</span><span class="p">,</span> <span class="n">DatabaseError</span><span class="p">,</span> <span class="n">ProgrammingError</span><span class="p">,</span> <span class="n">IntegrityError</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">58</span>     <span class="n">InterfaceError</span><span class="p">,</span> <span class="n">InternalError</span><span class="p">,</span> <span class="n">NotSupportedError</span><span class="p">,</span> <span class="n">OperationalError</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">59</span> 
-<span class="g g-Whitespace">     </span><span class="mi">60</span>     <span class="n">_connect</span><span class="p">,</span> <span class="n">apilevel</span><span class="p">,</span> <span class="n">threadsafety</span><span class="p">,</span> <span class="n">paramstyle</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">61</span>     <span class="n">__version__</span><span class="p">,</span> <span class="n">__libpq_version__</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">62</span> <span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">65</span> <span class="c1"># Register default adapters.</span>
-<span class="g g-Whitespace">     </span><span class="mi">67</span> <span class="kn">from</span> <span class="nn">psycopg2</span> <span class="kn">import</span> <span class="n">extensions</span> <span class="k">as</span> <span class="n">_ext</span>
-
-<span class="ne">ImportError</span>: /lib/x86_64-linux-gnu/libp11-kit.so.0: undefined symbol: ffi_type_pointer, version LIBFFI_BASE_7.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1, &#39;Iris-setosa&#39;, 5.1, 3.5)
+(2, &#39;Iris-setosa&#39;, 4.9, 3.0)
+(3, &#39;Iris-setosa&#39;, 4.7, 3.2)
+(4, &#39;Iris-setosa&#39;, 4.6, 3.1)
+(5, &#39;Iris-setosa&#39;, 5.0, 3.6)
+(6, &#39;Iris-setosa&#39;, 5.4, 3.9)
+(7, &#39;Iris-setosa&#39;, 4.6, 3.4)
+(8, &#39;Iris-setosa&#39;, 5.0, 3.4)
+(9, &#39;Iris-setosa&#39;, 4.4, 2.9)
+(10, &#39;Iris-setosa&#39;, 4.9, 3.1)
+(11, &#39;Iris-setosa&#39;, 5.4, 3.7)
+(12, &#39;Iris-setosa&#39;, 4.8, 3.4)
+(13, &#39;Iris-setosa&#39;, 4.8, 3.0)
+(14, &#39;Iris-setosa&#39;, 4.3, 3.0)
+(15, &#39;Iris-setosa&#39;, 5.8, 4.0)
+(16, &#39;Iris-setosa&#39;, 5.7, 4.4)
+(17, &#39;Iris-setosa&#39;, 5.4, 3.9)
+(18, &#39;Iris-setosa&#39;, 5.1, 3.5)
+(19, &#39;Iris-setosa&#39;, 5.7, 3.8)
+(20, &#39;Iris-setosa&#39;, 5.1, 3.8)
+(21, &#39;Iris-setosa&#39;, 5.4, 3.4)
+(22, &#39;Iris-setosa&#39;, 5.1, 3.7)
+(23, &#39;Iris-setosa&#39;, 4.6, 3.6)
+(24, &#39;Iris-setosa&#39;, 5.1, 3.3)
+(25, &#39;Iris-setosa&#39;, 4.8, 3.4)
+(26, &#39;Iris-setosa&#39;, 5.0, 3.0)
+(27, &#39;Iris-setosa&#39;, 5.0, 3.4)
+(28, &#39;Iris-setosa&#39;, 5.2, 3.5)
+(29, &#39;Iris-setosa&#39;, 5.2, 3.4)
+(30, &#39;Iris-setosa&#39;, 4.7, 3.2)
+(31, &#39;Iris-setosa&#39;, 4.8, 3.1)
+(32, &#39;Iris-setosa&#39;, 5.4, 3.4)
+(33, &#39;Iris-setosa&#39;, 5.2, 4.1)
+(34, &#39;Iris-setosa&#39;, 5.5, 4.2)
+(35, &#39;Iris-setosa&#39;, 4.9, 3.1)
+(36, &#39;Iris-setosa&#39;, 5.0, 3.2)
+(37, &#39;Iris-setosa&#39;, 5.5, 3.5)
+(38, &#39;Iris-setosa&#39;, 4.9, 3.1)
+(39, &#39;Iris-setosa&#39;, 4.4, 3.0)
+(40, &#39;Iris-setosa&#39;, 5.1, 3.4)
+(41, &#39;Iris-setosa&#39;, 5.0, 3.5)
+(42, &#39;Iris-setosa&#39;, 4.5, 2.3)
+(43, &#39;Iris-setosa&#39;, 4.4, 3.2)
+(44, &#39;Iris-setosa&#39;, 5.0, 3.5)
+(45, &#39;Iris-setosa&#39;, 5.1, 3.8)
+(46, &#39;Iris-setosa&#39;, 4.8, 3.0)
+(47, &#39;Iris-setosa&#39;, 5.1, 3.8)
+(48, &#39;Iris-setosa&#39;, 4.6, 3.2)
+(49, &#39;Iris-setosa&#39;, 5.3, 3.7)
+(50, &#39;Iris-setosa&#39;, 5.0, 3.3)
+(51, &#39;Iris-versicolor&#39;, 7.0, 3.2)
+(52, &#39;Iris-versicolor&#39;, 6.4, 3.2)
+(53, &#39;Iris-versicolor&#39;, 6.9, 3.1)
+(54, &#39;Iris-versicolor&#39;, 5.5, 2.3)
+(55, &#39;Iris-versicolor&#39;, 6.5, 2.8)
+(56, &#39;Iris-versicolor&#39;, 5.7, 2.8)
+(57, &#39;Iris-versicolor&#39;, 6.3, 3.3)
+(58, &#39;Iris-versicolor&#39;, 4.9, 2.4)
+(59, &#39;Iris-versicolor&#39;, 6.6, 2.9)
+(60, &#39;Iris-versicolor&#39;, 5.2, 2.7)
+(61, &#39;Iris-versicolor&#39;, 5.0, 2.0)
+(62, &#39;Iris-versicolor&#39;, 5.9, 3.0)
+(63, &#39;Iris-versicolor&#39;, 6.0, 2.2)
+(64, &#39;Iris-versicolor&#39;, 6.1, 2.9)
+(65, &#39;Iris-versicolor&#39;, 5.6, 2.9)
+(66, &#39;Iris-versicolor&#39;, 6.7, 3.1)
+(67, &#39;Iris-versicolor&#39;, 5.6, 3.0)
+(68, &#39;Iris-versicolor&#39;, 5.8, 2.7)
+(69, &#39;Iris-versicolor&#39;, 6.2, 2.2)
+(70, &#39;Iris-versicolor&#39;, 5.6, 2.5)
+(71, &#39;Iris-versicolor&#39;, 5.9, 3.2)
+(72, &#39;Iris-versicolor&#39;, 6.1, 2.8)
+(73, &#39;Iris-versicolor&#39;, 6.3, 2.5)
+(74, &#39;Iris-versicolor&#39;, 6.1, 2.8)
+(75, &#39;Iris-versicolor&#39;, 6.4, 2.9)
+(76, &#39;Iris-versicolor&#39;, 6.6, 3.0)
+(77, &#39;Iris-versicolor&#39;, 6.8, 2.8)
+(78, &#39;Iris-versicolor&#39;, 6.7, 3.0)
+(79, &#39;Iris-versicolor&#39;, 6.0, 2.9)
+(80, &#39;Iris-versicolor&#39;, 5.7, 2.6)
+(81, &#39;Iris-versicolor&#39;, 5.5, 2.4)
+(82, &#39;Iris-versicolor&#39;, 5.5, 2.4)
+(83, &#39;Iris-versicolor&#39;, 5.8, 2.7)
+(84, &#39;Iris-versicolor&#39;, 6.0, 2.7)
+(85, &#39;Iris-versicolor&#39;, 5.4, 3.0)
+(86, &#39;Iris-versicolor&#39;, 6.0, 3.4)
+(87, &#39;Iris-versicolor&#39;, 6.7, 3.1)
+(88, &#39;Iris-versicolor&#39;, 6.3, 2.3)
+(89, &#39;Iris-versicolor&#39;, 5.6, 3.0)
+(90, &#39;Iris-versicolor&#39;, 5.5, 2.5)
+(91, &#39;Iris-versicolor&#39;, 5.5, 2.6)
+(92, &#39;Iris-versicolor&#39;, 6.1, 3.0)
+(93, &#39;Iris-versicolor&#39;, 5.8, 2.6)
+(94, &#39;Iris-versicolor&#39;, 5.0, 2.3)
+(95, &#39;Iris-versicolor&#39;, 5.6, 2.7)
+(96, &#39;Iris-versicolor&#39;, 5.7, 3.0)
+(97, &#39;Iris-versicolor&#39;, 5.7, 2.9)
+(98, &#39;Iris-versicolor&#39;, 6.2, 2.9)
+(99, &#39;Iris-versicolor&#39;, 5.1, 2.5)
+(100, &#39;Iris-versicolor&#39;, 5.7, 2.8)
+(101, &#39;Iris-virginica&#39;, 6.3, 3.3)
+(102, &#39;Iris-virginica&#39;, 5.8, 2.7)
+(103, &#39;Iris-virginica&#39;, 7.1, 3.0)
+(104, &#39;Iris-virginica&#39;, 6.3, 2.9)
+(105, &#39;Iris-virginica&#39;, 6.5, 3.0)
+(106, &#39;Iris-virginica&#39;, 7.6, 3.0)
+(107, &#39;Iris-virginica&#39;, 4.9, 2.5)
+(108, &#39;Iris-virginica&#39;, 7.3, 2.9)
+(109, &#39;Iris-virginica&#39;, 6.7, 2.5)
+(110, &#39;Iris-virginica&#39;, 7.2, 3.6)
+(111, &#39;Iris-virginica&#39;, 6.5, 3.2)
+(112, &#39;Iris-virginica&#39;, 6.4, 2.7)
+(113, &#39;Iris-virginica&#39;, 6.8, 3.0)
+(114, &#39;Iris-virginica&#39;, 5.7, 2.5)
+(115, &#39;Iris-virginica&#39;, 5.8, 2.8)
+(116, &#39;Iris-virginica&#39;, 6.4, 3.2)
+(117, &#39;Iris-virginica&#39;, 6.5, 3.0)
+(118, &#39;Iris-virginica&#39;, 7.7, 3.8)
+(119, &#39;Iris-virginica&#39;, 7.7, 2.6)
+(120, &#39;Iris-virginica&#39;, 6.0, 2.2)
+(121, &#39;Iris-virginica&#39;, 6.9, 3.2)
+(122, &#39;Iris-virginica&#39;, 5.6, 2.8)
+(123, &#39;Iris-virginica&#39;, 7.7, 2.8)
+(124, &#39;Iris-virginica&#39;, 6.3, 2.7)
+(125, &#39;Iris-virginica&#39;, 6.7, 3.3)
+(126, &#39;Iris-virginica&#39;, 7.2, 3.2)
+(127, &#39;Iris-virginica&#39;, 6.2, 2.8)
+(128, &#39;Iris-virginica&#39;, 6.1, 3.0)
+(129, &#39;Iris-virginica&#39;, 6.4, 2.8)
+(130, &#39;Iris-virginica&#39;, 7.2, 3.0)
+(131, &#39;Iris-virginica&#39;, 7.4, 2.8)
+(132, &#39;Iris-virginica&#39;, 7.9, 3.8)
+(133, &#39;Iris-virginica&#39;, 6.4, 2.8)
+(134, &#39;Iris-virginica&#39;, 6.3, 2.8)
+(135, &#39;Iris-virginica&#39;, 6.1, 2.6)
+(136, &#39;Iris-virginica&#39;, 7.7, 3.0)
+(137, &#39;Iris-virginica&#39;, 6.3, 3.4)
+(138, &#39;Iris-virginica&#39;, 6.4, 3.1)
+(139, &#39;Iris-virginica&#39;, 6.0, 3.0)
+(140, &#39;Iris-virginica&#39;, 6.9, 3.1)
+(141, &#39;Iris-virginica&#39;, 6.7, 3.1)
+(142, &#39;Iris-virginica&#39;, 6.9, 3.1)
+(143, &#39;Iris-virginica&#39;, 5.8, 2.7)
+(144, &#39;Iris-virginica&#39;, 6.8, 3.2)
+(145, &#39;Iris-virginica&#39;, 6.7, 3.3)
+(146, &#39;Iris-virginica&#39;, 6.7, 3.0)
+(147, &#39;Iris-virginica&#39;, 6.3, 2.5)
+(148, &#39;Iris-virginica&#39;, 6.5, 3.0)
+(149, &#39;Iris-virginica&#39;, 6.2, 3.4)
+(150, &#39;Iris-virginica&#39;, 5.9, 3.0)
 </pre></div>
 </div>
 </div>
@@ -18111,12 +18272,12 @@ local outlier factor, disingkat LOF adalah algoritme untuk mencari titik-titik d
     <span class="p">[</span><span class="mi">45</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span>
     <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">34</span><span class="p">],</span>
     <span class="p">[</span><span class="mi">18</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">27</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">45</span><span class="p">],</span>
     <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">24</span><span class="p">],</span>
     <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">31</span><span class="p">]</span>
 <span class="p">])</span>
 
-<span class="n">clf</span> <span class="o">=</span> <span class="n">LocalOutlierFactor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">contamination</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">LocalOutlierFactor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">contamination</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 <span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="c1"># n_errors = (y_pred != ground_truth).sum()</span>
 <span class="n">X_scores</span> <span class="o">=</span> <span class="o">-</span><span class="n">clf</span><span class="o">.</span><span class="n">negative_outlier_factor_</span>
@@ -18129,17 +18290,17 @@ local outlier factor, disingkat LOF adalah algoritme untuk mencari titik-titik d
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.941310200816062
-0.9607623180858641
-1.1238240795576575
-0.9516183597834947
-5.866411414014737
-1.3703223433836556
-1.201259424738023
-0.9037975094239724
-1.6544642849631612
-0.900287851526223
-[ 1  1  1  1 -1  1  1  1  1  1]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9450653211135034
+1.151387432652206
+1.1069194984464994
+1.0076014271649323
+2.909117231485832
+1.3505581193418552
+1.4494990349005503
+3.1458127033692165
+1.6545719789973061
+0.8532185740017301
+[ 1  1  1  1 -1  1  1 -1  1  1]
 </pre></div>
 </div>
 </div>
