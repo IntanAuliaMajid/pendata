@@ -2,7 +2,7 @@ jupyter-book
 matplotlib
 numpy
 pandas
-ydata-profiling
+ydata-profiling[notebook]
 sqlalchemy
 psycopg2
 pymysql
