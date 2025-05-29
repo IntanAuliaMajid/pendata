@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 env:
-  BOOK_ROOT: "mybook"  # Variabel untuk path folder root Jupyter Book
+  BOOK_ROOT: "mybook"  # Ganti jika folder Anda berbeda
 
 jobs:
   build:
@@ -26,8 +26,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r mybook/requirements.txt  # Instal semua dependensi dari requirements.txt
-          pip install jupyter-book ghp-import
+          pip install -r $BOOK_ROOT/requirements.txt
+          pip install jupyter-book ghp-import nbconvert
+
+      - name: Execute all notebooks
+        run: |
+          find $BOOK_ROOT -name "*.ipynb" -exec jupyter nbconvert --to notebook --inplace --execute {} \;
 
       - name: Build Jupyter Book
         run: |
