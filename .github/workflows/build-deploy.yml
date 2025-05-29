@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 env:
-  BOOK_ROOT: "mybook"  # Ganti dengan nama folder Jupyter Book Anda
+  BOOK_ROOT: "mybook" # Variabel untuk path folder root Jupyter Book
 
 jobs:
   build:
@@ -26,24 +26,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r $BOOK_ROOT/requirements.txt
-          pip install jupyter-book ghp-import
+          pip install -r requirements.txt  # Instal semua dependensi dari requirements.txt
+          pip install jupyter-book ghp-import  # Pastikan jupyter-book dan ghp-import tetap terinstal
 
-      - name: Clean Jupyter Book outputs
+      - name: Build Jupyter Book
         run: |
-          jupyter-book clean $BOOK_ROOT --all
-
-      - name: Execute and Build Jupyter Book
-        run: |
-          jupyter-book build $BOOK_ROOT --builder html
-
-      # Opsional: Upload semua notebook hasil eksekusi (bisa dicek di GitHub Actions artifacts)
-      - name: Upload executed notebooks (debug only)
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: executed-notebooks
-          path: ${{ env.BOOK_ROOT }}/**/*.ipynb
+          jupyter-book build $BOOK_ROOT
 
       - name: Deploy to GitHub Pages
         run: |
