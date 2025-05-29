@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 env:
-  BOOK_ROOT: "mybook"  # Ganti dengan nama folder root Jupyter Book Anda
+  BOOK_ROOT: "mybook"  # Ganti dengan nama folder Jupyter Book Anda
 
 jobs:
   build:
@@ -35,21 +35,18 @@ jobs:
 
       - name: Execute and Build Jupyter Book
         run: |
-          jupyter-book build $BOOK_ROOT --builder html \
-            --path-output _build \
-            --keep-going \
-            --overwrite \
-            --execute
+          jupyter-book build $BOOK_ROOT --builder html
 
+      # Opsional: Upload semua notebook hasil eksekusi (bisa dicek di GitHub Actions artifacts)
       - name: Upload executed notebooks (debug only)
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: executed-notebooks
-          path: $BOOK_ROOT/**/*.ipynb
+          path: ${{ env.BOOK_ROOT }}/**/*.ipynb
 
       - name: Deploy to GitHub Pages
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          ghp-import -n -p -f _build/html -b gh-pages
+          ghp-import -n -p -f $BOOK_ROOT/_build/html -b gh-pages
