@@ -19,40 +19,42 @@ Traceback (most recent call last):
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
 import pymysql
+import psycopg2
+import pandas as pd
+from sqlalchemy import create_engine
 
-# Step 1: Konfigurasi koneksi ke MySQL Aiven
-connection = pymysql.connect(
-    host='mysql-1fe77f3f-irismysqlpendat.i.aivencloud.com',  # Host MySQL Aiven
-    user='avnadmin',    # Username MySQL
-    port=20846,         # Port MySQL
-    password='AVNS_X_mleJti5QlbqZ6h_xN',  # Password MySQL
-    ssl={'ssl': True}   # Menambahkan SSL untuk koneksi aman
+# Buat engine SQLAlchemy untuk MySQL
+mysql_engine = create_engine(
+    "mysql+pymysql://avnadmin:AVNS_X_mleJti5QlbqZ6h_xN@mysql-1fe77f3f-irismysqlpendat.i.aivencloud.com:20846/defaultdb"
 )
 
-try:
-    # Step 2: Membuat cursor
-    with connection.cursor() as cursor:
-        # Step 3: Membuat database jika belum ada
-        sql = "CREATE DATABASE IF NOT EXISTS house"
-        cursor.execute(sql)
-        print("Database 'house' created successfully.")
+# Buat engine SQLAlchemy untuk PostgreSQL
+postgres_engine = create_engine(
+    "postgresql+psycopg2://avnadmin:AVNS_5bqIZxzsDaHWU730NZ6@pg-108cd813-irispendatpostgresql.i.aivencloud.com:11381/defaultdb"
+)
 
-finally:
-    # Step 4: Menutup koneksi
-    connection.close()
+# Query untuk mengambil data dari masing-masing database
+mysql_query = "SELECT id, class, petal_length, petal_width FROM irismysql"
+postgres_query = "SELECT id, sepal_length, sepal_width FROM irispostgresql"
+
+# Ambil data dari MySQL dan PostgreSQL sebagai DataFrame Pandas
+df_mysql = pd.read_sql(mysql_query, mysql_engine, coerce_float=True)
+df_postgres = pd.read_sql(postgres_query, postgres_engine, coerce_float=True)
+
+# **Gabungkan Data berdasarkan 'id'**
+df = pd.merge(df_mysql, df_postgres, on="id", how="inner")
+
+# Tampilkan hasil
+print(df)
 ------------------
 
 
 [31m---------------------------------------------------------------------------[39m
 [31mModuleNotFoundError[39m                       Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 1[39m
+[36mCell[39m[36m [39m[32mIn[2][39m[32m, line 1[39m
 [32m----> [39m[32m1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpymysql[39;00m
-[32m      3[39m [38;5;66;03m# Step 1: Konfigurasi koneksi ke MySQL Aiven[39;00m
-[32m      4[39m connection = pymysql.connect(
-[32m      5[39m     host=[33m'[39m[33mmysql-1fe77f3f-irismysqlpendat.i.aivencloud.com[39m[33m'[39m,  [38;5;66;03m# Host MySQL Aiven[39;00m
-[32m      6[39m     user=[33m'[39m[33mavnadmin[39m[33m'[39m,    [38;5;66;03m# Username MySQL[39;00m
-[32m   (...)[39m[32m      9[39m     ssl={[33m'[39m[33mssl[39m[33m'[39m: [38;5;28;01mTrue[39;00m}   [38;5;66;03m# Menambahkan SSL untuk koneksi aman[39;00m
-[32m     10[39m )
+[32m      2[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpsycopg2[39;00m
+[32m      3[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpandas[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mpd[39;00m
 
 [31mModuleNotFoundError[39m: No module named 'pymysql'
 

@@ -1,0 +1,1207 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Fuzzy C-Means &#8212; Pendata</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'clustering2';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Pendata - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Pendata - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Penambangan Data IF4D
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="MemahamiData.html">Memahami Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ModelingData.html"><strong>Naive Bayes Classifier</strong></a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="UTS.html">Ujian Tengah Semester</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html"><strong>clustering</strong></a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/IntanAuliaMajid/pendata" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/IntanAuliaMajid/pendata/issues/new?title=Issue%20on%20page%20%2Fclustering2.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/clustering2.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Fuzzy C-Means</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-dasar">Konsep dasar</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-algoritma">Langkah Algoritma</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="fuzzy-c-means">
+<h1>Fuzzy C-Means<a class="headerlink" href="#fuzzy-c-means" title="Link to this heading">#</a></h1>
+<section id="konsep-dasar">
+<h2>Konsep dasar<a class="headerlink" href="#konsep-dasar" title="Link to this heading">#</a></h2>
+<p>Fuzzy C-Means adalah cara untuk mengelompokkan data ke dalam beberapa grup (cluster), tapi setiap data bisa masuk ke lebih dari satu grup. Artinya, satu data bisa masuk ke lebih dari satu cluster, dengan nilai keanggotaan antara 0 dan 1, dan jumlah total keanggotaan untuk satu data adalah 1.</p>
+<section id="langkah-algoritma">
+<h3>Langkah Algoritma<a class="headerlink" href="#langkah-algoritma" title="Link to this heading">#</a></h3>
+<p>Menghitung cluster (C)<br />
+tentukan nilai (M) secara umum 2<br />
+matriks keanggotaan (U)</p>
+<p>tampilkan 2 itereasi</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">openpyxl</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting openpyxl
+  Downloading openpyxl-3.1.5-py2.py3-none-any.whl.metadata (2.5 kB)
+Collecting et-xmlfile (from openpyxl)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Downloading et_xmlfile-2.0.0-py3-none-any.whl.metadata (2.7 kB)
+Downloading openpyxl-3.1.5-py2.py3-none-any.whl (250 kB)
+Downloading et_xmlfile-2.0.0-py3-none-any.whl (18 kB)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Installing collected packages: et-xmlfile, openpyxl
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Successfully installed et-xmlfile-2.0.0 openpyxl-3.1.5
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> A new release of pip is available: <span class=" -Color -Color-Red">25.0.1</span> -&gt; <span class=" -Color -Color-Green">25.1.1</span>
+<span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> To update, run: <span class=" -Color -Color-Green">python3 -m pip install --upgrade pip</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Note: you may need to restart the kernel to use updated packages.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Baca file Excel dan pastikan data dalam format numerik NumPy array</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s2">&quot;fuzzy c-means.xlsx&quot;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;X1&#39;</span><span class="p">,</span> <span class="s1">&#39;X2&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># STEP 2: Parameter FCM</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mi">2</span>       <span class="c1"># jumlah cluster</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mf">2.0</span>     <span class="c1"># fuzzy exponent</span>
+<span class="n">n_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># STEP 3: Inisialisasi derajat keanggotaan awal U0 secara acak</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">dirichlet</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="n">n_data</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Derajat Keanggotaan Awal (U0) ===&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_data</span><span class="p">):</span>
+    <span class="n">degrees</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data ke-</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">degrees</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Fungsi update pusat cluster</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_centers</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="n">um</span> <span class="o">=</span> <span class="n">U</span> <span class="o">**</span> <span class="n">m</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">um</span> <span class="o">@</span> <span class="n">data</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">um</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+
+<span class="c1"># Fungsi update derajat keanggotaan</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_membership</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">centers</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">new_U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">c</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+            <span class="n">dist_ij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">centers</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">dist_ij</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">new_U</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">new_U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sum_term</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+                    <span class="n">dist_kj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">centers</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                    <span class="n">sum_term</span> <span class="o">+=</span> <span class="p">(</span><span class="n">dist_ij</span> <span class="o">/</span> <span class="n">dist_kj</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">new_U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sum_term</span>
+    <span class="k">return</span> <span class="n">new_U</span>
+
+<span class="c1"># Fungsi objektif FCM</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_objective_function</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_data</span><span class="p">):</span>
+            <span class="n">dist_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">centers</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">**</span> <span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">dist_sq</span>
+    <span class="k">return</span> <span class="n">total</span>
+
+<span class="c1"># === ITERASI 1 ===</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Iterasi 1 ===&quot;</span><span class="p">)</span>
+
+<span class="c1"># Langkah 1: Hitung pusat cluster dari U0</span>
+<span class="n">centers</span> <span class="o">=</span> <span class="n">update_centers</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Pusat Cluster (Centroids) Iterasi 1:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">center</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">centers</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cluster </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">center</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Langkah 2: Hitung derajat keanggotaan baru U1</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">update_membership</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Derajat Keanggotaan Baru (U1):&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_data</span><span class="p">):</span>
+    <span class="n">degrees</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data ke-</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">degrees</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Langkah 3: Hitung fungsi objektif</span>
+<span class="n">J</span> <span class="o">=</span> <span class="n">compute_objective_function</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Fungsi Objektif Iterasi 1 (J1): </span><span class="si">{</span><span class="n">J</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Derajat Keanggotaan Awal (U0) ===
+Data ke-1: [np.float64(0.5629), np.float64(0.4371)]
+Data ke-2: [np.float64(0.1127), np.float64(0.8873)]
+Data ke-3: [np.float64(0.7876), np.float64(0.2124)]
+Data ke-4: [np.float64(0.4513), np.float64(0.5487)]
+Data ke-5: [np.float64(0.8175), np.float64(0.1825)]
+
+=== Iterasi 1 ===
+
+Pusat Cluster (Centroids) Iterasi 1:
+Cluster 1: [4.44795514 5.44795514]
+Cluster 2: [2.90217486 3.90217486]
+
+Derajat Keanggotaan Baru (U1):
+Data ke-1: [np.float64(0.2333), np.float64(0.7667)]
+Data ke-2: [np.float64(0.1196), np.float64(0.8804)]
+Data ke-3: [np.float64(0.0045), np.float64(0.9955)]
+Data ke-4: [np.float64(0.7994), np.float64(0.2006)]
+Data ke-5: [np.float64(0.7205), np.float64(0.2795)]
+
+Fungsi Objektif Iterasi 1 (J1): 20.2369
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># === ITERASI 2 ===</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Iterasi 2 ===&quot;</span><span class="p">)</span>
+
+<span class="c1"># Langkah 1: Hitung pusat cluster dari U1</span>
+<span class="n">centers</span> <span class="o">=</span> <span class="n">update_centers</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Pusat Cluster (Centroids) Iterasi 2:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">center</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">centers</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cluster </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">center</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Langkah 2: Hitung derajat keanggotaan baru U2</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">update_membership</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Derajat Keanggotaan Baru (U2):&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_data</span><span class="p">):</span>
+    <span class="n">degrees</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data ke-</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">degrees</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Langkah 3: Hitung fungsi objektif</span>
+<span class="n">J</span> <span class="o">=</span> <span class="n">compute_objective_function</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Fungsi Objektif Iterasi 2 (J2): </span><span class="si">{</span><span class="n">J</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Iterasi 2 ===
+
+Pusat Cluster (Centroids) Iterasi 2:
+Cluster 1: [6.15460239 7.15460239]
+Cluster 2: [2.38617286 3.38617286]
+
+Derajat Keanggotaan Baru (U2):
+Data ke-1: [np.float64(0.0674), np.float64(0.9326)]
+Data ke-2: [np.float64(0.0086), np.float64(0.9914)]
+Data ke-3: [np.float64(0.0365), np.float64(0.9635)]
+Data ke-4: [np.float64(0.9982), np.float64(0.0018)]
+Data ke-5: [np.float64(0.9675), np.float64(0.0325)]
+
+Fungsi Objektif Iterasi 2 (J2): 6.0362
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># STEP 2: Parameter FCM</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mi">3</span>       <span class="c1"># jumlah cluster</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mf">2.0</span>     <span class="c1"># fuzzy exponent</span>
+<span class="n">n_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># STEP 3: Inisialisasi derajat keanggotaan awal U0 secara acak</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">dirichlet</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="n">n_data</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># Fungsi update pusat cluster</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_centers</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="n">um</span> <span class="o">=</span> <span class="n">U</span> <span class="o">**</span> <span class="n">m</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">um</span> <span class="o">@</span> <span class="n">data</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">um</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+
+<span class="c1"># Fungsi update derajat keanggotaan</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_membership</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">centers</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">new_U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">c</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+            <span class="n">dist_ij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">centers</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">dist_ij</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">new_U</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">new_U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sum_term</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+                    <span class="n">dist_kj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">centers</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                    <span class="n">sum_term</span> <span class="o">+=</span> <span class="p">(</span><span class="n">dist_ij</span> <span class="o">/</span> <span class="n">dist_kj</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">new_U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sum_term</span>
+    <span class="k">return</span> <span class="n">new_U</span>
+
+<span class="c1"># Fungsi objektif FCM</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_objective_function</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_data</span><span class="p">):</span>
+            <span class="n">dist_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">centers</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">**</span> <span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">dist_sq</span>
+    <span class="k">return</span> <span class="n">total</span>
+
+<span class="c1"># Parameter konvergensi</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1e-5</span> <span class="c1"># Error toleransi untuk konvergensi (0.00001)</span>
+<span class="n">max_iter</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Derajat Keanggotaan Awal (U0) ===&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_data</span><span class="p">):</span>
+    <span class="n">degrees</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data ke-</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">degrees</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">J_prev</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Iterasi </span><span class="si">{</span><span class="n">iteration</span><span class="si">}</span><span class="s2"> ===&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Langkah 1: Hitung pusat cluster</span>
+    <span class="n">centers</span> <span class="o">=</span> <span class="n">update_centers</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Pusat Cluster (Centroids):&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">center</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">centers</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cluster </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">center</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Langkah 2: Hitung derajat keanggotaan baru</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">update_membership</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Derajat Keanggotaan Baru:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_data</span><span class="p">):</span>
+        <span class="n">degrees</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data ke-</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">degrees</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Langkah 3: Hitung fungsi objektif</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">compute_objective_function</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Fungsi Objektif Iterasi </span><span class="si">{</span><span class="n">iteration</span><span class="si">}</span><span class="s2"> (J</span><span class="si">{</span><span class="n">iteration</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">J</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Cek konvergensi</span>
+    <span class="k">if</span> <span class="n">iteration</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">J</span> <span class="o">-</span> <span class="n">J_prev</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">epsilon</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Konvergen! Iterasi dihentikan.&quot;</span><span class="p">)</span>
+        <span class="k">break</span>
+
+    <span class="n">J_prev</span> <span class="o">=</span> <span class="n">J</span>
+
+<span class="k">if</span> <span class="n">iteration</span> <span class="o">==</span> <span class="n">max_iter</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Maksimum iterasi tercapai tanpa konvergensi.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Derajat Keanggotaan Awal (U0) ===
+Data ke-1: [np.float64(0.3445), np.float64(0.1149), np.float64(0.5406)]
+Data ke-2: [np.float64(0.1785), np.float64(0.7878), np.float64(0.0337)]
+Data ke-3: [np.float64(0.2489), np.float64(0.2927), np.float64(0.4584)]
+Data ke-4: [np.float64(0.0803), np.float64(0.2134), np.float64(0.7062)]
+Data ke-5: [np.float64(0.5599), np.float64(0.3693), np.float64(0.0707)]
+
+=== Iterasi 1 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [4.88608719 5.88608719]
+Cluster 2: [3.03909809 4.03909809]
+Cluster 3: [3.9239719 4.9239719]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.1563), np.float64(0.5676), np.float64(0.2761)]
+Data ke-2: [np.float64(0.0912), np.float64(0.7036), np.float64(0.2052)]
+Data ke-3: [np.float64(0.0004), np.float64(0.9978), np.float64(0.0018)]
+Data ke-4: [np.float64(0.6996), np.float64(0.099), np.float64(0.2014)]
+Data ke-5: [np.float64(0.5691), np.float64(0.1621), np.float64(0.2688)]
+
+Fungsi Objektif Iterasi 1 (J1): 13.065288
+
+=== Iterasi 2 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.19915056 7.19915056]
+Cluster 2: [2.45646175 3.45646175]
+Cluster 3: [3.93505055 4.93505055]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0592), np.float64(0.7549), np.float64(0.1859)]
+Data ke-2: [np.float64(0.0111), np.float64(0.9368), np.float64(0.0521)]
+Data ke-3: [np.float64(0.0211), np.float64(0.7317), np.float64(0.2472)]
+Data ke-4: [np.float64(0.9877), np.float64(0.0031), np.float64(0.0092)]
+Data ke-5: [np.float64(0.9096), np.float64(0.0283), np.float64(0.0621)]
+
+Fungsi Objektif Iterasi 2 (J2): 5.270452
+
+=== Iterasi 3 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.44717092 7.44717092]
+Cluster 2: [1.98462877 2.98462877]
+Cluster 3: [2.45137471 3.45137471]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0219), np.float64(0.6698), np.float64(0.3083)]
+Data ke-2: [np.float64(0.0), np.float64(0.9988), np.float64(0.0012)]
+Data ke-3: [np.float64(0.0192), np.float64(0.2216), np.float64(0.7591)]
+Data ke-4: [np.float64(0.9725), np.float64(0.0121), np.float64(0.0154)]
+Data ke-5: [np.float64(0.9738), np.float64(0.0118), np.float64(0.0144)]
+
+Fungsi Objektif Iterasi 3 (J3): 2.740393
+
+=== Iterasi 4 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.49858808 7.49858808]
+Cluster 2: [1.73372908 2.73372908]
+Cluster 3: [2.71934995 3.71934995]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0148), np.float64(0.8334), np.float64(0.1518)]
+Data ke-2: [np.float64(0.0031), np.float64(0.8768), np.float64(0.1201)]
+Data ke-3: [np.float64(0.0061), np.float64(0.0465), np.float64(0.9474)]
+Data ke-4: [np.float64(0.9645), np.float64(0.0132), np.float64(0.0223)]
+Data ke-5: [np.float64(0.9777), np.float64(0.0089), np.float64(0.0134)]
+
+Fungsi Objektif Iterasi 4 (J4): 2.142071
+
+=== Iterasi 5 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50604817 7.50604817]
+Cluster 2: [1.52836638 2.52836638]
+Cluster 3: [2.93769818 3.93769818]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0085), np.float64(0.9229), np.float64(0.0686)]
+Data ke-2: [np.float64(0.0087), np.float64(0.7912), np.float64(0.2002)]
+Data ke-3: [np.float64(0.0003), np.float64(0.0018), np.float64(0.9979)]
+Data ke-4: [np.float64(0.9614), np.float64(0.0123), np.float64(0.0263)]
+Data ke-5: [np.float64(0.9776), np.float64(0.008), np.float64(0.0145)]
+
+Fungsi Objektif Iterasi 5 (J5): 1.844461
+
+=== Iterasi 6 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50793512 7.50793512]
+Cluster 2: [1.42432738 2.42432738]
+Cluster 3: [2.95528003 3.95528003]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0056), np.float64(0.9496), np.float64(0.0447)]
+Data ke-2: [np.float64(0.0118), np.float64(0.7249), np.float64(0.2633)]
+Data ke-3: [np.float64(0.0002), np.float64(0.0008), np.float64(0.999)]
+Data ke-4: [np.float64(0.9614), np.float64(0.0118), np.float64(0.0268)]
+Data ke-5: [np.float64(0.9779), np.float64(0.0076), np.float64(0.0145)]
+
+Fungsi Objektif Iterasi 6 (J6): 1.796080
+
+=== Iterasi 7 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50808646 7.50808646]
+Cluster 2: [1.36886325 2.36886325]
+Cluster 3: [2.93429924 3.93429924]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0043), np.float64(0.9608), np.float64(0.0349)]
+Data ke-2: [np.float64(0.0133), np.float64(0.6775), np.float64(0.3092)]
+Data ke-3: [np.float64(0.0004), np.float64(0.0016), np.float64(0.998)]
+Data ke-4: [np.float64(0.962), np.float64(0.0116), np.float64(0.0264)]
+Data ke-5: [np.float64(0.9782), np.float64(0.0075), np.float64(0.0143)]
+
+Fungsi Objektif Iterasi 7 (J7): 1.779929
+
+=== Iterasi 8 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50788128 7.50788128]
+Cluster 2: [1.33283006 2.33283006]
+Cluster 3: [2.91303719 3.91303719]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0035), np.float64(0.9672), np.float64(0.0293)]
+Data ke-2: [np.float64(0.0141), np.float64(0.6427), np.float64(0.3432)]
+Data ke-3: [np.float64(0.0006), np.float64(0.0027), np.float64(0.9967)]
+Data ke-4: [np.float64(0.9625), np.float64(0.0114), np.float64(0.0261)]
+Data ke-5: [np.float64(0.9784), np.float64(0.0074), np.float64(0.0142)]
+
+Fungsi Objektif Iterasi 8 (J8): 1.772024
+
+=== Iterasi 9 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50767379 7.50767379]
+Cluster 2: [1.30702264 2.30702264]
+Cluster 3: [2.89518255 3.89518255]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.003), np.float64(0.9715), np.float64(0.0255)]
+Data ke-2: [np.float64(0.0146), np.float64(0.6162), np.float64(0.3693)]
+Data ke-3: [np.float64(0.0009), np.float64(0.0038), np.float64(0.9953)]
+Data ke-4: [np.float64(0.963), np.float64(0.0113), np.float64(0.0257)]
+Data ke-5: [np.float64(0.9786), np.float64(0.0073), np.float64(0.0141)]
+
+Fungsi Objektif Iterasi 9 (J9): 1.767607
+
+=== Iterasi 10 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50750891 7.50750891]
+Cluster 2: [1.28758705 2.28758705]
+Cluster 3: [2.88048714 3.88048714]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0027), np.float64(0.9745), np.float64(0.0228)]
+Data ke-2: [np.float64(0.0149), np.float64(0.5954), np.float64(0.3898)]
+Data ke-3: [np.float64(0.0012), np.float64(0.0048), np.float64(0.994)]
+Data ke-4: [np.float64(0.9633), np.float64(0.0112), np.float64(0.0255)]
+Data ke-5: [np.float64(0.9787), np.float64(0.0073), np.float64(0.014)]
+
+Fungsi Objektif Iterasi 10 (J10): 1.764953
+
+=== Iterasi 11 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50738098 7.50738098]
+Cluster 2: [1.27249752 2.27249752]
+Cluster 3: [2.8683799 3.8683799]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0024), np.float64(0.9768), np.float64(0.0208)]
+Data ke-2: [np.float64(0.0151), np.float64(0.5787), np.float64(0.4062)]
+Data ke-3: [np.float64(0.0014), np.float64(0.0058), np.float64(0.9928)]
+Data ke-4: [np.float64(0.9636), np.float64(0.0111), np.float64(0.0253)]
+Data ke-5: [np.float64(0.9788), np.float64(0.0072), np.float64(0.0139)]
+
+Fungsi Objektif Iterasi 11 (J11): 1.763281
+
+=== Iterasi 12 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50728077 7.50728077]
+Cluster 2: [1.26054453 2.26054453]
+Cluster 3: [2.85836659 3.85836659]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0022), np.float64(0.9786), np.float64(0.0192)]
+Data ke-2: [np.float64(0.0152), np.float64(0.5653), np.float64(0.4195)]
+Data ke-3: [np.float64(0.0016), np.float64(0.0066), np.float64(0.9918)]
+Data ke-4: [np.float64(0.9638), np.float64(0.011), np.float64(0.0251)]
+Data ke-5: [np.float64(0.9789), np.float64(0.0072), np.float64(0.0139)]
+
+Fungsi Objektif Iterasi 12 (J12): 1.762196
+
+=== Iterasi 13 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50720123 7.50720123]
+Cluster 2: [1.25094416 2.25094416]
+Cluster 3: [2.85005571 3.85005571]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.002), np.float64(0.9799), np.float64(0.018)]
+Data ke-2: [np.float64(0.0153), np.float64(0.5543), np.float64(0.4304)]
+Data ke-3: [np.float64(0.0018), np.float64(0.0073), np.float64(0.9909)]
+Data ke-4: [np.float64(0.964), np.float64(0.011), np.float64(0.025)]
+Data ke-5: [np.float64(0.979), np.float64(0.0072), np.float64(0.0138)]
+
+Fungsi Objektif Iterasi 13 (J13): 1.761477
+
+=== Iterasi 14 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50713738 7.50713738]
+Cluster 2: [1.24315729 2.24315729]
+Cluster 3: [2.84313904 3.84313904]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0019), np.float64(0.981), np.float64(0.0171)]
+Data ke-2: [np.float64(0.0154), np.float64(0.5453), np.float64(0.4394)]
+Data ke-3: [np.float64(0.002), np.float64(0.0079), np.float64(0.9901)]
+Data ke-4: [np.float64(0.9642), np.float64(0.011), np.float64(0.0249)]
+Data ke-5: [np.float64(0.9791), np.float64(0.0072), np.float64(0.0138)]
+
+Fungsi Objektif Iterasi 14 (J14): 1.760993
+
+=== Iterasi 15 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50708567 7.50708567]
+Cluster 2: [1.23679623 2.23679623]
+Cluster 3: [2.83737146 3.83737146]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0018), np.float64(0.9819), np.float64(0.0163)]
+Data ke-2: [np.float64(0.0154), np.float64(0.5378), np.float64(0.4468)]
+Data ke-3: [np.float64(0.0021), np.float64(0.0084), np.float64(0.9895)]
+Data ke-4: [np.float64(0.9643), np.float64(0.0109), np.float64(0.0248)]
+Data ke-5: [np.float64(0.9791), np.float64(0.0072), np.float64(0.0137)]
+
+Fungsi Objektif Iterasi 15 (J15): 1.760664
+
+=== Iterasi 16 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.5070435 7.5070435]
+Cluster 2: [1.2315725 2.2315725]
+Cluster 3: [2.8325556 3.8325556]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0017), np.float64(0.9826), np.float64(0.0157)]
+Data ke-2: [np.float64(0.0155), np.float64(0.5316), np.float64(0.4529)]
+Data ke-3: [np.float64(0.0023), np.float64(0.0089), np.float64(0.9889)]
+Data ke-4: [np.float64(0.9644), np.float64(0.0109), np.float64(0.0247)]
+Data ke-5: [np.float64(0.9791), np.float64(0.0072), np.float64(0.0137)]
+
+Fungsi Objektif Iterasi 16 (J16): 1.760439
+
+=== Iterasi 17 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50700892 7.50700892]
+Cluster 2: [1.22726581 2.22726581]
+Cluster 3: [2.8285308 3.8285308]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0017), np.float64(0.9831), np.float64(0.0152)]
+Data ke-2: [np.float64(0.0155), np.float64(0.5265), np.float64(0.458)]
+Data ke-3: [np.float64(0.0024), np.float64(0.0092), np.float64(0.9884)]
+Data ke-4: [np.float64(0.9645), np.float64(0.0109), np.float64(0.0246)]
+Data ke-5: [np.float64(0.9792), np.float64(0.0071), np.float64(0.0137)]
+
+Fungsi Objektif Iterasi 17 (J17): 1.760284
+
+=== Iterasi 18 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50698045 7.50698045]
+Cluster 2: [1.2237045 2.2237045]
+Cluster 3: [2.82516515 3.82516515]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0016), np.float64(0.9836), np.float64(0.0148)]
+Data ke-2: [np.float64(0.0155), np.float64(0.5223), np.float64(0.4622)]
+Data ke-3: [np.float64(0.0025), np.float64(0.0096), np.float64(0.988)]
+Data ke-4: [np.float64(0.9645), np.float64(0.0109), np.float64(0.0246)]
+Data ke-5: [np.float64(0.9792), np.float64(0.0071), np.float64(0.0137)]
+
+Fungsi Objektif Iterasi 18 (J18): 1.760177
+
+=== Iterasi 19 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50695693 7.50695693]
+Cluster 2: [1.22075275 2.22075275]
+Cluster 3: [2.82234968 3.82234968]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0016), np.float64(0.984), np.float64(0.0144)]
+Data ke-2: [np.float64(0.0155), np.float64(0.5187), np.float64(0.4658)]
+Data ke-3: [np.float64(0.0025), np.float64(0.0098), np.float64(0.9876)]
+Data ke-4: [np.float64(0.9646), np.float64(0.0109), np.float64(0.0246)]
+Data ke-5: [np.float64(0.9792), np.float64(0.0071), np.float64(0.0136)]
+
+Fungsi Objektif Iterasi 19 (J19): 1.760103
+
+=== Iterasi 20 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50693746 7.50693746]
+Cluster 2: [1.21830184 2.21830184]
+Cluster 3: [2.81999395 3.81999395]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0015), np.float64(0.9843), np.float64(0.0142)]
+Data ke-2: [np.float64(0.0155), np.float64(0.5158), np.float64(0.4687)]
+Data ke-3: [np.float64(0.0026), np.float64(0.0101), np.float64(0.9873)]
+Data ke-4: [np.float64(0.9646), np.float64(0.0108), np.float64(0.0245)]
+Data ke-5: [np.float64(0.9793), np.float64(0.0071), np.float64(0.0136)]
+
+Fungsi Objektif Iterasi 20 (J20): 1.760051
+
+=== Iterasi 21 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50692131 7.50692131]
+Cluster 2: [1.2162639 2.2162639]
+Cluster 3: [2.81802266 3.81802266]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0015), np.float64(0.9845), np.float64(0.0139)]
+Data ke-2: [np.float64(0.0155), np.float64(0.5133), np.float64(0.4712)]
+Data ke-3: [np.float64(0.0027), np.float64(0.0103), np.float64(0.9871)]
+Data ke-4: [np.float64(0.9647), np.float64(0.0108), np.float64(0.0245)]
+Data ke-5: [np.float64(0.9793), np.float64(0.0071), np.float64(0.0136)]
+
+Fungsi Objektif Iterasi 21 (J21): 1.760015
+
+=== Iterasi 22 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50690789 7.50690789]
+Cluster 2: [1.21456745 2.21456745]
+Cluster 3: [2.81637299 3.81637299]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0015), np.float64(0.9848), np.float64(0.0137)]
+Data ke-2: [np.float64(0.0155), np.float64(0.5112), np.float64(0.4732)]
+Data ke-3: [np.float64(0.0027), np.float64(0.0104), np.float64(0.9869)]
+Data ke-4: [np.float64(0.9647), np.float64(0.0108), np.float64(0.0245)]
+Data ke-5: [np.float64(0.9793), np.float64(0.0071), np.float64(0.0136)]
+
+Fungsi Objektif Iterasi 22 (J22): 1.759990
+
+=== Iterasi 23 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50689672 7.50689672]
+Cluster 2: [1.21315401 2.21315401]
+Cluster 3: [2.81499244 3.81499244]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0015), np.float64(0.9849), np.float64(0.0136)]
+Data ke-2: [np.float64(0.0155), np.float64(0.5095), np.float64(0.4749)]
+Data ke-3: [np.float64(0.0027), np.float64(0.0106), np.float64(0.9867)]
+Data ke-4: [np.float64(0.9647), np.float64(0.0108), np.float64(0.0244)]
+Data ke-5: [np.float64(0.9793), np.float64(0.0071), np.float64(0.0136)]
+
+Fungsi Objektif Iterasi 23 (J23): 1.759973
+
+=== Iterasi 24 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50688742 7.50688742]
+Cluster 2: [1.21197552 2.21197552]
+Cluster 3: [2.81383714 3.81383714]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0015), np.float64(0.9851), np.float64(0.0135)]
+Data ke-2: [np.float64(0.0155), np.float64(0.5081), np.float64(0.4764)]
+Data ke-3: [np.float64(0.0028), np.float64(0.0107), np.float64(0.9865)]
+Data ke-4: [np.float64(0.9648), np.float64(0.0108), np.float64(0.0244)]
+Data ke-5: [np.float64(0.9793), np.float64(0.0071), np.float64(0.0136)]
+
+Fungsi Objektif Iterasi 24 (J24): 1.759961
+
+=== Iterasi 25 ===
+
+Pusat Cluster (Centroids):
+Cluster 1: [6.50687967 7.50687967]
+Cluster 2: [1.21099236 2.21099236]
+Cluster 3: [2.81287036 3.81287036]
+
+Derajat Keanggotaan Baru:
+Data ke-1: [np.float64(0.0014), np.float64(0.9852), np.float64(0.0133)]
+Data ke-2: [np.float64(0.0155), np.float64(0.5069), np.float64(0.4776)]
+Data ke-3: [np.float64(0.0028), np.float64(0.0108), np.float64(0.9864)]
+Data ke-4: [np.float64(0.9648), np.float64(0.0108), np.float64(0.0244)]
+Data ke-5: [np.float64(0.9793), np.float64(0.0071), np.float64(0.0136)]
+
+Fungsi Objektif Iterasi 25 (J25): 1.759952
+
+Konvergen! Iterasi dihentikan.
+</pre></div>
+</div>
+</div>
+</div>
+<p>implementasi data iris 3 cluster</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#konsep-dasar">Konsep dasar</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-algoritma">Langkah Algoritma</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
