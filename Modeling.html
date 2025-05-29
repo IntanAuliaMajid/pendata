@@ -534,7 +534,11 @@ P(X | C) = P(X_1 | C)^{x_1} \cdot P(X_2 | C)^{x_2} \cdot ... \cdot P(X_n | C)^{x
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: numpy in /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages (2.1.3)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: numpy in /home/codespace/.local/lib/python3.12/site-packages (2.2.4)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> A new release of pip is available: <span class=" -Color -Color-Red">25.0.1</span> -&gt; <span class=" -Color -Color-Green">25.1.1</span>
+<span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> To update, run: <span class=" -Color -Color-Green">python3 -m pip install --upgrade pip</span>
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Note: you may need to restart the kernel to use updated packages.
@@ -549,14 +553,16 @@ P(X | C) = P(X_1 | C)^{x_1} \cdot P(X_2 | C)^{x_2} \cdot ... \cdot P(X_n | C)^{x
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pandas in /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages (2.2.3)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pandas in /home/codespace/.local/lib/python3.12/site-packages (2.2.3)
+Requirement already satisfied: numpy&gt;=1.26.0 in /home/codespace/.local/lib/python3.12/site-packages (from pandas) (2.2.4)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in /home/codespace/.local/lib/python3.12/site-packages (from pandas) (2.9.0.post0)
+Requirement already satisfied: pytz&gt;=2020.1 in /home/codespace/.local/lib/python3.12/site-packages (from pandas) (2025.1)
+Requirement already satisfied: tzdata&gt;=2022.7 in /home/codespace/.local/lib/python3.12/site-packages (from pandas) (2025.1)
+Requirement already satisfied: six&gt;=1.5 in /home/codespace/.local/lib/python3.12/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.17.0)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: numpy&gt;=1.22.4 in /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages (from pandas) (2.1.3)
-Requirement already satisfied: python-dateutil&gt;=2.8.2 in /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages (from pandas) (2.9.0.post0)
-Requirement already satisfied: pytz&gt;=2020.1 in /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages (from pandas) (2025.2)
-Requirement already satisfied: tzdata&gt;=2022.7 in /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages (from pandas) (2025.2)
-Requirement already satisfied: six&gt;=1.5 in /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.17.0)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> A new release of pip is available: <span class=" -Color -Color-Red">25.0.1</span> -&gt; <span class=" -Color -Color-Green">25.1.1</span>
+<span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> To update, run: <span class=" -Color -Color-Green">python3 -m pip install --upgrade pip</span>
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Note: you may need to restart the kernel to use updated packages.
@@ -579,20 +585,6 @@ Requirement already satisfied: six&gt;=1.5 in /opt/hostedtoolcache/Python/3.10.1
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">confusion_matrix</span> 
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span> 
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="ne">----&gt; </span><span class="mi">5</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span> <span class="c1"># untuk Mengubah data kategori menjadi numerik.  </span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span> <span class="c1"># untuk Memisahkan data latih dan uji.  </span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span> <span class="c1"># untuk Standarisasi fitur.</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;sklearn&#39;
 </pre></div>
 </div>
 </div>
@@ -638,7 +630,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/hostedtoolcache/Python/3.10.1
       <td>1</td>
       <td>Iris-setosa</td>
       <td>86.4</td>
-      <td>70.0</td>
+      <td>70.5</td>
       <td>20.1</td>
       <td>30.5</td>
     </tr>
@@ -727,7 +719,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/hostedtoolcache/Python/3.10.1
       <td>1</td>
       <td>0</td>
       <td>86.4</td>
-      <td>70.0</td>
+      <td>70.5</td>
       <td>20.1</td>
       <td>30.5</td>
     </tr>
@@ -787,7 +779,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/hostedtoolcache/Python/3.10.1
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[86.4, 70. , 20.1, 30.5],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[86.4, 70.5, 20.1, 30.5],
        [ 1.4,  0.2,  4.9,  3. ],
        [ 1.3,  0.2,  4.7,  3.2],
        [ 1.5,  0.2,  4.6,  3.1],
@@ -886,8 +878,8 @@ Requirement already satisfied: six&gt;=1.5 in /opt/hostedtoolcache/Python/3.10.1
        [ 4.2,  1.3,  5.7,  2.9],
        [ 4.3,  1.3,  6.2,  2.9],
        [ 3. ,  1.1,  5.1,  2.5],
+       [ 4.1,  1.3,  5.7,  2.8],
        [ 3. , 50. , 60.3, 70.3],
-       [ 6. ,  2.5,  6.3,  3.3],
        [ 5.1,  1.9,  5.8,  2.7],
        [ 5.9,  2.1,  7.1,  3. ],
        [ 5.6,  1.8,  6.3,  2.9],
@@ -952,7 +944,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/hostedtoolcache/Python/3.10.1
        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
        0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
        2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
        2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2])
 </pre></div>
@@ -989,64 +981,13 @@ y_test shape:  (30,)
 </div>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">29</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Menampilkan evaluasi model</span>
 <span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">akurasi</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="nb">print</span><span class="p">(</span><span class="n">akurasi</span><span class="p">)</span>
 
-<span class="nn">File c:\Users\intan\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\utils\_param_validation.py:216,</span> in <span class="ni">validate_params.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">210</span> <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">211</span>     <span class="k">with</span> <span class="n">config_context</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">212</span>         <span class="n">skip_parameter_validation</span><span class="o">=</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">213</span>             <span class="n">prefer_skip_nested_validation</span> <span class="ow">or</span> <span class="n">global_skip_validation</span>
-<span class="g g-Whitespace">    </span><span class="mi">214</span>         <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">215</span>     <span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">216</span>         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">217</span> <span class="k">except</span> <span class="n">InvalidParameterError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">218</span>     <span class="c1"># When the function is just a wrapper around an estimator, we allow</span>
-<span class="g g-Whitespace">    </span><span class="mi">219</span>     <span class="c1"># the function to delegate validation to the estimator, but we replace</span>
-<span class="g g-Whitespace">    </span><span class="mi">220</span>     <span class="c1"># the name of the estimator by the name of the function in the error</span>
-<span class="g g-Whitespace">    </span><span class="mi">221</span>     <span class="c1"># message to avoid confusion.</span>
-<span class="g g-Whitespace">    </span><span class="mi">222</span>     <span class="n">msg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">223</span>         <span class="sa">r</span><span class="s2">&quot;parameter of \w+ must be&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">224</span>         <span class="sa">f</span><span class="s2">&quot;parameter of </span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__qualname__</span><span class="si">}</span><span class="s2"> must be&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">225</span>         <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">226</span>     <span class="p">)</span>
-
-<span class="nn">File c:\Users\intan\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\metrics\_classification.py:2671,</span> in <span class="ni">classification_report</span><span class="nt">(y_true, y_pred, labels, target_names, sample_weight, digits, output_dict, zero_division)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2563</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Build a text report showing the main classification metrics.</span>
-<span class="g g-Whitespace">   </span><span class="mi">2564</span><span class="sd"> </span>
-<span class="g g-Whitespace">   </span><span class="mi">2565</span><span class="sd"> Read more in the :ref:`User Guide &lt;classification_report&gt;`.</span>
-<span class="sd">   (...)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2667</span><span class="sd"> &lt;BLANKLINE&gt;</span>
-<span class="g g-Whitespace">   </span><span class="mi">2668</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">2670</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">attach_unique</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">2671</span> <span class="n">y_type</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">_check_targets</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2673</span> <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">2674</span>     <span class="n">labels</span> <span class="o">=</span> <span class="n">unique_labels</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-
-<span class="nn">File c:\Users\intan\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\metrics\_classification.py:98,</span> in <span class="ni">_check_targets</span><span class="nt">(y_true, y_pred)</span>
-<span class="g g-Whitespace">     </span><span class="mi">71</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Check that y_true and y_pred belong to the same classification task.</span>
-<span class="g g-Whitespace">     </span><span class="mi">72</span><span class="sd"> </span>
-<span class="g g-Whitespace">     </span><span class="mi">73</span><span class="sd"> This converts multiclass or binary types to a common shape, and raises a</span>
-<span class="sd">   (...)</span>
-<span class="g g-Whitespace">     </span><span class="mi">95</span><span class="sd"> y_pred : array or indicator matrix</span>
-<span class="g g-Whitespace">     </span><span class="mi">96</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">97</span> <span class="n">xp</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_namespace</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">98</span> <span class="n">check_consistent_length</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">99</span> <span class="n">type_true</span> <span class="o">=</span> <span class="n">type_of_target</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">input_name</span><span class="o">=</span><span class="s2">&quot;y_true&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">100</span> <span class="n">type_pred</span> <span class="o">=</span> <span class="n">type_of_target</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">input_name</span><span class="o">=</span><span class="s2">&quot;y_pred&quot;</span><span class="p">)</span>
-
-<span class="nn">File c:\Users\intan\AppData\Local\Programs\Python\Python311\Lib\site-packages\sklearn\utils\validation.py:475,</span> in <span class="ni">check_consistent_length</span><span class="nt">(*arrays)</span>
-<span class="g g-Whitespace">    </span><span class="mi">473</span> <span class="n">uniques</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">474</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">uniques</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">475</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">476</span>         <span class="s2">&quot;Found input variables with inconsistent numbers of samples: </span><span class="si">%r</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">477</span>         <span class="o">%</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lengths</span><span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">478</span>     <span class="p">)</span>
-
-<span class="ne">ValueError</span>: Found input variables with inconsistent numbers of samples: [30, 27]
+<span class="ne">NameError</span>: name &#39;y_pred&#39; is not defined
 </pre></div>
 </div>
 </div>
