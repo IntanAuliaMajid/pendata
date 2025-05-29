@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 env:
-  BOOK_ROOT: "mybook"  # Ganti jika folder Anda berbeda
+  BOOK_ROOT: "mybook"  # Ganti dengan nama folder root Jupyter Book Anda
 
 jobs:
   build:
@@ -27,18 +27,29 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r $BOOK_ROOT/requirements.txt
-          pip install jupyter-book ghp-import nbconvert
+          pip install jupyter-book ghp-import
 
-      - name: Execute all notebooks
+      - name: Clean Jupyter Book outputs
         run: |
-          find $BOOK_ROOT -name "*.ipynb" -exec jupyter nbconvert --to notebook --inplace --execute {} \;
+          jupyter-book clean $BOOK_ROOT --all
 
-      - name: Build Jupyter Book
+      - name: Execute and Build Jupyter Book
         run: |
-          jupyter-book build $BOOK_ROOT
+          jupyter-book build $BOOK_ROOT --builder html \
+            --path-output _build \
+            --keep-going \
+            --overwrite \
+            --execute
+
+      - name: Upload executed notebooks (debug only)
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: executed-notebooks
+          path: $BOOK_ROOT/**/*.ipynb
 
       - name: Deploy to GitHub Pages
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          ghp-import -n -p -f $BOOK_ROOT/_build/html -b gh-pages
+          ghp-import -n -p -f _build/html -b gh-pages
