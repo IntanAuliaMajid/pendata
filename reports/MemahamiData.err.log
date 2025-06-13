@@ -1,0 +1,104 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+  File "/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import pymysql
+
+# Step 1: Konfigurasi koneksi ke MySQL Aiven
+connection = pymysql.connect(
+    host='mysql-1fe77f3f-irismysqlpendat.i.aivencloud.com',  # Host MySQL Aiven
+    user='avnadmin',    # Username MySQL
+    port=20846,         # Port MySQL
+    password='AVNS_X_mleJti5QlbqZ6h_xN',  # Password MySQL
+    ssl={'ssl': True}   # Menambahkan SSL untuk koneksi aman
+)
+
+try:
+    # Step 2: Membuat cursor
+    with connection.cursor() as cursor:
+        # Step 3: Membuat database jika belum ada
+        sql = "CREATE DATABASE IF NOT EXISTS house"
+        cursor.execute(sql)
+        print("Database 'house' created successfully.")
+
+finally:
+    # Step 4: Menutup koneksi
+    connection.close()
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mgaierror[0m                                  Traceback (most recent call last)
+File [0;32m/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/pymysql/connections.py:649[0m, in [0;36mConnection.connect[0;34m(self, sock)[0m
+[1;32m    648[0m [38;5;28;01mtry[39;00m:
+[0;32m--> 649[0m     sock [38;5;241m=[39m [43msocket[49m[38;5;241;43m.[39;49m[43mcreate_connection[49m[43m([49m
+[1;32m    650[0m [43m        [49m[43m([49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mhost[49m[43m,[49m[43m [49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mport[49m[43m)[49m[43m,[49m[43m [49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mconnect_timeout[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m
+[1;32m    651[0m [43m    [49m[43m)[49m
+[1;32m    652[0m     [38;5;28;01mbreak[39;00m
+
+File [0;32m/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/socket.py:836[0m, in [0;36mcreate_connection[0;34m(address, timeout, source_address)[0m
+[1;32m    835[0m err [38;5;241m=[39m [38;5;28;01mNone[39;00m
+[0;32m--> 836[0m [38;5;28;01mfor[39;00m res [38;5;129;01min[39;00m [43mgetaddrinfo[49m[43m([49m[43mhost[49m[43m,[49m[43m [49m[43mport[49m[43m,[49m[43m [49m[38;5;241;43m0[39;49m[43m,[49m[43m [49m[43mSOCK_STREAM[49m[43m)[49m:
+[1;32m    837[0m     af, socktype, proto, canonname, sa [38;5;241m=[39m res
+
+File [0;32m/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/socket.py:967[0m, in [0;36mgetaddrinfo[0;34m(host, port, family, type, proto, flags)[0m
+[1;32m    966[0m addrlist [38;5;241m=[39m []
+[0;32m--> 967[0m [38;5;28;01mfor[39;00m res [38;5;129;01min[39;00m [43m_socket[49m[38;5;241;43m.[39;49m[43mgetaddrinfo[49m[43m([49m[43mhost[49m[43m,[49m[43m [49m[43mport[49m[43m,[49m[43m [49m[43mfamily[49m[43m,[49m[43m [49m[38;5;28;43mtype[39;49m[43m,[49m[43m [49m[43mproto[49m[43m,[49m[43m [49m[43mflags[49m[43m)[49m:
+[1;32m    968[0m     af, socktype, proto, canonname, sa [38;5;241m=[39m res
+
+[0;31mgaierror[0m: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+[0;31mOperationalError[0m                          Traceback (most recent call last)
+Cell [0;32mIn[1], line 4[0m
+[1;32m      1[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01mpymysql[39;00m
+[1;32m      3[0m [38;5;66;03m# Step 1: Konfigurasi koneksi ke MySQL Aiven[39;00m
+[0;32m----> 4[0m connection [38;5;241m=[39m [43mpymysql[49m[38;5;241;43m.[39;49m[43mconnect[49m[43m([49m
+[1;32m      5[0m [43m    [49m[43mhost[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mmysql-1fe77f3f-irismysqlpendat.i.aivencloud.com[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m  [49m[38;5;66;43;03m# Host MySQL Aiven[39;49;00m
+[1;32m      6[0m [43m    [49m[43muser[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mavnadmin[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m    [49m[38;5;66;43;03m# Username MySQL[39;49;00m
+[1;32m      7[0m [43m    [49m[43mport[49m[38;5;241;43m=[39;49m[38;5;241;43m20846[39;49m[43m,[49m[43m         [49m[38;5;66;43;03m# Port MySQL[39;49;00m
+[1;32m      8[0m [43m    [49m[43mpassword[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mAVNS_X_mleJti5QlbqZ6h_xN[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m  [49m[38;5;66;43;03m# Password MySQL[39;49;00m
+[1;32m      9[0m [43m    [49m[43mssl[49m[38;5;241;43m=[39;49m[43m{[49m[38;5;124;43m'[39;49m[38;5;124;43mssl[39;49m[38;5;124;43m'[39;49m[43m:[49m[43m [49m[38;5;28;43;01mTrue[39;49;00m[43m}[49m[43m   [49m[38;5;66;43;03m# Menambahkan SSL untuk koneksi aman[39;49;00m
+[1;32m     10[0m [43m)[49m
+[1;32m     12[0m [38;5;28;01mtry[39;00m:
+[1;32m     13[0m     [38;5;66;03m# Step 2: Membuat cursor[39;00m
+[1;32m     14[0m     [38;5;28;01mwith[39;00m connection[38;5;241m.[39mcursor() [38;5;28;01mas[39;00m cursor:
+[1;32m     15[0m         [38;5;66;03m# Step 3: Membuat database jika belum ada[39;00m
+
+File [0;32m/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/pymysql/connections.py:361[0m, in [0;36mConnection.__init__[0;34m(self, user, password, host, database, unix_socket, port, charset, collation, sql_mode, read_default_file, conv, use_unicode, client_flag, cursorclass, init_command, connect_timeout, read_default_group, autocommit, local_infile, max_allowed_packet, defer_connect, auth_plugin_map, read_timeout, write_timeout, bind_address, binary_prefix, program_name, server_public_key, ssl, ssl_ca, ssl_cert, ssl_disabled, ssl_key, ssl_key_password, ssl_verify_cert, ssl_verify_identity, compress, named_pipe, passwd, db)[0m
+[1;32m    359[0m     [38;5;28mself[39m[38;5;241m.[39m_sock [38;5;241m=[39m [38;5;28;01mNone[39;00m
+[1;32m    360[0m [38;5;28;01melse[39;00m:
+[0;32m--> 361[0m     [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mconnect[49m[43m([49m[43m)[49m
+
+File [0;32m/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/pymysql/connections.py:716[0m, in [0;36mConnection.connect[0;34m(self, sock)[0m
+[1;32m    714[0m     [38;5;28;01mif[39;00m DEBUG:
+[1;32m    715[0m         [38;5;28mprint[39m(exc[38;5;241m.[39mtraceback)
+[0;32m--> 716[0m     [38;5;28;01mraise[39;00m exc
+[1;32m    718[0m [38;5;66;03m# If e is neither DatabaseError or IOError, It's a bug.[39;00m
+[1;32m    719[0m [38;5;66;03m# But raising AssertionError hides original error.[39;00m
+[1;32m    720[0m [38;5;66;03m# So just reraise it.[39;00m
+[1;32m    721[0m [38;5;28;01mraise[39;00m
+
+[0;31mOperationalError[0m: (2003, "Can't connect to MySQL server on 'mysql-1fe77f3f-irismysqlpendat.i.aivencloud.com' ([Errno -2] Name or service not known)")
+
