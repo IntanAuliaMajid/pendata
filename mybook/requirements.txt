@@ -2,8 +2,9 @@ jupyter-book
 matplotlib
 numpy
 pandas
-ydata-profiling[notebook]
-sqlalchemy
-psycopg2
-pymysql
-imbalanced-learn
+scikit-learn
+seaborn
+tqdm
+nltk
+streamlit
+plotly
