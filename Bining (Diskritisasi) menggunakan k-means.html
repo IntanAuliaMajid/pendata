@@ -1,0 +1,1494 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Binning &#8212; Pendata</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Bining (Diskritisasi) menggunakan k-means';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Penyakit Ginjal Kronis (Chronic Kidney Disease - CKD)" href="Tugas%20pra-uas.html" />
+    <link rel="prev" title="clustering" href="clustering.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Pendata - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Pendata - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Penambangan Data IF4D
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="MemahamiData.html">Memahami Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ModelingData.html"><strong>Naive Bayes Classifier</strong></a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="UTS.html">Ujian Tengah Semester</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html"><strong>clustering</strong></a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Binning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tugas%20pra-uas.html">Penyakit Ginjal Kronis (Chronic Kidney Disease - CKD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UAS.html">UAS IF4D</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/IntanAuliaMajid/pendata" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/IntanAuliaMajid/pendata/issues/new?title=Issue%20on%20page%20%2FBining (Diskritisasi) menggunakan k-means.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Bining (Diskritisasi) menggunakan k-means.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Binning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-binning">Apa itu Binning ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengapa-binning-penting">Mengapa Binning Penting?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#macam-macam-teknik-binning">Macam-macam Teknik Binning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengambil-data-iris-asli">mengambil data iris asli</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proses-clustering-fitur-sepal-length-menggunakan-algoritma-kmeans-menjadi-4-cluster">Proses clustering fitur sepal length menggunakan algoritma KMeans menjadi 4 cluster.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-nilai-minimum-dan-maksimum-dari-fitur-sepal-length">Menentukan nilai minimum dan maksimum dari fitur sepal length</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diskritisasi-fitur-sepal-length">Diskritisasi fitur sepal length</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diskritisasi-semua-fitur-pada-data-iris">Diskritisasi semua fitur pada data iris</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#klasifikasi-dengan-naive-bayes-dan-decision-tree">Klasifikasi dengan Naive Bayes dan Decision Tree</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="binning">
+<h1>Binning<a class="headerlink" href="#binning" title="Link to this heading">#</a></h1>
+<section id="apa-itu-binning">
+<h2>Apa itu Binning ?<a class="headerlink" href="#apa-itu-binning" title="Link to this heading">#</a></h2>
+<p>Data binning atau bucketing adalah metode pra-pemrosesan data yang digunakan untuk mengurangi dampak kesalahan pengamatan. Nilai data asli dibagi ke dalam interval-interval kecil yang disebut bin, lalu nilai-nilai tersebut digantikan oleh suatu nilai umum yang dihitung untuk setiap bin tersebut. Metode ini memiliki efek menghaluskan (smoothing) pada data masukan dan juga dapat mengurangi risiko overfitting terutama pada kasus dataset yang kecil.</p>
+<p>Ada beberapa metode di data mining (data mining methods) yang memerlukan diskritisasi (discretization) sebelumnya diantaranya adalah</p>
+<p><strong>1. Naive Bayes Classifier</strong></p>
+<p><strong>Mengapa butuh diskritisasi?</strong></p>
+<ul class="simple">
+<li><p>Naive Bayes, terutama versi kategorikalnya (Categorical Naive Bayes), bekerja dengan variabel kategoris atau diskrit.</p></li>
+<li><p>Jika tidak didiskritisasi: Versi Gaussian Naive Bayes bisa digunakan untuk fitur kontinu, tetapi kadang diskritisasi diterapkan untuk menghindari asumsi distribusi normal.</p></li>
+</ul>
+<p><strong>2. Decision Tree (seperti ID3, C4.5)</strong></p>
+<p><strong>Mengapa butuh diskritisasi ?</strong></p>
+<ul class="simple">
+<li><p>Algoritma seperti ID3 hanya menerima atribut kategoris.</p></li>
+<li><p>Diskritisasi diperlukan agar algoritma dapat membangun aturan keputusan berdasarkan nilai-nilai diskrit.</p></li>
+<li><p>Algoritma C4.5 sudah bisa menangani data numerik secara langsung dengan mencari split point, tetapi diskritisasi tetap berguna dalam beberapa kasus.</p></li>
+</ul>
+</section>
+<section id="mengapa-binning-penting">
+<h2>Mengapa Binning Penting?<a class="headerlink" href="#mengapa-binning-penting" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Penghalusan Data (Data Smoothing):</strong><br />
+Binning membantu mengurangi dampak variasi kecil dalam pengamatan, sehingga secara efektif menghaluskan data.</p></li>
+<li><p><strong>Penanganan Outlier (Outlier Mitigation):</strong><br />
+Dengan mengelompokkan nilai-nilai ke dalam bin, metode ini mengurangi pengaruh outlier pada analisis.</p></li>
+<li><p><strong>Analisis yang Lebih Baik (Improved Analysis):</strong><br />
+Diskritisasi data kontinu mempermudah analisis data dan memungkinkan visualisasi yang lebih baik.</p></li>
+<li><p><strong>Feature Engineering:</strong><br />
+Variabel yang dibin dapat menjadi lebih intuitif dan berguna dalam pemodelan prediktif.</p></li>
+</ul>
+</section>
+<section id="macam-macam-teknik-binning">
+<h2>Macam-macam Teknik Binning<a class="headerlink" href="#macam-macam-teknik-binning" title="Link to this heading">#</a></h2>
+<p>Binning secara umum dikategorikan menjadi beberapa jenis berdasarkan cara bin ditentukan:<br />
+<strong>1. Equal-Width Binning</strong><br />
+Setiap bin memiliki lebar yang sama, yang ditentukan dengan membagi rentang data menjadi n interval. Pendekatan diskritisasi Equal-Width Binning adalah membagi rentang dari 𝑋 menjadi 𝑘 interval dengan lebar sama (equal-width interval).</p>
+<ul class="simple">
+<li><p>Kelebihan:<br />
+Mudah untuk diimplementasikan dan dipahami.</p></li>
+<li><p>Kekurangan:<br />
+Dapat menghasilkan bin dengan distribusi data yang sangat tidak merata.</p></li>
+</ul>
+<p><strong>2. Equal-Frequency Binning</strong><br />
+Algoritma diskritisasi berdasarkan Fungsi Distribusi Kumulatif (CDF) untuk membagi data numerik menjadi sejumlah interval dengan frekuensi yang sama (Equal-Frequency Discretization).</p>
+<ul class="simple">
+<li><p>Kelebihan:<br />
+Menjamin ukuran bin yang seimbang, sehingga menghindari bin yang jarang (sparse bins).</p></li>
+<li><p>Kekurangan:<br />
+Lebar bin dapat sangat berbeda-beda.</p></li>
+</ul>
+</section>
+<section id="mengambil-data-iris-asli">
+<h2>mengambil data iris asli<a class="headerlink" href="#mengambil-data-iris-asli" title="Link to this heading">#</a></h2>
+<p>Menyeleksi fitur sepal_length dari dataset sebagai tahap awal sebelum dilakukan proses diskritisasi (binning) atau analisis lanjutan.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Membaca data CSV</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cleaned_data.csv&quot;</span><span class="p">)</span>  <span class="c1"># Ganti &quot;nama_file.csv&quot; dengan nama file kamu</span>
+
+<span class="c1"># Menyimpan hanya kolom &#39;sepal_length&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;sepal_length&#39;</span><span class="p">]]</span>
+
+<span class="c1"># Menampilkan hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     sepal_length
+0             4.9
+1             4.7
+2             4.6
+3             5.0
+4             5.4
+..            ...
+130           6.7
+131           6.3
+132           6.5
+133           6.2
+134           5.9
+
+[135 rows x 1 columns]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="proses-clustering-fitur-sepal-length-menggunakan-algoritma-kmeans-menjadi-4-cluster">
+<h2>Proses clustering fitur sepal length menggunakan algoritma KMeans menjadi 4 cluster.<a class="headerlink" href="#proses-clustering-fitur-sepal-length-menggunakan-algoritma-kmeans-menjadi-4-cluster" title="Link to this heading">#</a></h2>
+<p>Mengelompokkan nilai sepal length ke dalam 4 kategori (cluster) berdasarkan kemiripan nilai menggunakan algoritma KMeans.
+Hasil klaster ini digunakan sebagai dasar diskritisasi ke dalam label kategori.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="c1"># Load dataset Iris</span>
+<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>
+
+<span class="c1"># Gunakan hanya fitur &#39;sepal length (cm)&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">]]</span>
+
+<span class="c1"># KMeans Clustering (4 klaster)</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># Ambil pusat cluster (centroids)</span>
+<span class="n">centroids</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">cluster_centers_</span>
+
+<span class="c1"># Set opsi agar seluruh baris tampil</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Tampilkan semua hasil clustering dan pusat klaster</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hasil klustering (seluruh data):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Pusat cluster (centroid):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">centroids</span><span class="p">)</span>
+
+<span class="c1"># Visualisasi hasil klustering dan centroid</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centroids</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">centroids</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Centroid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Sepal Length (cm)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;KMeans Clustering on Sepal Length (with Centroids)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>  <span class="c1"># Hilangkan sumbu Y karena hanya satu fitur</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hasil klustering (seluruh data):
+     sepal length (cm)  cluster
+0                  5.1        2
+1                  4.9        2
+2                  4.7        2
+3                  4.6        2
+4                  5.0        2
+5                  5.4        0
+6                  4.6        2
+7                  5.0        2
+8                  4.4        2
+9                  4.9        2
+10                 5.4        0
+11                 4.8        2
+12                 4.8        2
+13                 4.3        2
+14                 5.8        0
+15                 5.7        0
+16                 5.4        0
+17                 5.1        2
+18                 5.7        0
+19                 5.1        2
+20                 5.4        0
+21                 5.1        2
+22                 4.6        2
+23                 5.1        2
+24                 4.8        2
+25                 5.0        2
+26                 5.0        2
+27                 5.2        2
+28                 5.2        2
+29                 4.7        2
+30                 4.8        2
+31                 5.4        0
+32                 5.2        2
+33                 5.5        0
+34                 4.9        2
+35                 5.0        2
+36                 5.5        0
+37                 4.9        2
+38                 4.4        2
+39                 5.1        2
+40                 5.0        2
+41                 4.5        2
+42                 4.4        2
+43                 5.0        2
+44                 5.1        2
+45                 4.8        2
+46                 5.1        2
+47                 4.6        2
+48                 5.3        0
+49                 5.0        2
+50                 7.0        1
+51                 6.4        3
+52                 6.9        1
+53                 5.5        0
+54                 6.5        3
+55                 5.7        0
+56                 6.3        3
+57                 4.9        2
+58                 6.6        3
+59                 5.2        2
+60                 5.0        2
+61                 5.9        0
+62                 6.0        0
+63                 6.1        3
+64                 5.6        0
+65                 6.7        3
+66                 5.6        0
+67                 5.8        0
+68                 6.2        3
+69                 5.6        0
+70                 5.9        0
+71                 6.1        3
+72                 6.3        3
+73                 6.1        3
+74                 6.4        3
+75                 6.6        3
+76                 6.8        3
+77                 6.7        3
+78                 6.0        0
+79                 5.7        0
+80                 5.5        0
+81                 5.5        0
+82                 5.8        0
+83                 6.0        0
+84                 5.4        0
+85                 6.0        0
+86                 6.7        3
+87                 6.3        3
+88                 5.6        0
+89                 5.5        0
+90                 5.5        0
+91                 6.1        3
+92                 5.8        0
+93                 5.0        2
+94                 5.6        0
+95                 5.7        0
+96                 5.7        0
+97                 6.2        3
+98                 5.1        2
+99                 5.7        0
+100                6.3        3
+101                5.8        0
+102                7.1        1
+103                6.3        3
+104                6.5        3
+105                7.6        1
+106                4.9        2
+107                7.3        1
+108                6.7        3
+109                7.2        1
+110                6.5        3
+111                6.4        3
+112                6.8        3
+113                5.7        0
+114                5.8        0
+115                6.4        3
+116                6.5        3
+117                7.7        1
+118                7.7        1
+119                6.0        0
+120                6.9        1
+121                5.6        0
+122                7.7        1
+123                6.3        3
+124                6.7        3
+125                7.2        1
+126                6.2        3
+127                6.1        3
+128                6.4        3
+129                7.2        1
+130                7.4        1
+131                7.9        1
+132                6.4        3
+133                6.3        3
+134                6.1        3
+135                7.7        1
+136                6.3        3
+137                6.4        3
+138                6.0        0
+139                6.9        1
+140                6.7        3
+141                6.9        1
+142                5.8        0
+143                6.8        3
+144                6.7        3
+145                6.7        3
+146                6.3        3
+147                6.5        3
+148                6.2        3
+149                5.9        0
+
+Pusat cluster (centroid):
+[[5.675     ]
+ [7.31176471]
+ [4.88666667]
+ [6.42272727]]
+</pre></div>
+</div>
+<img alt="_images/24669494de36bee130a8e8335a561b36a58089297c1c9d70bd20cde9e11cdb73.png" src="_images/24669494de36bee130a8e8335a561b36a58089297c1c9d70bd20cde9e11cdb73.png" />
+</div>
+</div>
+</section>
+<section id="menentukan-nilai-minimum-dan-maksimum-dari-fitur-sepal-length">
+<h2>Menentukan nilai minimum dan maksimum dari fitur sepal length<a class="headerlink" href="#menentukan-nilai-minimum-dan-maksimum-dari-fitur-sepal-length" title="Link to this heading">#</a></h2>
+<p>Digunakan untuk memahami rentang nilai sepal length sebelum dilakukan diskritisasi atau transformasi lainnya. karena setelah didiskritisasi, nilai sepal length (cm) akan berubah menjadi kategori seperti ‘a’, ‘b’, ‘c’, ‘d’,</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cari nilai minimum dan maksimum dari sepal length</span>
+<span class="n">min_value</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">max_value</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nilai minimum sepal length: </span><span class="si">{</span><span class="n">min_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nilai maksimum sepal length: </span><span class="si">{</span><span class="n">max_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nilai minimum sepal length: 4.3
+Nilai maksimum sepal length: 7.9
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="diskritisasi-fitur-sepal-length">
+<h2>Diskritisasi fitur sepal length<a class="headerlink" href="#diskritisasi-fitur-sepal-length" title="Link to this heading">#</a></h2>
+<p>Melakukan diskritisasi fitur sepal length menjadi kategori (a–d) menggunakan kuantil, lalu menerapkan KMeans clustering (k=4) pada fitur lainnya, dan divisualisasikan terhadap nilai sepal length.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="c1"># Load dataset Iris</span>
+<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>
+
+<span class="c1"># Konversi &#39;sepal length (cm)&#39; menjadi 4 kategori: a, b, c, d berdasarkan kuantil</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">])</span>
+
+<span class="c1"># Simpan fitur numerik untuk clustering (selain sepal length)</span>
+<span class="n">features_for_clustering</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">])</span>
+
+<span class="c1"># KMeans clustering dengan 4 klaster</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">features_for_clustering</span><span class="p">)</span>
+
+<span class="c1"># Ambil pusat cluster</span>
+<span class="n">centroid_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">kmeans</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">features_for_clustering</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Hitung nilai minimum dan maksimum dari fitur numerik</span>
+<span class="n">min_vals</span> <span class="o">=</span> <span class="n">features_for_clustering</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">max_vals</span> <span class="o">=</span> <span class="n">features_for_clustering</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+<span class="c1"># Set opsi Pandas agar semua baris dan kolom tampil</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># === TAMPILKAN HASIL ===</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Seluruh data hasil clustering:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]))</span>  <span class="c1"># ⛔️ Hapus kolom cluster dari tampilan</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Pusat cluster (centroid):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">centroid_df</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Nilai minimum tiap fitur numerik:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">min_vals</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Nilai maksimum tiap fitur numerik:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">max_vals</span><span class="p">)</span>
+
+<span class="c1"># === VISUALISASI ===</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)[</span><span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">],</span> 
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> 
+            <span class="n">c</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">kmeans</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> 
+            <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Centroid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Sepal Length (cm)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;KMeans Clustering Berdasarkan Sepal Length&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>  <span class="c1"># Menghilangkan sumbu Y karena hanya pakai satu fitur</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Seluruh data hasil clustering:
+    sepal length (cm)  sepal width (cm)  petal length (cm)  petal width (cm)
+0                   a               3.5                1.4               0.2
+1                   a               3.0                1.4               0.2
+2                   a               3.2                1.3               0.2
+3                   a               3.1                1.5               0.2
+4                   a               3.6                1.4               0.2
+5                   b               3.9                1.7               0.4
+6                   a               3.4                1.4               0.3
+7                   a               3.4                1.5               0.2
+8                   a               2.9                1.4               0.2
+9                   a               3.1                1.5               0.1
+10                  b               3.7                1.5               0.2
+11                  a               3.4                1.6               0.2
+12                  a               3.0                1.4               0.1
+13                  a               3.0                1.1               0.1
+14                  b               4.0                1.2               0.2
+15                  b               4.4                1.5               0.4
+16                  b               3.9                1.3               0.4
+17                  a               3.5                1.4               0.3
+18                  b               3.8                1.7               0.3
+19                  a               3.8                1.5               0.3
+20                  b               3.4                1.7               0.2
+21                  a               3.7                1.5               0.4
+22                  a               3.6                1.0               0.2
+23                  a               3.3                1.7               0.5
+24                  a               3.4                1.9               0.2
+25                  a               3.0                1.6               0.2
+26                  a               3.4                1.6               0.4
+27                  b               3.5                1.5               0.2
+28                  b               3.4                1.4               0.2
+29                  a               3.2                1.6               0.2
+30                  a               3.1                1.6               0.2
+31                  b               3.4                1.5               0.4
+32                  b               4.1                1.5               0.1
+33                  b               4.2                1.4               0.2
+34                  a               3.1                1.5               0.2
+35                  a               3.2                1.2               0.2
+36                  b               3.5                1.3               0.2
+37                  a               3.6                1.4               0.1
+38                  a               3.0                1.3               0.2
+39                  a               3.4                1.5               0.2
+40                  a               3.5                1.3               0.3
+41                  a               2.3                1.3               0.3
+42                  a               3.2                1.3               0.2
+43                  a               3.5                1.6               0.6
+44                  a               3.8                1.9               0.4
+45                  a               3.0                1.4               0.3
+46                  a               3.8                1.6               0.2
+47                  a               3.2                1.4               0.2
+48                  b               3.7                1.5               0.2
+49                  a               3.3                1.4               0.2
+50                  d               3.2                4.7               1.4
+51                  c               3.2                4.5               1.5
+52                  d               3.1                4.9               1.5
+53                  b               2.3                4.0               1.3
+54                  d               2.8                4.6               1.5
+55                  b               2.8                4.5               1.3
+56                  c               3.3                4.7               1.6
+57                  a               2.4                3.3               1.0
+58                  d               2.9                4.6               1.3
+59                  b               2.7                3.9               1.4
+60                  a               2.0                3.5               1.0
+61                  c               3.0                4.2               1.5
+62                  c               2.2                4.0               1.0
+63                  c               2.9                4.7               1.4
+64                  b               2.9                3.6               1.3
+65                  d               3.1                4.4               1.4
+66                  b               3.0                4.5               1.5
+67                  b               2.7                4.1               1.0
+68                  c               2.2                4.5               1.5
+69                  b               2.5                3.9               1.1
+70                  c               3.2                4.8               1.8
+71                  c               2.8                4.0               1.3
+72                  c               2.5                4.9               1.5
+73                  c               2.8                4.7               1.2
+74                  c               2.9                4.3               1.3
+75                  d               3.0                4.4               1.4
+76                  d               2.8                4.8               1.4
+77                  d               3.0                5.0               1.7
+78                  c               2.9                4.5               1.5
+79                  b               2.6                3.5               1.0
+80                  b               2.4                3.8               1.1
+81                  b               2.4                3.7               1.0
+82                  b               2.7                3.9               1.2
+83                  c               2.7                5.1               1.6
+84                  b               3.0                4.5               1.5
+85                  c               3.4                4.5               1.6
+86                  d               3.1                4.7               1.5
+87                  c               2.3                4.4               1.3
+88                  b               3.0                4.1               1.3
+89                  b               2.5                4.0               1.3
+90                  b               2.6                4.4               1.2
+91                  c               3.0                4.6               1.4
+92                  b               2.6                4.0               1.2
+93                  a               2.3                3.3               1.0
+94                  b               2.7                4.2               1.3
+95                  b               3.0                4.2               1.2
+96                  b               2.9                4.2               1.3
+97                  c               2.9                4.3               1.3
+98                  a               2.5                3.0               1.1
+99                  b               2.8                4.1               1.3
+100                 c               3.3                6.0               2.5
+101                 b               2.7                5.1               1.9
+102                 d               3.0                5.9               2.1
+103                 c               2.9                5.6               1.8
+104                 d               3.0                5.8               2.2
+105                 d               3.0                6.6               2.1
+106                 a               2.5                4.5               1.7
+107                 d               2.9                6.3               1.8
+108                 d               2.5                5.8               1.8
+109                 d               3.6                6.1               2.5
+110                 d               3.2                5.1               2.0
+111                 c               2.7                5.3               1.9
+112                 d               3.0                5.5               2.1
+113                 b               2.5                5.0               2.0
+114                 b               2.8                5.1               2.4
+115                 c               3.2                5.3               2.3
+116                 d               3.0                5.5               1.8
+117                 d               3.8                6.7               2.2
+118                 d               2.6                6.9               2.3
+119                 c               2.2                5.0               1.5
+120                 d               3.2                5.7               2.3
+121                 b               2.8                4.9               2.0
+122                 d               2.8                6.7               2.0
+123                 c               2.7                4.9               1.8
+124                 d               3.3                5.7               2.1
+125                 d               3.2                6.0               1.8
+126                 c               2.8                4.8               1.8
+127                 c               3.0                4.9               1.8
+128                 c               2.8                5.6               2.1
+129                 d               3.0                5.8               1.6
+130                 d               2.8                6.1               1.9
+131                 d               3.8                6.4               2.0
+132                 c               2.8                5.6               2.2
+133                 c               2.8                5.1               1.5
+134                 c               2.6                5.6               1.4
+135                 d               3.0                6.1               2.3
+136                 c               3.4                5.6               2.4
+137                 c               3.1                5.5               1.8
+138                 c               3.0                4.8               1.8
+139                 d               3.1                5.4               2.1
+140                 d               3.1                5.6               2.4
+141                 d               3.1                5.1               2.3
+142                 b               2.7                5.1               1.9
+143                 d               3.2                5.9               2.3
+144                 d               3.3                5.7               2.5
+145                 d               3.0                5.2               2.3
+146                 c               2.5                5.0               1.9
+147                 d               3.0                5.2               2.0
+148                 c               3.4                5.4               2.3
+149                 c               3.0                5.1               1.8
+
+Pusat cluster (centroid):
+   sepal width (cm)  petal length (cm)  petal width (cm)
+0          2.614815           3.922222          1.196296
+1          3.428000           1.462000          0.246000
+2          3.090909           5.824242          2.139394
+3          2.865000           4.812500          1.617500
+
+Nilai minimum tiap fitur numerik:
+sepal width (cm)     2.0
+petal length (cm)    1.0
+petal width (cm)     0.1
+dtype: float64
+
+Nilai maksimum tiap fitur numerik:
+sepal width (cm)     4.4
+petal length (cm)    6.9
+petal width (cm)     2.5
+dtype: float64
+</pre></div>
+</div>
+<img alt="_images/8ffc0c791e234c196f270676d6ddeb2d6ca34052bdbde746ef6fd79fc48db1ac.png" src="_images/8ffc0c791e234c196f270676d6ddeb2d6ca34052bdbde746ef6fd79fc48db1ac.png" />
+</div>
+</div>
+</section>
+<section id="diskritisasi-semua-fitur-pada-data-iris">
+<h2>Diskritisasi semua fitur pada data iris<a class="headerlink" href="#diskritisasi-semua-fitur-pada-data-iris" title="Link to this heading">#</a></h2>
+<p>Proses ini mencakup diskritisasi seluruh fitur numerik pada dataset Iris ke dalam kategori berdasarkan kuantil—dengan 4 kategori untuk sepal length dan petal length, serta 3 kategori untuk sepal width dan petal width. Selanjutnya, kategori ini dikonversi ke bentuk numerik melalui label encoding agar dapat diproses oleh algoritma KMeans. Setelah itu, dilakukan klasterisasi dengan KMeans (k=4), dan hasil klaster divisualisasikan menggunakan fitur petal width dan petal length yang telah dikodekan, lengkap dengan tampilan pusat cluster (centroid).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="c1"># Load dataset Iris</span>
+<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>
+
+<span class="c1"># Konversi fitur menjadi kategori kuantil</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal width (cm)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal width (cm)&#39;</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal length (cm)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal length (cm)&#39;</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal width (cm)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal width (cm)&#39;</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">])</span>
+
+<span class="c1"># Encode kategori untuk clustering</span>
+<span class="n">df_encoded</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">col</span><span class="p">:</span> <span class="n">col</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span><span class="p">)</span>
+
+<span class="c1"># Lakukan clustering</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">clusters</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">df_encoded</span><span class="p">)</span>
+
+<span class="c1"># Simpan cluster di df, tapi jangan tampilkan nanti</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clusters</span>
+
+<span class="c1"># Ambil centroid</span>
+<span class="n">centroids</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">kmeans</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">df_encoded</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+<span class="c1"># Set opsi agar semua baris ditampilkan</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># ✅ TAMPILKAN DATA KATEGORI (tanpa kolom cluster)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Seluruh data hasil clustering:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]))</span>
+
+<span class="c1"># ✅ TAMPILKAN PUSAT CLUSTER</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Pusat cluster (centroid) dari data yang dikodekan:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">centroids</span><span class="p">)</span>
+
+<span class="c1"># ✅ VISUALISASI</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_encoded</span><span class="p">[</span><span class="s1">&#39;petal width (cm)&#39;</span><span class="p">],</span>
+            <span class="n">df_encoded</span><span class="p">[</span><span class="s1">&#39;petal length (cm)&#39;</span><span class="p">],</span>
+            <span class="n">c</span><span class="o">=</span><span class="n">clusters</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">centroids</span><span class="p">[</span><span class="s1">&#39;petal width (cm)&#39;</span><span class="p">],</span> <span class="n">centroids</span><span class="p">[</span><span class="s1">&#39;petal length (cm)&#39;</span><span class="p">],</span>
+            <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Centroid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Petal Width (encoded)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Petal Length (encoded)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;KMeans Clustering (4 Klaster) - Data Kategori (Encoded)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Seluruh data hasil clustering:
+    sepal length (cm) sepal width (cm) petal length (cm) petal width (cm)
+0                   a                c                 a                a
+1                   a                b                 a                a
+2                   a                b                 a                a
+3                   a                b                 a                a
+4                   a                c                 a                a
+5                   b                c                 b                a
+6                   a                c                 a                a
+7                   a                c                 a                a
+8                   a                a                 a                a
+9                   a                b                 a                a
+10                  b                c                 a                a
+11                  a                c                 a                a
+12                  a                b                 a                a
+13                  a                b                 a                a
+14                  b                c                 a                a
+15                  b                c                 a                a
+16                  b                c                 a                a
+17                  a                c                 a                a
+18                  b                c                 b                a
+19                  a                c                 a                a
+20                  b                c                 b                a
+21                  a                c                 a                a
+22                  a                c                 a                a
+23                  a                c                 b                a
+24                  a                c                 b                a
+25                  a                b                 a                a
+26                  a                c                 a                a
+27                  b                c                 a                a
+28                  b                c                 a                a
+29                  a                b                 a                a
+30                  a                b                 a                a
+31                  b                c                 a                a
+32                  b                c                 a                a
+33                  b                c                 a                a
+34                  a                b                 a                a
+35                  a                b                 a                a
+36                  b                c                 a                a
+37                  a                c                 a                a
+38                  a                b                 a                a
+39                  a                c                 a                a
+40                  a                c                 a                a
+41                  a                a                 a                a
+42                  a                b                 a                a
+43                  a                c                 a                a
+44                  a                c                 b                a
+45                  a                b                 a                a
+46                  a                c                 a                a
+47                  a                b                 a                a
+48                  b                c                 a                a
+49                  a                c                 a                a
+50                  d                b                 c                b
+51                  c                b                 c                b
+52                  d                b                 c                b
+53                  b                a                 b                b
+54                  d                a                 c                b
+55                  b                a                 c                b
+56                  c                c                 c                b
+57                  a                a                 b                b
+58                  d                a                 c                b
+59                  b                a                 b                b
+60                  a                a                 b                b
+61                  c                b                 b                b
+62                  c                a                 b                b
+63                  c                a                 c                b
+64                  b                a                 b                b
+65                  d                b                 c                b
+66                  b                b                 c                b
+67                  b                a                 b                b
+68                  c                a                 c                b
+69                  b                a                 b                b
+70                  c                b                 c                c
+71                  c                a                 b                b
+72                  c                a                 c                b
+73                  c                a                 c                b
+74                  c                a                 b                b
+75                  d                b                 c                b
+76                  d                a                 c                b
+77                  d                b                 c                c
+78                  c                a                 c                b
+79                  b                a                 b                b
+80                  b                a                 b                b
+81                  b                a                 b                b
+82                  b                a                 b                b
+83                  c                a                 c                b
+84                  b                b                 c                b
+85                  c                c                 c                b
+86                  d                b                 c                b
+87                  c                a                 c                b
+88                  b                b                 b                b
+89                  b                a                 b                b
+90                  b                a                 c                b
+91                  c                b                 c                b
+92                  b                a                 b                b
+93                  a                a                 b                b
+94                  b                a                 b                b
+95                  b                b                 b                b
+96                  b                a                 b                b
+97                  c                a                 b                b
+98                  a                a                 b                b
+99                  b                a                 b                b
+100                 c                c                 d                c
+101                 b                a                 c                c
+102                 d                b                 d                c
+103                 c                a                 d                c
+104                 d                b                 d                c
+105                 d                b                 d                c
+106                 a                a                 c                c
+107                 d                a                 d                c
+108                 d                a                 d                c
+109                 d                c                 d                c
+110                 d                b                 c                c
+111                 c                a                 d                c
+112                 d                b                 d                c
+113                 b                a                 c                c
+114                 b                a                 c                c
+115                 c                b                 d                c
+116                 d                b                 d                c
+117                 d                c                 d                c
+118                 d                a                 d                c
+119                 c                a                 c                b
+120                 d                b                 d                c
+121                 b                a                 c                c
+122                 d                a                 d                c
+123                 c                a                 c                c
+124                 d                c                 d                c
+125                 d                b                 d                c
+126                 c                a                 c                c
+127                 c                b                 c                c
+128                 c                a                 d                c
+129                 d                b                 d                b
+130                 d                a                 d                c
+131                 d                c                 d                c
+132                 c                a                 d                c
+133                 c                a                 c                b
+134                 c                a                 d                b
+135                 d                b                 d                c
+136                 c                c                 d                c
+137                 c                b                 d                c
+138                 c                b                 c                c
+139                 d                b                 d                c
+140                 d                b                 d                c
+141                 d                b                 c                c
+142                 b                a                 c                c
+143                 d                b                 d                c
+144                 d                c                 d                c
+145                 d                b                 d                c
+146                 c                a                 c                c
+147                 d                b                 d                c
+148                 c                c                 d                c
+149                 c                b                 c                c
+
+Pusat cluster (centroid) dari data yang dikodekan:
+   sepal length (cm)  sepal width (cm)  petal length (cm)  petal width (cm)
+0           0.896552          0.068966           1.034483      9.655172e-01
+1           2.843750          1.093750           2.906250      1.968750e+00
+2           0.291667          1.687500           0.125000      3.330669e-16
+3           2.024390          0.439024           2.097561      1.390244e+00
+</pre></div>
+</div>
+<img alt="_images/bc76bdce0d4eedb33ec49c176e181b5a08f08dbd5f2e2510009fe02fd7e71913.png" src="_images/bc76bdce0d4eedb33ec49c176e181b5a08f08dbd5f2e2510009fe02fd7e71913.png" />
+</div>
+</div>
+</section>
+<section id="klasifikasi-dengan-naive-bayes-dan-decision-tree">
+<h2>Klasifikasi dengan Naive Bayes dan Decision Tree<a class="headerlink" href="#klasifikasi-dengan-naive-bayes-dan-decision-tree" title="Link to this heading">#</a></h2>
+<p>Model klasifikasi Naive Bayes dan Decision Tree diterapkan pada dua versi data:</p>
+<ol class="arabic simple">
+<li><p>Data asli (belum didiskritisasi): Menggunakan fitur numerik asli dari dataset Iris.</p></li>
+<li><p>Data yang telah didiskritisasi: Menggunakan versi fitur yang telah dikonversi menjadi kategori dan di-encode menjadi angka.</p></li>
+</ol>
+<p>Setiap model dievaluasi dengan akurasi dan classification report untuk melihat performa prediksi terhadap tiga kelas spesies Iris.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># 1. Load data asli</span>
+<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X_original</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
+
+<span class="c1"># 2. Diskritisasi dengan qcut</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">X_original</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal width (cm)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;sepal width (cm)&#39;</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal length (cm)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal length (cm)&#39;</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal width (cm)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;petal width (cm)&#39;</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">])</span>
+
+<span class="c1"># Label encoding</span>
+<span class="n">X_discretized</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">col</span><span class="p">:</span> <span class="n">col</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span><span class="p">)</span>
+
+<span class="c1"># 3. Split data (original dan discretized)</span>
+<span class="n">Xo_train</span><span class="p">,</span> <span class="n">Xo_test</span><span class="p">,</span> <span class="n">yo_train</span><span class="p">,</span> <span class="n">yo_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_original</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">Xd_train</span><span class="p">,</span> <span class="n">Xd_test</span><span class="p">,</span> <span class="n">yd_train</span><span class="p">,</span> <span class="n">yd_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_discretized</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># 4. Model: Naive Bayes dan Decision Tree (Original)</span>
+<span class="n">nb</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">nb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xo_train</span><span class="p">,</span> <span class="n">yo_train</span><span class="p">)</span>
+<span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xo_train</span><span class="p">,</span> <span class="n">yo_train</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Naive Bayes (Original Data) ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">yo_test</span><span class="p">,</span> <span class="n">nb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xo_test</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Akurasi:&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">yo_test</span><span class="p">,</span> <span class="n">nb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xo_test</span><span class="p">)))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Decision Tree (Original Data) ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">yo_test</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xo_test</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Akurasi:&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">yo_test</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xo_test</span><span class="p">)))</span>
+
+<span class="c1"># 5. Model: Naive Bayes dan Decision Tree (Discretized)</span>
+<span class="n">nb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xd_train</span><span class="p">,</span> <span class="n">yd_train</span><span class="p">)</span>
+<span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xd_train</span><span class="p">,</span> <span class="n">yd_train</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Naive Bayes (Discretized Data) ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">yd_test</span><span class="p">,</span> <span class="n">nb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xd_test</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Akurasi:&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">yd_test</span><span class="p">,</span> <span class="n">nb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xd_test</span><span class="p">)))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Decision Tree (Discretized Data) ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">yd_test</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xd_test</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Akurasi:&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">yd_test</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xd_test</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Naive Bayes (Original Data) ===
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        19
+           1       1.00      0.92      0.96        13
+           2       0.93      1.00      0.96        13
+
+    accuracy                           0.98        45
+   macro avg       0.98      0.97      0.97        45
+weighted avg       0.98      0.98      0.98        45
+
+Akurasi: 0.9777777777777777
+
+=== Decision Tree (Original Data) ===
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        19
+           1       1.00      1.00      1.00        13
+           2       1.00      1.00      1.00        13
+
+    accuracy                           1.00        45
+   macro avg       1.00      1.00      1.00        45
+weighted avg       1.00      1.00      1.00        45
+
+Akurasi: 1.0
+
+=== Naive Bayes (Discretized Data) ===
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        19
+           1       1.00      0.85      0.92        13
+           2       0.87      1.00      0.93        13
+
+    accuracy                           0.96        45
+   macro avg       0.96      0.95      0.95        45
+weighted avg       0.96      0.96      0.96        45
+
+Akurasi: 0.9555555555555556
+
+=== Decision Tree (Discretized Data) ===
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        19
+           1       0.87      1.00      0.93        13
+           2       1.00      0.85      0.92        13
+
+    accuracy                           0.96        45
+   macro avg       0.96      0.95      0.95        45
+weighted avg       0.96      0.96      0.96        45
+
+Akurasi: 0.9555555555555556
+</pre></div>
+</div>
+</div>
+</div>
+<p>menjelaskan proses diskritisasi menggunakan k-means klustering pada data iris dan lakukan klasifikasi dengan model naive bayes dan pohon keputusan pada data yang sudah di discretisasi dan belum didiscretasi dikumpulkan di web statis</p>
+<p>klasifikasi data kategorikal bandingkan hasil klasifikasi dengan kategorisasi dan tanpa kategorisasi
+cerita prosesnya</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Simpan akurasi</span>
+<span class="n">akurasi_nb_ori</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">yo_test</span><span class="p">,</span> <span class="n">nb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xo_test</span><span class="p">))</span>
+<span class="n">akurasi_dt_ori</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">yo_test</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xo_test</span><span class="p">))</span>
+<span class="n">akurasi_nb_dis</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">yd_test</span><span class="p">,</span> <span class="n">nb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xd_test</span><span class="p">))</span>
+<span class="n">akurasi_dt_dis</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">yd_test</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xd_test</span><span class="p">))</span>
+
+<span class="c1"># Visualisasi</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Naive Bayes&#39;</span><span class="p">,</span> <span class="s1">&#39;Decision Tree&#39;</span><span class="p">]</span>
+<span class="n">original</span> <span class="o">=</span> <span class="p">[</span><span class="n">akurasi_nb_ori</span><span class="p">,</span> <span class="n">akurasi_dt_ori</span><span class="p">]</span>
+<span class="n">discretized</span> <span class="o">=</span> <span class="p">[</span><span class="n">akurasi_nb_dis</span><span class="p">,</span> <span class="n">akurasi_dt_dis</span><span class="p">]</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+<span class="n">width</span> <span class="o">=</span> <span class="mf">0.35</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">original</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original Data&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="n">i</span> <span class="o">+</span> <span class="n">width</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="p">],</span> <span class="n">discretized</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Discretized Data&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Model&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Accuracy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Akurasi Model Sebelum dan Sesudah Diskritisasi&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="n">i</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="p">],</span> <span class="n">labels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/eb44af92a7b86455aa91dd2d7b3f5f6d848b4c125932227a11b76d35e25b174f.png" src="_images/eb44af92a7b86455aa91dd2d7b3f5f6d848b4c125932227a11b76d35e25b174f.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="clustering.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><strong>clustering</strong></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Tugas%20pra-uas.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Penyakit Ginjal Kronis (Chronic Kidney Disease - CKD)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-binning">Apa itu Binning ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengapa-binning-penting">Mengapa Binning Penting?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#macam-macam-teknik-binning">Macam-macam Teknik Binning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengambil-data-iris-asli">mengambil data iris asli</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proses-clustering-fitur-sepal-length-menggunakan-algoritma-kmeans-menjadi-4-cluster">Proses clustering fitur sepal length menggunakan algoritma KMeans menjadi 4 cluster.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-nilai-minimum-dan-maksimum-dari-fitur-sepal-length">Menentukan nilai minimum dan maksimum dari fitur sepal length</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diskritisasi-fitur-sepal-length">Diskritisasi fitur sepal length</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diskritisasi-semua-fitur-pada-data-iris">Diskritisasi semua fitur pada data iris</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#klasifikasi-dengan-naive-bayes-dan-decision-tree">Klasifikasi dengan Naive Bayes dan Decision Tree</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

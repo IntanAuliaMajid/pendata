@@ -1,0 +1,779 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Naive Bayes Classifier &#8212; Pendata</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ModelingData';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Ujian Tengah Semester" href="UTS.html" />
+    <link rel="prev" title="Memahami Data" href="MemahamiData.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Pendata - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Pendata - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Penambangan Data IF4D
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="MemahamiData.html">Memahami Data</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Naive Bayes Classifier</strong></a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="UTS.html">Ujian Tengah Semester</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html"><strong>clustering</strong></a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Bining%20%28Diskritisasi%29%20menggunakan%20k-means.html">Binning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tugas%20pra-uas.html">Penyakit Ginjal Kronis (Chronic Kidney Disease - CKD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UAS.html">UAS IF4D</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/IntanAuliaMajid/pendata" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/IntanAuliaMajid/pendata/issues/new?title=Issue%20on%20page%20%2FModelingData.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/ModelingData.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Naive Bayes Classifier</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Naive Bayes Classifier</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teori-dasar-naive-bayes"><strong>1. Teori Dasar Naïve Bayes</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prinsip-naive-independensi-fitur"><strong>2. Prinsip “Naive” (Independensi Fitur)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jenis-naive-bayes"><strong>3. Jenis Naive Bayes</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-gaussian-naive-bayes-untuk-data-numerik"><strong>a) Gaussian Naive Bayes</strong> (Untuk Data Numerik)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-multinomial-naive-bayes-untuk-data-kategori"><strong>b) Multinomial Naive Bayes</strong> (Untuk Data Kategori)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-bernoulli-naive-bayes-untuk-data-biner"><strong>c) Bernoulli Naive Bayes</strong> (Untuk Data Biner)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan-dan-kekurangan"><strong>4. Kelebihan dan kekurangan :</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan"><strong>Kelebihan :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kekurangan"><strong>Kekurangan :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-penggunaan-naive-bayes"><strong>5. Contoh penggunaan Naive Bayes :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-naive-bayes-untuk-klasifikasi-data"><strong>Implementasi Naive Bayes untuk klasifikasi data</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-pada-data-yang-ada-outliernya">Implementasi pada data yang ada outliernya</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-pada-data-yang-sudah-dihapus-outliernya">Implementasi pada data yang sudah dihapus outliernya</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="naive-bayes-classifier">
+<h1><strong>Naive Bayes Classifier</strong><a class="headerlink" href="#naive-bayes-classifier" title="Link to this heading">#</a></h1>
+<p>Naïve Bayes adalah algoritma klasifikasi berbasis teorema Bayes, yang berasumsi bahwa setiap fitur dalam dataset saling independen satu sama lain</p>
+<section id="teori-dasar-naive-bayes">
+<h2><strong>1. Teori Dasar Naïve Bayes</strong><a class="headerlink" href="#teori-dasar-naive-bayes" title="Link to this heading">#</a></h2>
+<p>Naïve Bayes bekerja dengan menghitung probabilitas suatu kelas berdasarkan data yang ada, menggunakan Teorema Bayes :</p>
+<div class="math notranslate nohighlight">
+\[
+P(A | B) = \frac{P(B | A) \cdot P(A)}{P(B)}
+\]</div>
+<p>Di mana:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( P(A | B) \)</span> = Probabilitas hipotesis <span class="math notranslate nohighlight">\( A \)</span> benar jika diberikan bukti <span class="math notranslate nohighlight">\( B \)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\( P(B | A) \)</span> = Probabilitas mendapatkan bukti <span class="math notranslate nohighlight">\( B \)</span> jika hipotesis <span class="math notranslate nohighlight">\( A \)</span> benar.</p></li>
+<li><p><span class="math notranslate nohighlight">\( P(A) \)</span> = Probabilitas awal hipotesis <span class="math notranslate nohighlight">\( A \)</span> (prior).</p></li>
+<li><p><span class="math notranslate nohighlight">\( P(B) \)</span> = Probabilitas bukti <span class="math notranslate nohighlight">\( B \)</span> terjadi.</p></li>
+</ul>
+</section>
+<section id="prinsip-naive-independensi-fitur">
+<h2><strong>2. Prinsip “Naive” (Independensi Fitur)</strong><a class="headerlink" href="#prinsip-naive-independensi-fitur" title="Link to this heading">#</a></h2>
+<p>Naive Bayes mengasumsikan bahwa setiap fitur dalam dataset <strong>tidak saling bergantung</strong>, sehingga probabilitas gabungan fitur dapat dihitung sebagai:</p>
+<div class="math notranslate nohighlight">
+\[
+P(A | X_1, X_2, ..., X_n) = \frac{P(X_1, X_2, ..., X_n | A) \cdot P(A)}{P(X_1, X_2, ..., X_n)}
+\]</div>
+<p>Karena diasumsikan fitur <strong>independen</strong>, maka :</p>
+<div class="math notranslate nohighlight">
+\[
+P(X_1, X_2, ..., X_n | A) = P(X_1 | A) \cdot P(X_2 | A) \cdot ... \cdot P(X_n | A)
+\]</div>
+<p>Sehingga :</p>
+<div class="math notranslate nohighlight">
+\[
+P(A | X_1, X_2, ..., X_n) = \frac{P(A) \cdot \prod_{i=1}^{n} P(X_i | A)}{P(X_1, X_2, ..., X_n)}
+\]</div>
+</section>
+<section id="jenis-naive-bayes">
+<h2><strong>3. Jenis Naive Bayes</strong><a class="headerlink" href="#jenis-naive-bayes" title="Link to this heading">#</a></h2>
+<section id="a-gaussian-naive-bayes-untuk-data-numerik">
+<h3><strong>a) Gaussian Naive Bayes</strong> (Untuk Data Numerik)<a class="headerlink" href="#a-gaussian-naive-bayes-untuk-data-numerik" title="Link to this heading">#</a></h3>
+<p>Jika fitur <span class="math notranslate nohighlight">\( X \)</span> mengikuti <strong>distribusi normal (Gaussian)</strong>, maka probabilitas dihitung dengan :</p>
+<div class="math notranslate nohighlight">
+\[
+P(x | C) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{\frac{-(x-\mu)^2}{2\sigma^2}}
+\]</div>
+<p>Di mana :</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( \mu \)</span> = Rata-rata fitur dalam kelas tertentu</p></li>
+<li><p><span class="math notranslate nohighlight">\( \sigma \)</span> = Standar deviasi fitur dalam kelas tertentu</p></li>
+<li><p><span class="math notranslate nohighlight">\( x \)</span> = Nilai fitur</p></li>
+</ul>
+</section>
+<section id="b-multinomial-naive-bayes-untuk-data-kategori">
+<h3><strong>b) Multinomial Naive Bayes</strong> (Untuk Data Kategori)<a class="headerlink" href="#b-multinomial-naive-bayes-untuk-data-kategori" title="Link to this heading">#</a></h3>
+<p>Digunakan untuk <strong>klasifikasi teks</strong> berdasarkan frekuensi kata :</p>
+<div class="math notranslate nohighlight">
+\[
+P(X | C) = \frac{(N_{c, X} + \alpha)}{(N_c + \alpha \cdot d)}
+\]</div>
+<p>Di mana :</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( N_{c, X} \)</span> = Jumlah kata <span class="math notranslate nohighlight">\( X \)</span> dalam kelas <span class="math notranslate nohighlight">\( C \)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\( N_c \)</span> = Total jumlah kata dalam kelas <span class="math notranslate nohighlight">\( C \)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\( d \)</span> = Jumlah total kata unik dalam semua kelas</p></li>
+<li><p><span class="math notranslate nohighlight">\( \alpha \)</span> = Parameter smoothing (Laplace Smoothing)</p></li>
+</ul>
+</section>
+<section id="c-bernoulli-naive-bayes-untuk-data-biner">
+<h3><strong>c) Bernoulli Naive Bayes</strong> (Untuk Data Biner)<a class="headerlink" href="#c-bernoulli-naive-bayes-untuk-data-biner" title="Link to this heading">#</a></h3>
+<p>Digunakan jika fitur hanya memiliki dua kemungkinan (ada/tidak ada) :</p>
+<div class="math notranslate nohighlight">
+\[
+P(X | C) = P(X_1 | C)^{x_1} \cdot P(X_2 | C)^{x_2} \cdot ... \cdot P(X_n | C)^{x_n} \cdot (1 - P(X_1 | C))^{(1 - x_1)}
+\]</div>
+</section>
+</section>
+<section id="kelebihan-dan-kekurangan">
+<h2><strong>4. Kelebihan dan kekurangan :</strong><a class="headerlink" href="#kelebihan-dan-kekurangan" title="Link to this heading">#</a></h2>
+<section id="kelebihan">
+<h3><strong>Kelebihan :</strong><a class="headerlink" href="#kelebihan" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Sederhana dan mudah diimplementasikan.</p></li>
+<li><p>Cepat dan efisien untuk dataset besar.</p></li>
+<li><p>Cocok untuk data dengan banyak fitur.</p></li>
+</ul>
+</section>
+<section id="kekurangan">
+<h3><strong>Kekurangan :</strong><a class="headerlink" href="#kekurangan" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Asumsi independensi fitur seringkali tidak realistis.</p></li>
+<li><p>Performa menurun jika fitur saling bergantung.</p></li>
+<li><p>Memerlukan penanganan khusus untuk data dengan probabilitas nol.</p></li>
+</ul>
+</section>
+</section>
+<section id="contoh-penggunaan-naive-bayes">
+<h2><strong>5. Contoh penggunaan Naive Bayes :</strong><a class="headerlink" href="#contoh-penggunaan-naive-bayes" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Deteksi Email Spam → Mengklasifikasikan email sebagai spam atau tidak.</p></li>
+<li><p>Analisis Sentimen → Menganalisis ulasan positif atau negatif.</p></li>
+<li><p>Klasifikasi Penyakit → Menentukan kemungkinan penyakit berdasarkan gejala.</p></li>
+<li><p>Sistem Rekomendasi Film → Menentukan preferensi pengguna berdasarkan riwayat.</p></li>
+</ol>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="implementasi-naive-bayes-untuk-klasifikasi-data">
+<h1><strong>Implementasi Naive Bayes untuk klasifikasi data</strong><a class="headerlink" href="#implementasi-naive-bayes-untuk-klasifikasi-data" title="Link to this heading">#</a></h1>
+<section id="implementasi-pada-data-yang-ada-outliernya">
+<h2>Implementasi pada data yang ada outliernya<a class="headerlink" href="#implementasi-pada-data-yang-ada-outliernya" title="Link to this heading">#</a></h2>
+<p><strong>Import library</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pip</span> install scikit-learn
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: scikit-learn in /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages (1.6.1)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: numpy&gt;=1.19.5 in /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages (from scikit-learn) (2.1.3)
+Requirement already satisfied: scipy&gt;=1.6.0 in /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages (from scikit-learn) (1.15.3)
+Requirement already satisfied: joblib&gt;=1.2.0 in /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages (from scikit-learn) (1.5.1)
+Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages (from scikit-learn) (3.6.0)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Note: you may need to restart the kernel to use updated packages.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># Membaca file CSV</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;hasil_gabungan.csv&quot;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+<span class="c1"># Memilih fitur dan label</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;petal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_width&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_width&#39;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span>
+
+<span class="c1"># Membagi data menjadi data latih dan data uji</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Inisialisasi model Naïve Bayes</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+
+<span class="c1"># Melatih model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Melakukan prediksi</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Mengukur akurasi model</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Akurasi:&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi: 0.8666666666666667
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="implementasi-pada-data-yang-sudah-dihapus-outliernya">
+<h2>Implementasi pada data yang sudah dihapus outliernya<a class="headerlink" href="#implementasi-pada-data-yang-sudah-dihapus-outliernya" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># Membaca file CSV</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">&quot;cleaned_data.csv&quot;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+<span class="c1"># Memilih fitur dan label</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;petal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;petal_width&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal_width&#39;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span>
+
+<span class="c1"># Membagi data menjadi data latih dan data uji</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Inisialisasi model Naïve Bayes</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+
+<span class="c1"># Melatih model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Melakukan prediksi</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Mengukur akurasi model</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Akurasi:&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi: 1.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="MemahamiData.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Memahami Data</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="UTS.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Ujian Tengah Semester</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Naive Bayes Classifier</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#teori-dasar-naive-bayes"><strong>1. Teori Dasar Naïve Bayes</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prinsip-naive-independensi-fitur"><strong>2. Prinsip “Naive” (Independensi Fitur)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jenis-naive-bayes"><strong>3. Jenis Naive Bayes</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-gaussian-naive-bayes-untuk-data-numerik"><strong>a) Gaussian Naive Bayes</strong> (Untuk Data Numerik)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-multinomial-naive-bayes-untuk-data-kategori"><strong>b) Multinomial Naive Bayes</strong> (Untuk Data Kategori)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-bernoulli-naive-bayes-untuk-data-biner"><strong>c) Bernoulli Naive Bayes</strong> (Untuk Data Biner)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan-dan-kekurangan"><strong>4. Kelebihan dan kekurangan :</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan"><strong>Kelebihan :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kekurangan"><strong>Kekurangan :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-penggunaan-naive-bayes"><strong>5. Contoh penggunaan Naive Bayes :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-naive-bayes-untuk-klasifikasi-data"><strong>Implementasi Naive Bayes untuk klasifikasi data</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-pada-data-yang-ada-outliernya">Implementasi pada data yang ada outliernya</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-pada-data-yang-sudah-dihapus-outliernya">Implementasi pada data yang sudah dihapus outliernya</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
