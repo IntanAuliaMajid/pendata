@@ -134,7 +134,7 @@ def show_modeling_and_evaluation(df):
         st.write("**Catatan**: Model ini menggunakan teknik SMOTE untuk menyeimbangkan data latih.")
         
         smote = SMOTE(random_state=42)
-        X_train_resampled, y_train_resampled = smote.fit_re sample(X_train_scaled, y_train)
+        X_train_resampled, y_train_resampled = smote.fit_resample(X_train_scaled, y_train)
         
         st.write(f"Distribusi kelas sebelum SMOTE: {Counter(y_train)}")
         st.write(f"Distribusi kelas setelah SMOTE: {Counter(y_train_resampled)}")
