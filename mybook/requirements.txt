@@ -2,11 +2,9 @@ jupyter-book
 matplotlib
 numpy
 pandas
-scikit-learn==1.2.2
+scikit-learn
 seaborn
 tqdm
 nltk
 streamlit
 plotly
-xgboost
-imbalanced-learn==0.10.0
