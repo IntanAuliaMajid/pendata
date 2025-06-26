@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from collections import Counter
-import os
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
@@ -86,8 +85,7 @@ def show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test,
         st.write("Menggunakan SMOTE untuk menyeimbangkan data latih.")
         smote = SMOTE(random_state=42)
         X_train_resampled, y_train_resampled = smote.fit_resample(
-            np.array(X_train_scaled), 
-            np.array(y_train).ravel()
+            np.asarray(X_train_scaled), np.asarray(y_train).reshape(-1,)
         )
         st.write(f"Sebelum SMOTE: {Counter(y_train)}")
         st.write(f"Setelah SMOTE: {Counter(y_train_resampled)}")
@@ -117,15 +115,21 @@ def show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test,
 
 def show_conclusion(X_train_scaled, X_test_scaled, y_train, y_test):
     st.title("📊 Perbandingan & Kesimpulan")
-    acc_knn = accuracy_score(y_test, KNeighborsClassifier(n_neighbors=5).fit(X_train_scaled, y_train).predict(X_test_scaled))
-    acc_dt = accuracy_score(y_test, DecisionTreeClassifier(random_state=42).fit(X_train_scaled, y_train).predict(X_test_scaled))
+
+    acc_knn = accuracy_score(
+        y_test, KNeighborsClassifier(n_neighbors=5).fit(X_train_scaled, y_train).predict(X_test_scaled)
+    )
+    acc_dt = accuracy_score(
+        y_test, DecisionTreeClassifier(random_state=42).fit(X_train_scaled, y_train).predict(X_test_scaled)
+    )
 
     smote = SMOTE(random_state=42)
     X_res, y_res = smote.fit_resample(
-        np.array(X_train_scaled), 
-        np.array(y_train).ravel()
+        np.asarray(X_train_scaled), np.asarray(y_train).reshape(-1,)
     )
-    acc_rf = accuracy_score(y_test, RandomForestClassifier(random_state=42).fit(X_res, y_res).predict(X_test_scaled))
+    acc_rf = accuracy_score(
+        y_test, RandomForestClassifier(random_state=42).fit(X_res, y_res).predict(X_test_scaled)
+    )
 
     df_akurasi = pd.DataFrame({
         'Model': ['KNN', 'Decision Tree', 'Random Forest + SMOTE'],
@@ -175,7 +179,6 @@ def main():
             show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test, X_columns)
         elif page == "Kesimpulan":
             show_conclusion(X_train_scaled, X_test_scaled, y_train, y_test)
-
     else:
         st.error("Gagal memuat data.")
 
