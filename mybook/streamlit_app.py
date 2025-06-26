@@ -1,12 +1,10 @@
-import os
-os.system('pip install imbalanced-learn')
-
 import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from collections import Counter
+import os
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
@@ -21,19 +19,21 @@ st.set_page_config(page_title="Analisis Penyakit Hati", page_icon="🩺", layout
 
 @st.cache_data
 def load_and_preprocess_data():
-    url = "https://raw.githubusercontent.com/datasciencedojo/datasets/master/Indian%20Liver%20Patient%20Dataset%20(ILPD).csv"
-    df = pd.read_csv(url)
-    df.columns = [
-        "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin",
-        "Alkaline_Phosphotase", "Alamine_Aminotransferase",
-        "Aspartate_Aminotransferase", "Total_Protiens", "Albumin",
-        "Albumin_and_Globulin_Ratio", "Selector"
-    ]
-    df['Albumin_and_Globulin_Ratio'] = df['Albumin_and_Globulin_Ratio'].fillna(df['Albumin_and_Globulin_Ratio'].median())
-    df['Selector'] = df['Selector'].apply(lambda x: 1 if x == 1 else 0)
-    df['Gender'] = LabelEncoder().fit_transform(df['Gender'])
-    return df
-
+    try:
+        df = pd.read_csv("mybook/Indian Liver Patient Dataset (ILPD).csv", header=None)
+        df.columns = [
+            "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin", 
+            "Alkaline_Phosphotase", "Alamine_Aminotransferase", 
+            "Aspartate_Aminotransferase", "Total_Protiens", "Albumin", 
+            "Albumin_and_Globulin_Ratio", "Selector"
+        ]
+        df['Albumin_and_Globulin_Ratio'] = df['Albumin_and_Globulin_Ratio'].fillna(df['Albumin_and_Globulin_Ratio'].median())
+        df['Selector'] = df['Selector'].apply(lambda x: 1 if x == 1 else 0)
+        df['Gender'] = LabelEncoder().fit_transform(df['Gender'])
+        return df
+    except Exception as e:
+        st.error(f"Gagal memuat dataset: {e}")
+        return None
 
 def show_introduction():
     st.title("UAS Penambangan Data: Analisis Penyakit Hati")
