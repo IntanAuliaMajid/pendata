@@ -1,216 +1,236 @@
+# streamlit_app.py
+
 import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
+from collections import Counter
+
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from imblearn.over_sampling import SMOTE
-from collections import Counter
 
-# Set Streamlit page configuration
-st.set_page_config(layout="wide", page_title="Indian Liver Patient Prediction")
-
-st.title("UAS IF4D: Prediksi Penyakit Hati (Indian Liver Patient Dataset)")
-st.write("**Nama: Intan Aulia Majid**")
-st.write("**NIM: 230411100001**")
-st.write("**Mata Kuliah: Penambangan Data**")
-
-st.header("1. Data Understanding")
-st.subheader("Sumber Data")
-st.write("Dataset diambil dari [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/225/ilpd+indian+liver+patient+dataset).")
-
-st.subheader("Tujuan Dataset")
-st.write("Dataset Indian Liver Patient digunakan untuk membangun model klasifikasi yang mampu memprediksi apakah seorang pasien menderita penyakit hati (liver disease) atau tidak, berdasarkan parameter medis seperti usia, jenis kelamin, kadar bilirubin, enzim hati, protein total, dan lain-lain. Tujuannya adalah untuk membantu diagnosis dini penyakit hati, mengevaluasi performa algoritma machine learning dalam klasifikasi medis, serta mendukung penelitian dan pengembangan sistem cerdas di bidang kesehatan.")
-
-st.subheader("Keterkaitan Fitur-Fitur dalam ILPD:")
-st.markdown("""
-1.  **Age (Usia)**: Risiko penyakit hati meningkat seiring bertambahnya usia. Usia yang lebih tua sering berkorelasi dengan penurunan fungsi organ, termasuk hati.
-2.  **Gender (Jenis Kelamin)**: Beberapa penyakit hati lebih sering terjadi pada pria (misalnya: sirosis alkoholik), sedangkan lainnya mungkin lebih banyak menyerang wanita. Jenis kelamin bisa memengaruhi pola konsumsi alkohol, hormon, dan respons imun.
-3.  **Total Bilirubin**: Bilirubin adalah produk samping pemecahan sel darah merah. Kadar tinggi menandakan masalah pada hati dalam memproses dan membuang bilirubin — gejala umum penyakit hati, terutama hepatitis.
-4.  **Direct Bilirubin**: Merupakan bentuk terkonjugasi dari bilirubin. Peningkatan nilai ini menunjukkan adanya obstruksi atau kerusakan saluran empedu, yang umum dalam penyakit hati.
-5.  **Alkaline Phosphatase (ALP)**: Enzim yang meningkat bila terjadi gangguan pada saluran empedu dan kerusakan jaringan hati. Nilai tinggi dapat menjadi penanda adanya penyakit hati kolestatik.
-6.  **Alanine Aminotransferase (SGPT/ALT)**: Enzim ini dilepaskan ke dalam darah saat sel-sel hati rusak. Merupakan indikator utama kerusakan hati akut atau kronis.
-7.  **Aspartate Aminotransferase (SGOT/AST)**: Mirip dengan ALT, namun juga ditemukan pada jantung dan otot. Kadar tinggi sering terlihat pada hepatitis, sirosis, dan penyakit hati alkoholik.
-8.  **Total Proteins**: Mengukur jumlah total protein dalam darah, termasuk albumin dan globulin. Hati yang sehat memproduksi banyak protein, sehingga nilainya bisa menurun jika hati rusak.
-9.  **Albumin**: Protein utama yang diproduksi oleh hati. Jika hati rusak, kemampuan produksinya menurun, sehingga kadar albumin bisa rendah.
-10. **Albumin and Globulin Ratio (A/G Ratio)**: Rasio antara albumin dan globulin. Ketidakseimbangan rasio ini (terutama rasio rendah) bisa menjadi indikasi gangguan fungsi hati atau penyakit inflamasi kronis.
-11. **Dataset Column (Output)**: Kolom target yang menunjukkan apakah pasien menderita penyakit liver (1) atau tidak (2). Semua fitur di atas digunakan untuk memprediksi nilai ini.
-""")
-
-st.header("2. Data Loading and Initial Exploration")
-
-# Load Data
-file_path = "Indian Liver Patient Dataset (ILPD).csv"
-df = pd.read_csv(file_path, header=None)
-
-df.columns = [
-    "Age", "Gender", "Urea", "Creatinine", "Hemoglobin", "WBC", "RBC",
-    "pH", "Specific Gravity", "Protein", "Class"
-]
-
-for col in df.columns:
-    if col != "Gender":
-        df[col] = pd.to_numeric(df[col], errors='coerce')
-
-st.subheader("Data Info")
-st.write(df.info())
-st.subheader("First 5 Rows of Data")
-st.dataframe(df.head())
-st.subheader("Descriptive Statistics")
-st.dataframe(df.describe())
-
-st.subheader("Distribution of Numeric Features (Histograms)")
-numeric_df = df.select_dtypes(include=[np.number])
-fig_hist = numeric_df.hist(bins=20, figsize=(16, 12), edgecolor='black')
-plt.suptitle("Distribusi Fitur Numerik", fontsize=16)
-plt.tight_layout()
-plt.subplots_adjust(top=0.95)
-st.pyplot(fig_hist[0][0].figure) # Pass the figure object to st.pyplot
-
-st.subheader("Heatmap of Numeric Feature Correlation")
-fig_corr, ax_corr = plt.subplots(figsize=(10, 8))
-correlation = numeric_df.corr()
-sns.heatmap(correlation, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5, ax=ax_corr)
-plt.title("Heatmap Korelasi Fitur Numerik")
-st.pyplot(fig_corr)
-
-st.subheader("Hemoglobin vs Urea by Class (Scatter Plot)")
-fig_scatter, ax_scatter = plt.subplots(figsize=(8, 6))
-sns.scatterplot(data=df, x='Hemoglobin', y='Urea', hue='Class', palette='Set1', ax=ax_scatter)
-plt.title("Hemoglobin vs Urea berdasarkan Kelas")
-plt.xlabel("Hemoglobin")
-plt.ylabel("Urea")
-plt.legend(title="Class")
-plt.grid(True)
-st.pyplot(fig_scatter)
-
-st.subheader("Missing Values")
-missing_counts = df.isnull().sum()
-st.write("Missing values per column:")
-st.dataframe(missing_counts)
-
-total_missing = missing_counts.sum()
-st.write(f"Total missing values in the entire dataset: {total_missing}")
-
-st.subheader("Visualisasi Missing Values (Heatmap)")
-fig_missing, ax_missing = plt.subplots(figsize=(12, 6))
-sns.heatmap(df.isnull(), cbar=False, cmap='viridis', yticklabels=False, ax=ax_missing)
-plt.title("Visualisasi Missing Values (NaN) di Setiap Kolom")
-plt.xlabel("Kolom")
-plt.ylabel("Baris")
-st.pyplot(fig_missing)
-
-st.header("3. Data Pre-processing")
-
-# Handle Missing Values (Imputation)
-numerik_cols = df.select_dtypes(include='number').columns
-kategori_cols = df.select_dtypes(include='object').columns
-
-df[numerik_cols] = df[numerik_cols].fillna(df[numerik_cols].median())
-
-for col in kategori_cols:
-    if not df[col].mode().empty:
-        df[col] = df[col].fillna(df[col].mode()[0])
-    else:
-        df[col] = df[col].fillna("unknown")
-
-st.subheader("Missing Values After Imputation")
-st.write(df.info())
-
-# Encoding Categorical Features (Label Encoding)
-st.subheader("Encoding Categorical Features (Label Encoding)")
-le = LabelEncoder()
-for col in kategori_cols:
-    df[col] = le.fit_transform(df[col])
-st.write("Transformed 'Gender' column (first 5 rows):")
-st.dataframe(df[kategori_cols].head())
-
-# Normalisasi Fitur Numerik
-st.subheader("Normalisasi Fitur Numerik")
-scaler = MinMaxScaler()
-df[numerik_cols] = scaler.fit_transform(df[numerik_cols])
-st.write("Normalized numeric features (first 5 rows):")
-st.dataframe(df[numerik_cols].head())
-
-# Split Data
-st.subheader("Data Splitting")
-X = df.drop('Class', axis=1)
-y = df['Class']
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42, stratify=y
+# --- Konfigurasi Halaman ---
+st.set_page_config(
+    page_title="Analisis Penyakit Hati",
+    page_icon="🩺",
+    layout="wide"
 )
 
-st.write(f"X_train shape: {X_train.shape}")
-st.write(f"X_test shape: {X_test.shape}")
-st.write(f"y_train shape: {y_train.shape}")
-st.write(f"y_test shape: {y_test.shape}")
+# --- FUNGSI-FUNGSI UTAMA ---
 
-st.header("4. Modelling")
+@st.cache_data
+def load_data(file_path):
+    """Memuat, membersihkan, dan memberi nama kolom pada dataset ILPD."""
+    try:
+        df = pd.read_csv(file_path, header=None)
+        # Menggunakan nama kolom yang sesuai dengan deskripsi dataset hati
+        df.columns = [
+            "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin", 
+            "Alkaline_Phosphotase", "Alamine_Aminotransferase", 
+            "Aspartate_Aminotransferase", "Total_Protiens", "Albumin", 
+            "Albumin_and_Globulin_Ratio", "Selector"
+        ]
+        
+        # Mengisi missing values di kolom A/G Ratio dengan median
+        df['Albumin_and_Globulin_Ratio'].fillna(df['Albumin_and_Globulin_Ratio'].median(), inplace=True)
+        
+        # Mengubah label target (Selector): 1 -> 1 (sakit), 2 -> 0 (tidak sakit)
+        df['Selector'] = df['Selector'].apply(lambda x: 1 if x == 1 else 0)
 
-st.subheader("Model 1: K-Nearest Neighbors (KNN)")
-knn = KNeighborsClassifier(n_neighbors=5)
-knn.fit(X_train, y_train)
-y_pred_knn = knn.predict(X_test)
-st.write(f"Accuracy: {accuracy_score(y_test, y_pred_knn):.4f}")
-st.text("Classification Report:")
-st.code(classification_report(y_test, y_pred_knn))
+        # Label Encoding untuk kolom Gender
+        le = LabelEncoder()
+        df['Gender'] = le.fit_transform(df['Gender'])
 
-st.subheader("Model 2: Decision Tree Classifier")
-dt = DecisionTreeClassifier(random_state=42)
-dt.fit(X_train, y_train)
-y_pred_dt = dt.predict(X_test)
-st.write(f"Accuracy: {accuracy_score(y_test, y_pred_dt):.4f}")
-st.text("Classification Report:")
-st.code(classification_report(y_test, y_pred_dt))
+        return df
+    except FileNotFoundError:
+        st.error(f"File '{file_path}' tidak ditemukan. Mohon unggah file atau letakkan di direktori yang sama.")
+        return None
 
-st.subheader("Model 3: Random Forest + SMOTE")
-st.write("Applying SMOTE to balance the training data...")
-st.write(f"Distribution before SMOTE: {Counter(y_train)}")
-smote = SMOTE(random_state=42)
-X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
-st.write(f"Distribution after SMOTE: {Counter(y_train_resampled)}")
+def show_introduction():
+    """Menampilkan halaman pendahuluan."""
+    st.title("UAS Penambangan Data: Analisis Penyakit Hati")
+    st.markdown("""
+    **Nama:** Intan Aulia Majid  
+    **NIM:** 230411100001
+    """)
+    st.header("Dataset Pasien Hati India (Indian Liver Patient Dataset - ILPD)")
+    st.write("""
+    Dataset ini digunakan untuk membangun model klasifikasi yang mampu memprediksi apakah seorang pasien menderita penyakit hati (liver disease) atau tidak, berdasarkan serangkaian parameter medis. Tujuannya adalah untuk membantu diagnosis dini dan mendukung pengembangan sistem cerdas di bidang kesehatan.
+    """)
+    st.info("Sumber Data: [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/225/ilpd+indian+liver+patient+dataset)")
 
-rf_smote = RandomForestClassifier(random_state=42)
-rf_smote.fit(X_train_resampled, y_train_resampled)
-y_pred_rf_smote = rf_smote.predict(X_test)
-st.write(f"Accuracy: {accuracy_score(y_test, y_pred_rf_smote):.4f}")
-st.text("Classification Report:")
-st.code(classification_report(y_test, y_pred_rf_smote))
+def show_eda(df):
+    """Menampilkan halaman Exploratory Data Analysis (EDA)."""
+    st.title("📊 Analisis & Visualisasi Data")
 
-st.header("5. Evaluation")
-st.subheader("Model Accuracy Comparison")
+    st.subheader("Tampilan Awal Data (Setelah Pembersihan Awal)")
+    st.dataframe(df.head())
 
-acc_knn = accuracy_score(y_test, y_pred_knn)
-acc_dt = accuracy_score(y_test, y_pred_dt)
-acc_rf_smote = accuracy_score(y_test, y_pred_rf_smote)
+    st.subheader("Statistik Deskriptif")
+    st.dataframe(df.describe())
 
-df_accuracy = pd.DataFrame({
-    'Model': ['KNN', 'Decision Tree', 'Random Forest + SMOTE'],
-    'Akurasi': [acc_knn, acc_dt, acc_rf_smote]
-})
+    st.subheader("Visualisasi Data")
+    col1, col2 = st.columns(2)
 
-st.dataframe(df_accuracy)
+    with col1:
+        fig1, ax1 = plt.subplots(figsize=(8, 6))
+        sns.countplot(data=df, x='Selector', palette='pastel', ax=ax1)
+        ax1.set_title('Distribusi Kelas (0: Tidak Sakit, 1: Sakit Hati)')
+        ax1.set_xticks([0, 1])
+        ax1.set_xticklabels(['Tidak Sakit', 'Sakit Hati'])
+        st.pyplot(fig1)
 
-st.subheader("Visualisasi Akurasi Model")
-fig_acc_bar, ax_acc_bar = plt.subplots(figsize=(8, 5))
-ax_acc_bar.bar(df_accuracy['Model'], df_accuracy['Akurasi'], color=['skyblue', 'lightgreen', 'salmon'])
-ax_acc_bar.set_ylim(0, 1)
-ax_acc_bar.set_ylabel('Akurasi')
-ax_acc_bar.set_title('Perbandingan Akurasi Model Klasifikasi')
-ax_acc_bar.grid(axis='y', linestyle='--', alpha=0.7)
-st.pyplot(fig_acc_bar)
+    with col2:
+        fig2, ax2 = plt.subplots(figsize=(10, 8))
+        correlation = df.corr()
+        sns.heatmap(correlation, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5, ax=ax2)
+        ax2.set_title("Heatmap Korelasi Fitur")
+        st.pyplot(fig2)
 
-st.header("Conclusion")
-st.markdown("""
-Setelah dilakukan serangkaian percobaan dengan beberapa algoritma klasifikasi, diperoleh hasil performa dari tiga model berbeda, yaitu K-Nearest Neighbors (KNN), Decision Tree, dan Random Forest (dengan teknik pelatihan tambahan). Evaluasi dilakukan berdasarkan nilai akurasi prediksi terhadap data uji.
+def show_modeling_and_evaluation(df):
+    """Menampilkan halaman pemodelan dan evaluasi."""
+    st.title("🧠 Pemodelan & Evaluasi")
 
-**Kesimpulan:**
-Random Forest + SMOTE memberi hasil terbaik (65%)
-Berdasarkan hasil evaluasi, Random Forest adalah model terbaik yang digunakan dalam proses klasifikasi Chronic Kidney Disease pada dataset ini. Meskipun perbedaan akurasinya tidak terlalu besar dibandingkan KNN, konsistensi dan kestabilan model Random Forest memberikan keunggulan yang signifikan. Dengan hasil ini, Random Forest dapat dijadikan model dasar untuk pengembangan selanjutnya.
-""")
+    # --- Preprocessing untuk Modeling ---
+    X = df.drop('Selector', axis=1)
+    y = df['Selector']
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+    
+    # Normalisasi dilakukan SETELAH splitting data
+    scaler = MinMaxScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
+    st.sidebar.header("Opsi Model")
+    model_choice = st.sidebar.selectbox(
+        "Pilih model untuk dievaluasi:",
+        ("K-Nearest Neighbors (KNN)", "Decision Tree", "Random Forest + SMOTE")
+    )
+
+    st.header(f"Hasil Evaluasi: {model_choice}")
+
+    # --- Logika Pemodelan ---
+    model = None
+    if model_choice == "K-Nearest Neighbors (KNN)":
+        model = KNeighborsClassifier(n_neighbors=5)
+        model.fit(X_train_scaled, y_train)
+        y_pred = model.predict(X_test_scaled)
+
+    elif model_choice == "Decision Tree":
+        model = DecisionTreeClassifier(random_state=42)
+        model.fit(X_train_scaled, y_train)
+        y_pred = model.predict(X_test_scaled)
+        
+    elif model_choice == "Random Forest + SMOTE":
+        st.write("**Catatan**: Model ini menggunakan teknik SMOTE untuk menyeimbangkan data latih.")
+        
+        smote = SMOTE(random_state=42)
+        X_train_resampled, y_train_resampled = smote.fit_re sample(X_train_scaled, y_train)
+        
+        st.write(f"Distribusi kelas sebelum SMOTE: {Counter(y_train)}")
+        st.write(f"Distribusi kelas setelah SMOTE: {Counter(y_train_resampled)}")
+        
+        model = RandomForestClassifier(random_state=42)
+        model.fit(X_train_resampled, y_train_resampled)
+        y_pred = model.predict(X_test_scaled)
+
+    # --- Tampilkan Hasil Evaluasi ---
+    if model:
+        accuracy = accuracy_score(y_test, y_pred)
+        report = classification_report(y_test, y_pred, target_names=['Tidak Sakit', 'Sakit Hati'], output_dict=True)
+        cm = confusion_matrix(y_test, y_pred)
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            st.subheader("Akurasi Model")
+            st.metric("Akurasi", f"{accuracy:.2%}")
+            
+            st.subheader("Classification Report")
+            st.table(pd.DataFrame(report).transpose())
+            
+        with col2:
+            st.subheader("Confusion Matrix")
+            fig, ax = plt.subplots()
+            sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+                        xticklabels=['Prediksi Tidak Sakit', 'Prediksi Sakit'],
+                        yticklabels=['Aktual Tidak Sakit', 'Aktual Sakit'])
+            ax.set_ylabel('Aktual')
+            ax.set_xlabel('Prediksi')
+            st.pyplot(fig)
+
+def show_conclusion():
+    """Menampilkan halaman kesimpulan."""
+    st.title("📊 Perbandingan & Kesimpulan")
+
+    # Re-kalkulasi akurasi untuk perbandingan
+    # 1. KNN
+    knn = KNeighborsClassifier(n_neighbors=5).fit(X_train_scaled, y_train)
+    acc_knn = accuracy_score(y_test, knn.predict(X_test_scaled))
+
+    # 2. Decision Tree
+    dt = DecisionTreeClassifier(random_state=42).fit(X_train_scaled, y_train)
+    acc_dt = accuracy_score(y_test, dt.predict(X_test_scaled))
+
+    # 3. Random Forest + SMOTE
+    smote = SMOTE(random_state=42)
+    X_train_res, y_train_res = smote.fit_resample(X_train_scaled, y_train)
+    rf_smote = RandomForestClassifier(random_state=42).fit(X_train_res, y_train_res)
+    acc_rf_smote = accuracy_score(y_test, rf_smote.predict(X_test_scaled))
+
+    df_akurasi = pd.DataFrame({
+        'Model': ['KNN', 'Decision Tree', 'Random Forest + SMOTE'],
+        'Akurasi': [acc_knn, acc_dt, acc_rf_smote]
+    }).sort_values(by='Akurasi', ascending=False)
+    
+    st.subheader("Tabel Perbandingan Akurasi")
+    st.table(df_akurasi)
+    
+    st.subheader("Visualisasi Perbandingan")
+    fig, ax = plt.subplots()
+    sns.barplot(data=df_akurasi, x='Akurasi', y='Model', palette='viridis', ax=ax)
+    ax.set_xlim(0, 1)
+    ax.set_title('Perbandingan Akurasi Model')
+    st.pyplot(fig)
+    
+    st.header("Kesimpulan")
+    st.success(f"**Model Terbaik: {df_akurasi.iloc[0]['Model']}** dengan akurasi **{df_akurasi.iloc[0]['Akurasi']:.2%}**.")
+    st.write("""
+    Setelah dilakukan serangkaian percobaan, Random Forest yang dikombinasikan dengan SMOTE memberikan hasil terbaik. 
+    Meskipun perbedaan akurasinya tidak terlalu besar dibandingkan model lain, teknik SMOTE membantu model dalam mengenali kelas minoritas (pasien sakit hati) dengan lebih baik, yang sangat penting dalam konteks medis. 
+    Dengan hasil ini, model ini dapat dijadikan dasar untuk pengembangan lebih lanjut.
+    """)
+
+# --- MAIN APP LOGIC ---
+
+# Sidebar untuk navigasi
+st.sidebar.title("Navigasi Aplikasi")
+page = st.sidebar.radio(
+    "Pilih Halaman:",
+    ("Pendahuluan Proyek", "Analisis & Visualisasi Data", "Pra-Pemrosesan & Pemodelan", "Kesimpulan")
+)
+
+# Unggah file di sidebar
+uploaded_file = st.sidebar.file_uploader("Unggah file 'Indian Liver Patient Dataset (ILPD).csv'", type=['csv'])
+
+if uploaded_file is not None:
+    df = load_data(uploaded_file)
+    if df is not None:
+        if page == "Pendahuluan Proyek":
+            show_introduction()
+        elif page == "Analisis & Visualisasi Data":
+            show_eda(df)
+        elif page == "Pra-Pemrosesan & Pemodelan":
+            show_modeling_and_evaluation(df)
+        elif page == "Kesimpulan":
+            show_conclusion()
+else:
+    st.warning("Silakan unggah file dataset ILPD.csv melalui sidebar untuk memulai analisis.")
