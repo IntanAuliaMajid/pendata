@@ -1,11 +1,7 @@
-jupyter-book
-matplotlib
-numpy
-pandas
-scikit-learn
-seaborn
-tqdm
-nltk
 streamlit
-plotly
-imbalanced-learn
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn==1.4.2
+imbalanced-learn==0.12.0
