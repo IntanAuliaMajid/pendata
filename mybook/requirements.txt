@@ -8,3 +8,4 @@ tqdm
 nltk
 streamlit
 plotly
+imbalanced-learn
