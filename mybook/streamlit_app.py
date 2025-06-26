@@ -22,9 +22,10 @@ st.set_page_config(page_title="Analisis Penyakit Hati", page_icon="🩺", layout
 
 @st.cache_data
 def load_and_preprocess_data():
-    data_path = "Indian Liver Patient Dataset (ILPD).csv"
+    """Memuat dan memproses dataset dari URL langsung (UCI Repository)."""
+    url = "https://archive.ics.uci.edu/ml/machine-learning-databases/ilpd/ILPD.csv"
     try:
-        df = pd.read_csv(data_path, header=None)
+        df = pd.read_csv(url, header=None)
         df.columns = [
             "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin", 
             "Alkaline_Phosphotase", "Alamine_Aminotransferase", 
@@ -36,8 +37,9 @@ def load_and_preprocess_data():
         df['Gender'] = LabelEncoder().fit_transform(df['Gender'])
         return df
     except Exception as e:
-        st.error(f"Gagal memuat data: {e}")
+        st.error(f"Gagal memuat data dari URL. Error: {e}")
         return None
+
 
 def show_introduction():
     st.title("UAS Penambangan Data: Analisis Penyakit Hati")
