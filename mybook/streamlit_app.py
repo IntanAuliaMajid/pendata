@@ -6,7 +6,7 @@ import seaborn as sns
 from collections import Counter
 
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
+from sklearn.preprocessing import LabelEncoder
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -29,17 +29,12 @@ def load_and_preprocess_data():
         # df = pd.read_csv("Indian Liver Patient Dataset (ILPD).csv", header=None)
         df = pd.read_csv("mybook/Indian Liver Patient Dataset (ILPD).csv", header=None)
         
-        # 1. Menggunakan nama kolom yang sama persis seperti di notebook
         df.columns = [
             "Age", "Gender", "Urea", "Creatinine", "Hemoglobin", "WBC", "RBC",
             "pH", "Specific Gravity", "Protein", "Class"
         ]
         
-        # 2. Menangani missing value pada kolom 'Protein'
         df['Protein'] = df['Protein'].fillna(df['Protein'].median())
-        
-        # 3. Variabel target 'Class' tidak diubah, nilainya tetap 1 dan 2
-        
         df['Gender'] = LabelEncoder().fit_transform(df['Gender'])
         return df
     except FileNotFoundError:
@@ -77,7 +72,10 @@ def show_eda(df):
         ax2.set_title("Heatmap Korelasi Fitur")
         st.pyplot(fig2)
 
-def show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test):
+def show_modeling_and_evaluation(X_train, X_test, y_train, y_test):
+    """
+    Fungsi untuk melatih dan mengevaluasi model pada data mentah (tidak dinormalisasi).
+    """
     st.title("🧠 Pemodelan & Evaluasi")
     st.sidebar.header("Opsi Model")
     model_choice = st.sidebar.selectbox(
@@ -90,25 +88,25 @@ def show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test)
 
     if model_choice == "K-Nearest Neighbors (KNN)":
         model = KNeighborsClassifier(n_neighbors=5)
-        model.fit(X_train_scaled, y_train_np)
-        y_pred = model.predict(X_test_scaled)
+        model.fit(X_train, y_train_np)
+        y_pred = model.predict(X_test)
 
     elif model_choice == "Decision Tree":
         model = DecisionTreeClassifier(random_state=42)
-        model.fit(X_train_scaled, y_train_np)
-        y_pred = model.predict(X_test_scaled)
+        model.fit(X_train, y_train_np)
+        y_pred = model.predict(X_test)
 
     elif model_choice == "Random Forest + SMOTE":
         st.write("Menggunakan SMOTE untuk menyeimbangkan data latih.")
         smote = SMOTE(random_state=42)
-        X_train_resampled, y_train_resampled = smote.fit_resample(X_train_scaled, y_train_np)
+        X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train_np)
         
         st.write(f"Distribusi kelas sebelum SMOTE: {Counter(y_train_np)}")
         st.write(f"Distribusi kelas setelah SMOTE: {Counter(y_train_resampled)}")
         
         model = RandomForestClassifier(random_state=42)
         model.fit(X_train_resampled, y_train_resampled)
-        y_pred = model.predict(X_test_scaled)
+        y_pred = model.predict(X_test)
 
     accuracy = accuracy_score(y_test, y_pred)
     report_labels = [1, 2] 
@@ -134,37 +132,37 @@ def show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test)
         ax.set_xlabel('Prediksi')
         st.pyplot(fig)
 
-def show_conclusion(X_train_scaled, X_test_scaled, y_train, y_test):
+def show_conclusion(X_train, X_test, y_train, y_test):
     st.title("📊 Perbandingan & Kesimpulan")
 
     y_train_np = np.asarray(y_train)
 
-    # Memastikan setiap akurasi dihitung secara terpisah untuk memperbaiki bug
+    # Menghitung akurasi untuk setiap model secara terpisah pada data mentah
     # KNN
     knn_model = KNeighborsClassifier(n_neighbors=5)
-    knn_model.fit(X_train_scaled, y_train_np)
-    acc_knn = accuracy_score(y_test, knn_model.predict(X_test_scaled))
+    knn_model.fit(X_train, y_train_np)
+    acc_knn = accuracy_score(y_test, knn_model.predict(X_test))
     
     # Decision Tree
     dt_model = DecisionTreeClassifier(random_state=42)
-    dt_model.fit(X_train_scaled, y_train_np)
-    acc_dt = accuracy_score(y_test, dt_model.predict(X_test_scaled))
+    dt_model.fit(X_train, y_train_np)
+    acc_dt = accuracy_score(y_test, dt_model.predict(X_test))
 
     # Random Forest + SMOTE
     smote = SMOTE(random_state=42)
-    X_res, y_res = smote.fit_resample(X_train_scaled, y_train_np)
+    X_res, y_res = smote.fit_resample(X_train, y_train_np)
     rf_model = RandomForestClassifier(random_state=42)
     rf_model.fit(X_res, y_res)
-    acc_rf = accuracy_score(y_test, rf_model.predict(X_test_scaled))
+    acc_rf = accuracy_score(y_test, rf_model.predict(X_test))
 
     df_akurasi = pd.DataFrame({
         'Model': ['KNN', 'Decision Tree', 'Random Forest + SMOTE'],
         'Akurasi': [acc_knn, acc_dt, acc_rf]
     })
     
+    # Mengurutkan berdasarkan model untuk mencocokkan tampilan di notebook
     df_akurasi['Model'] = pd.Categorical(df_akurasi['Model'], ["KNN", "Decision Tree", "Random Forest + SMOTE"])
     df_akurasi = df_akurasi.sort_values('Model')
-
 
     st.subheader("Tabel Perbandingan Akurasi")
     st.table(df_akurasi.style.format({'Akurasi': "{:.6f}"}))
@@ -197,26 +195,17 @@ def main():
             X, y, test_size=0.2, random_state=42, stratify=y
         )
         
-        # *** MENAMBAHKAN KEMBALI NORMALISASI SEPERTI DI NOTEBOOK ***
-        scaler = MinMaxScaler()
-        
-        # Hanya kolom numerik yang dinormalisasi
-        numerical_cols = X.select_dtypes(include=np.number).columns.tolist()
-        
-        X_train_scaled = X_train.copy()
-        X_test_scaled = X_test.copy()
-        
-        X_train_scaled[numerical_cols] = scaler.fit_transform(X_train[numerical_cols])
-        X_test_scaled[numerical_cols] = scaler.transform(X_test[numerical_cols])
+        # *** LANGKAH NORMALISASI DIHAPUS AGAR SESUAI DENGAN NOTEBOOK ***
+        # Semua model akan menggunakan X_train dan X_test mentah
         
         if page == "Pendahuluan Proyek":
             show_introduction()
         elif page == "Analisis & Visualisasi Data":
             show_eda(df)
         elif page == "Pra-Pemrosesan & Pemodelan":
-            show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test)
+            show_modeling_and_evaluation(X_train, X_test, y_train, y_test)
         elif page == "Kesimpulan":
-            show_conclusion(X_train_scaled, X_test_scaled, y_train, y_test)
+            show_conclusion(X_train, X_test, y_train, y_test)
 
 if __name__ == "__main__":
     main()
