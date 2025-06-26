@@ -21,19 +21,19 @@ st.set_page_config(page_title="Analisis Penyakit Hati", page_icon="🩺", layout
 
 @st.cache_data
 def load_and_preprocess_data():
-    # Ganti dengan URL CSV asli, bukan halaman HTML
     url = "https://raw.githubusercontent.com/datasciencedojo/datasets/master/Indian%20Liver%20Patient%20Dataset%20(ILPD).csv"
-    df = pd.read_csv(url, header=None)
+    df = pd.read_csv(url)
     df.columns = [
-        "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin", 
-        "Alkaline_Phosphotase", "Alamine_Aminotransferase", 
-        "Aspartate_Aminotransferase", "Total_Protiens", "Albumin", 
+        "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin",
+        "Alkaline_Phosphotase", "Alamine_Aminotransferase",
+        "Aspartate_Aminotransferase", "Total_Protiens", "Albumin",
         "Albumin_and_Globulin_Ratio", "Selector"
     ]
     df['Albumin_and_Globulin_Ratio'] = df['Albumin_and_Globulin_Ratio'].fillna(df['Albumin_and_Globulin_Ratio'].median())
     df['Selector'] = df['Selector'].apply(lambda x: 1 if x == 1 else 0)
     df['Gender'] = LabelEncoder().fit_transform(df['Gender'])
     return df
+
 
 def show_introduction():
     st.title("UAS Penambangan Data: Analisis Penyakit Hati")
