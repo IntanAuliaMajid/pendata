@@ -26,31 +26,26 @@ st.set_page_config(
 
 @st.cache_data
 def load_and_preprocess_data():
-    """Memuat dan melakukan pra-pemrosesan awal pada dataset dari URL."""
-    # URL langsung ke file data CSV dari repositori UCI
-    data_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/00225/Indian%20Liver%20Patient%20Dataset%20(ILPD).csv"
-    
+    """Memuat dan melakukan pra-pemrosesan awal pada dataset dari file lokal."""
+    data_path = "Indian Liver Patient Dataset (ILPD).csv"
     try:
-        df = pd.read_csv(data_url, header=None)
+        df = pd.read_csv(data_path, header=None)
         df.columns = [
             "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin", 
             "Alkaline_Phosphotase", "Alamine_Aminotransferase", 
             "Aspartate_Aminotransferase", "Total_Protiens", "Albumin", 
             "Albumin_and_Globulin_Ratio", "Selector"
         ]
-        
         # Mengisi missing values di kolom A/G Ratio dengan median
         df['Albumin_and_Globulin_Ratio'].fillna(df['Albumin_and_Globulin_Ratio'].median(), inplace=True)
-        
         # Mengubah label target (Selector): 1 -> 1 (sakit), 2 -> 0 (tidak sakit)
         df['Selector'] = df['Selector'].apply(lambda x: 1 if x == 1 else 0)
-
         # Label Encoding untuk kolom Gender
         le = LabelEncoder()
         df['Gender'] = le.fit_transform(df['Gender'])
         return df
     except Exception as e:
-        st.error(f"Gagal memuat data dari URL. Error: {e}")
+        st.error(f"Gagal memuat data dari file lokal. Error: {e}")
         return None
 
 def show_introduction():
