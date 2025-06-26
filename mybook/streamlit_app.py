@@ -22,7 +22,25 @@ st.set_page_config(page_title="Analisis Penyakit Hati", page_icon="🩺", layout
 
 @st.cache_data
 def load_and_preprocess_data():
-    url = "https://archive.ics.uci.edu/dataset/225/ilpd+indian+liver+patient+dataset"
+    @st.cache_data
+def load_and_preprocess_data():
+    url = "https://archive.ics.uci.edu/ml/machine-learning-databases/ilpd/ILPD.csv"
+    try:
+        df = pd.read_csv(url, header=None)
+        df.columns = [
+            "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin", 
+            "Alkaline_Phosphotase", "Alamine_Aminotransferase", 
+            "Aspartate_Aminotransferase", "Total_Protiens", "Albumin", 
+            "Albumin_and_Globulin_Ratio", "Selector"
+        ]
+        df['Albumin_and_Globulin_Ratio'].fillna(df['Albumin_and_Globulin_Ratio'].median(), inplace=True)
+        df['Selector'] = df['Selector'].apply(lambda x: 1 if x == 1 else 0)
+        df['Gender'] = LabelEncoder().fit_transform(df['Gender'])
+        return df
+    except Exception as e:
+        st.error(f"Gagal memuat data dari URL. Error: {e}")
+        return None
+
     try:
         df = pd.read_csv(url, header=None)
         df.columns = [
