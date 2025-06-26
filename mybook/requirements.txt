@@ -6,3 +6,4 @@ ydata-profiling[notebook]
 sqlalchemy
 psycopg2
 pymysql
+imbalanced-learn
