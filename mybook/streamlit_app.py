@@ -1,3 +1,6 @@
+# app.py (your Streamlit application file)
+
+import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,160 +13,211 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 from imblearn.over_sampling import SMOTE
 from collections import Counter
-import streamlit as st
 
-# --- Data Loading and Initial Understanding ---
-@st.cache_data
-def load_data():
-    file_path = 'Indian Liver Patient Dataset (ILPD).csv'
+st.set_page_config(layout="wide")
+
+st.title("Aplikasi Prediksi Penyakit Hati (Indian Liver Patient Dataset)")
+st.markdown("---")
+
+# Data Understanding
+st.header("1. Data Understanding")
+st.write("""
+Dataset Indian Liver Patient digunakan untuk membangun model klasifikasi yang mampu memprediksi apakah seorang pasien menderita penyakit hati (liver disease) atau tidak, berdasarkan parameter medis seperti usia, jenis kelamin, kadar bilirubin, enzim hati, protein total, dan lain-lain. Tujuannya adalah untuk membantu diagnosis dini penyakit hati, mengevaluasi performa algoritma machine learning dalam klasifikasi medis, serta mendukung penelitian dan pengembangan sistem cerdas di bidang kesehatan.
+""")
+
+st.subheader("Keterkaitan Fitur-Fitur dalam ILPD:")
+st.markdown("""
+- **Age (Usia)**: Risiko penyakit hati meningkat seiring bertambahnya usia.
+- **Gender (Jenis Kelamin)**: Mempengaruhi pola konsumsi alkohol, hormon, dan respons imun.
+- **Total Bilirubin**: Kadar tinggi menandakan masalah pada hati dalam memproses dan membuang bilirubin.
+- **Direct Bilirubin**: Peningkatan nilai ini menunjukkan adanya obstruksi atau kerusakan saluran empedu.
+- **Alkaline Phosphatase (ALP)**: Enzim yang meningkat bila terjadi gangguan pada saluran empedu dan kerusakan jaringan hati.
+- **Alanine Aminotransferase (SGPT/ALT)**: Indikator utama kerusakan hati akut atau kronis.
+- **Aspartate Aminotransferase (SGOT/AST)**: Kadar tinggi sering terlihat pada hepatitis, sirosis, dan penyakit hati alkoholik.
+- **Total Proteins**: Hati yang sehat memproduksi banyak protein, sehingga nilainya bisa menurun jika hati rusak.
+- **Albumin**: Protein utama yang diproduksi oleh hati. Jika hati rusak, kemampuan produksinya menurun.
+- **Albumin and Globulin Ratio (A/G Ratio)**: Ketidakseimbangan rasio ini bisa menjadi indikasi gangguan fungsi hati.
+- **Dataset Column (Output)**: Kolom target yang menunjukkan apakah pasien menderita penyakit liver (1) atau tidak (2).
+""")
+
+# Load Data
+st.subheader("Import dan Load Data")
+file_path = "Indian Liver Patient Dataset (ILPD).csv"
+try:
     df = pd.read_csv(file_path, header=None)
     df.columns = [
         "Age", "Gender", "Urea", "Creatinine", "Hemoglobin", "WBC", "RBC",
         "pH", "Specific Gravity", "Protein", "Class"
     ]
-    return df
+    for col in df.columns:
+        if col != "Gender":
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+    st.success("Data berhasil dimuat!")
+    st.write("Menampilkan 5 baris pertama data:")
+    st.dataframe(df.head())
+    st.write("Informasi umum dataset:")
+    st.write(df.info())
+    st.write("Statistik deskriptif dataset:")
+    st.dataframe(df.describe())
+except FileNotFoundError:
+    st.error(f"File '{file_path}' tidak ditemukan. Pastikan file berada di direktori yang sama.")
+    st.stop()
 
-df = load_data()
+# Data Visualization (moved here for better flow in Streamlit)
+st.subheader("Visualisasi Data")
 
-st.title("Indian Liver Patient Dataset - Classification Model Deployment")
-st.write("This application demonstrates the classification models built on the Indian Liver Patient Dataset.")
+st.markdown("### Histogram Fitur Numerik (Distribusi Data)")
+numeric_df = df.select_dtypes(include=[np.number])
+fig, axes = plt.subplots(nrows=(len(numeric_df.columns) + 1) // 2, ncols=2, figsize=(16, 12))
+axes = axes.flatten()
+for i, col in enumerate(numeric_df.columns):
+    axes[i].hist(numeric_df[col], bins=20, edgecolor='black', color='skyblue')
+    axes[i].set_title(f'Distribusi: {col}')
+    axes[i].set_xlabel("")
+    axes[i].set_ylabel("Frekuensi")
+plt.tight_layout()
+st.pyplot(fig)
 
-st.subheader("Data Understanding")
-st.write("The dataset is used to build a classification model that predicts whether a patient suffers from liver disease based on medical parameters.")
-st.write("Here's a glimpse of the raw data:")
-st.dataframe(df.head())
+st.markdown("### Heatmap Korelasi Fitur Numerik")
+fig_corr, ax_corr = plt.subplots(figsize=(10, 8))
+correlation = numeric_df.corr()
+sns.heatmap(correlation, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5, ax=ax_corr)
+ax_corr.set_title("Heatmap Korelasi Fitur Numerik")
+st.pyplot(fig_corr)
 
-st.subheader("Data Information")
-# Convert columns to numeric, coercing errors
-for col in df.columns:
-    if col != "Gender":
-        df[col] = pd.to_numeric(df[col], errors='coerce')
+st.markdown("### Scatterplot Hemoglobin vs Urea berdasarkan Kelas")
+fig_scatter, ax_scatter = plt.subplots(figsize=(8, 6))
+sns.scatterplot(data=df, x='Hemoglobin', y='Urea', hue='Class', palette='Set1', ax=ax_scatter)
+ax_scatter.set_title("Hemoglobin vs Urea berdasarkan Kelas")
+ax_scatter.set_xlabel("Hemoglobin")
+ax_scatter.set_ylabel("Urea")
+ax_scatter.legend(title="Class")
+ax_scatter.grid(True)
+st.pyplot(fig_scatter)
 
-st.text(df.info())
+st.markdown("### Visualisasi Missing Values (Heatmap)")
+fig_missing, ax_missing = plt.subplots(figsize=(12, 6))
+sns.heatmap(df.isnull(), cbar=False, cmap='viridis', yticklabels=False, ax=ax_missing)
+ax_missing.set_title("Visualisasi Missing Values (NaN) di Setiap Kolom")
+ax_missing.set_xlabel("Kolom")
+ax_missing.set_ylabel("Baris")
+st.pyplot(fig_missing)
 
-st.subheader("Descriptive Statistics")
-st.dataframe(df.describe())
+st.markdown("### Boxplot Fitur Numerik (Deteksi Outlier)")
+fig_boxplot, axes_boxplot = plt.subplots(nrows=(len(numeric_df.columns) + 1) // 2, ncols=2, figsize=(16, len(numeric_df.columns)*1.5))
+axes_boxplot = axes_boxplot.flatten()
+for i, col in enumerate(numeric_df.columns):
+    sns.boxplot(data=df, x=col, color='skyblue', ax=axes_boxplot[i])
+    axes_boxplot[i].set_title(f'Boxplot: {col}')
+    axes_boxplot[i].set_xlabel("")
+plt.tight_layout()
+st.pyplot(fig_boxplot)
 
-# --- Data Pre-processing ---
-st.subheader("Data Pre-processing")
+# Pre-processing Data
+st.header("2. Pre-processing Data")
 
-# Handle Missing Values
-st.write("Handling missing values (imputation with median for numerical, mode for categorical).")
-numeric_cols = df.select_dtypes(include='number').columns
-categorical_cols = df.select_dtypes(include='object').columns
+st.subheader("Tangani Missing Values")
+numerik_cols = df.select_dtypes(include='number').columns
+kategori_cols = df.select_dtypes(include='object').columns
 
-for col in numeric_cols:
-    df[col] = df[col].fillna(df[col].median())
+df[numerik_cols] = df[numerik_cols].fillna(df[numerik_cols].median())
 
-for col in categorical_cols:
+for col in kategori_cols:
     if not df[col].mode().empty:
         df[col] = df[col].fillna(df[col].mode()[0])
     else:
         df[col] = df[col].fillna("unknown")
+st.success("Missing values telah ditangani!")
+st.write(df.info())
 
-st.write("Missing values after imputation:")
-st.dataframe(df.isnull().sum())
-
-# Encoding Categorical Features
-st.write("Encoding categorical features (Gender) using Label Encoding.")
+st.subheader("Encoding Fitur Kategorikal (Label Encoding)")
 le = LabelEncoder()
-for col in categorical_cols:
+for col in kategori_cols:
     df[col] = le.fit_transform(df[col])
-st.write("Gender column after encoding (0 for Female, 1 for Male if the dataset follows that order or vice-versa depending on LabelEncoder's fit):")
-st.dataframe(df['Gender'].head())
+st.success("Fitur kategorikal telah di-encode!")
+st.dataframe(df[kategori_cols].head())
 
-# Normalization of Numerical Features
-st.write("Normalizing numerical features using MinMaxScaler.")
+st.subheader("Normalisasi Fitur Numerik")
 scaler = MinMaxScaler()
-df[numeric_cols] = scaler.fit_transform(df[numeric_cols])
-st.write("Normalized numerical features (first 5 rows):")
-st.dataframe(df[numeric_cols].head())
+df[numerik_cols] = scaler.fit_transform(df[numerik_cols])
+st.success("Fitur numerik telah dinormalisasi!")
+st.dataframe(df[numerik_cols].head())
 
-# Split Data
-st.write("Splitting data into training and testing sets (80% train, 20% test).")
+st.subheader("Split Data")
 X = df.drop('Class', axis=1)
 y = df['Class']
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
+st.success("Data telah dibagi menjadi training dan testing set!")
 st.write(f"X_train shape: {X_train.shape}")
 st.write(f"X_test shape: {X_test.shape}")
 st.write(f"y_train shape: {y_train.shape}")
 st.write(f"y_test shape: {y_test.shape}")
 
-# --- Modeling ---
-st.subheader("Classification Models")
+# Modelling
+st.header("3. Modelling")
 
-# Model 1: K-Nearest Neighbors (KNN)
-st.write("#### Model 1: K-Nearest Neighbors (KNN)")
+st.subheader("Model 1: K-Nearest Neighbors (KNN)")
 knn = KNeighborsClassifier(n_neighbors=5)
 knn.fit(X_train, y_train)
 y_pred_knn = knn.predict(X_test)
-st.write(f"Accuracy: {accuracy_score(y_test, y_pred_knn):.4f}")
+st.write("### Hasil KNN:")
+st.write(f"Akurasi: {accuracy_score(y_test, y_pred_knn):.4f}")
 st.text("Classification Report:")
-st.text(classification_report(y_test, y_pred_knn))
+st.code(classification_report(y_test, y_pred_knn))
 
-# Model 2: Decision Tree Classifier
-st.write("#### Model 2: Decision Tree Classifier")
+st.subheader("Model 2: Decision Tree Classifier")
 dt = DecisionTreeClassifier(random_state=42)
 dt.fit(X_train, y_train)
 y_pred_dt = dt.predict(X_test)
-st.write(f"Accuracy: {accuracy_score(y_test, y_pred_dt):.4f}")
+st.write("### Hasil Decision Tree:")
+st.write(f"Akurasi: {accuracy_score(y_test, y_pred_dt):.4f}")
 st.text("Classification Report:")
-st.text(classification_report(y_test, y_pred_dt))
+st.code(classification_report(y_test, y_pred_dt))
 
-# Model 3: Random Forest + SMOTE
-st.write("#### Model 3: Random Forest + SMOTE")
-st.write("Applying SMOTE for handling class imbalance in the training data.")
+st.subheader("Model 3: Random Forest + SMOTE")
+st.write("Distribusi sebelum SMOTE:", Counter(y_train))
 smote = SMOTE(random_state=42)
 X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
-
-st.write(f"Distribution before SMOTE: {Counter(y_train)}")
-st.write(f"Distribution after SMOTE: {Counter(y_train_resampled)}")
+st.write("Distribusi setelah SMOTE:", Counter(y_train_resampled))
 
 rf_smote = RandomForestClassifier(random_state=42)
 rf_smote.fit(X_train_resampled, y_train_resampled)
 y_pred_rf_smote = rf_smote.predict(X_test)
-st.write(f"Accuracy: {accuracy_score(y_test, y_pred_rf_smote):.4f}")
+st.write("### Hasil Random Forest + SMOTE:")
+st.write(f"Akurasi: {accuracy_score(y_test, y_pred_rf_smote):.4f}")
 st.text("Classification Report:")
-st.text(classification_report(y_test, y_pred_rf_smote))
+st.code(classification_report(y_test, y_pred_rf_smote))
 
-# --- Evaluation ---
-st.subheader("Model Evaluation: Accuracy Comparison")
+# Evaluation
+st.header("4. Evaluasi")
+st.subheader("Perbandingan Akurasi Model")
 
 acc_knn = accuracy_score(y_test, y_pred_knn)
 acc_dt = accuracy_score(y_test, y_pred_dt)
 acc_rf_smote = accuracy_score(y_test, y_pred_rf_smote)
 
-df_accuracy = pd.DataFrame({
+df_akurasi = pd.DataFrame({
     'Model': ['KNN', 'Decision Tree', 'Random Forest + SMOTE'],
-    'Accuracy': [acc_knn, acc_dt, acc_rf_smote]
+    'Akurasi': [acc_knn, acc_dt, acc_rf_smote]
 })
 
-st.dataframe(df_accuracy)
+st.dataframe(df_akurasi)
 
-st.bar_chart(df_accuracy.set_index('Model'))
+fig_eval, ax_eval = plt.subplots(figsize=(8, 5))
+ax_eval.bar(df_akurasi['Model'], df_akurasi['Akurasi'], color=['skyblue', 'lightgreen', 'salmon'])
+ax_eval.set_ylim(0, 1)
+ax_eval.set_ylabel('Akurasi')
+ax_eval.set_title('Perbandingan Akurasi Model Klasifikasi')
+ax_eval.grid(axis='y', linestyle='--', alpha=0.7)
+st.pyplot(fig_eval)
 
-st.subheader("Conclusion")
+st.subheader("Kesimpulan:")
 st.write("""
-After conducting a series of experiments with several classification algorithms, the performance results of three different models were obtained: K-Nearest Neighbors (KNN), Decision Tree, and Random Forest (with additional training techniques). The evaluation was carried out based on prediction accuracy values against test data.
+Setelah dilakukan serangkaian percobaan dengan beberapa algoritma klasifikasi, diperoleh hasil performa dari tiga model berbeda, yaitu K-Nearest Neighbors (KNN), Decision Tree, dan Random Forest (dengan teknik pelatihan tambahan). Evaluasi dilakukan berdasarkan nilai akurasi prediksi terhadap data uji.
 
-**Key Findings:**
-* **Random Forest + SMOTE** yielded the best results with an accuracy of approximately **65.81%**.
-* **K-Nearest Neighbors (KNN)** showed a slightly lower accuracy of approximately **64.10%**.
-* **Decision Tree Classifier** performed the lowest among the three, with an accuracy of approximately **61.54%**.
-
-**Conclusion:**
-Based on the evaluation results, **Random Forest with SMOTE** is the best model for classifying Chronic Kidney Disease on this dataset. Although the accuracy difference is not significantly large compared to KNN, the consistency and stability of the Random Forest model provide a significant advantage. With these results, Random Forest can be used as a baseline model for further development.
+**Random Forest + SMOTE memberi hasil terbaik (65%)**
+Berdasarkan hasil evaluasi, Random Forest adalah model terbaik yang digunakan dalam proses klasifikasi Chronic Kidney Disease pada dataset ini. Meskipun perbedaan akurasinya tidak terlalu besar dibandingkan KNN, konsistensi dan kestabilan model Random Forest memberikan keunggulan yang signifikan. Dengan hasil ini, Random Forest dapat dijadikan model dasar untuk pengembangan selanjutnya.
 """)
-
-# Optional: Add a section for user input for prediction (requires more setup)
-# st.sidebar.subheader("Make a Prediction")
-# age = st.sidebar.slider("Age", 4, 90, 40)
-# gender = st.sidebar.selectbox("Gender", ["Female", "Male"])
-# # ... add more input fields for other features
-#
-# if st.sidebar.button("Predict"):
-#     # Process inputs and make a prediction using the best model (rf_smote)
-#     pass
