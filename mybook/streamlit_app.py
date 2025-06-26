@@ -25,32 +25,22 @@ st.set_page_config(
 # --- FUNGSI-FUNGSI UTAMA ---
 
 @st.cache_data
-def load_data(file_path):
-    """Memuat, membersihkan, dan memberi nama kolom pada dataset ILPD."""
-    try:
-        df = pd.read_csv(file_path, header=None)
-        # Menggunakan nama kolom yang sesuai dengan deskripsi dataset hati
-        df.columns = [
-            "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin", 
-            "Alkaline_Phosphotase", "Alamine_Aminotransferase", 
-            "Aspartate_Aminotransferase", "Total_Protiens", "Albumin", 
-            "Albumin_and_Globulin_Ratio", "Selector"
-        ]
-        
-        # Mengisi missing values di kolom A/G Ratio dengan median
-        df['Albumin_and_Globulin_Ratio'].fillna(df['Albumin_and_Globulin_Ratio'].median(), inplace=True)
-        
-        # Mengubah label target (Selector): 1 -> 1 (sakit), 2 -> 0 (tidak sakit)
-        df['Selector'] = df['Selector'].apply(lambda x: 1 if x == 1 else 0)
-
-        # Label Encoding untuk kolom Gender
-        le = LabelEncoder()
-        df['Gender'] = le.fit_transform(df['Gender'])
-
-        return df
-    except FileNotFoundError:
-        st.error(f"File '{file_path}' tidak ditemukan. Mohon unggah file atau letakkan di direktori yang sama.")
-        return None
+def load_and_preprocess_data(uploaded_file):
+    """Memuat dan melakukan pra-pemrosesan awal pada dataset."""
+    df = pd.read_csv(uploaded_file, header=None)
+    df.columns = [
+        "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin", 
+        "Alkaline_Phosphotase", "Alamine_Aminotransferase", 
+        "Aspartate_Aminotransferase", "Total_Protiens", "Albumin", 
+        "Albumin_and_Globulin_Ratio", "Selector"
+    ]
+    
+    df['Albumin_and_Globulin_Ratio'].fillna(df['Albumin_and_Globulin_Ratio'].median(), inplace=True)
+    df['Selector'] = df['Selector'].apply(lambda x: 1 if x == 1 else 0)
+    
+    le = LabelEncoder()
+    df['Gender'] = le.fit_transform(df['Gender'])
+    return df
 
 def show_introduction():
     """Menampilkan halaman pendahuluan."""
@@ -68,16 +58,13 @@ def show_introduction():
 def show_eda(df):
     """Menampilkan halaman Exploratory Data Analysis (EDA)."""
     st.title("📊 Analisis & Visualisasi Data")
-
-    st.subheader("Tampilan Awal Data (Setelah Pembersihan Awal)")
+    st.subheader("Tampilan Awal Data")
     st.dataframe(df.head())
-
     st.subheader("Statistik Deskriptif")
     st.dataframe(df.describe())
 
     st.subheader("Visualisasi Data")
     col1, col2 = st.columns(2)
-
     with col1:
         fig1, ax1 = plt.subplots(figsize=(8, 6))
         sns.countplot(data=df, x='Selector', palette='pastel', ax=ax1)
@@ -85,7 +72,6 @@ def show_eda(df):
         ax1.set_xticks([0, 1])
         ax1.set_xticklabels(['Tidak Sakit', 'Sakit Hati'])
         st.pyplot(fig1)
-
     with col2:
         fig2, ax2 = plt.subplots(figsize=(10, 8))
         correlation = df.corr()
@@ -93,57 +79,35 @@ def show_eda(df):
         ax2.set_title("Heatmap Korelasi Fitur")
         st.pyplot(fig2)
 
-def show_modeling_and_evaluation(df):
+def show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test, X_columns):
     """Menampilkan halaman pemodelan dan evaluasi."""
     st.title("🧠 Pemodelan & Evaluasi")
-
-    # --- Preprocessing untuk Modeling ---
-    X = df.drop('Selector', axis=1)
-    y = df['Selector']
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42, stratify=y
-    )
-    
-    # Normalisasi dilakukan SETELAH splitting data
-    scaler = MinMaxScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
-    
     st.sidebar.header("Opsi Model")
     model_choice = st.sidebar.selectbox(
         "Pilih model untuk dievaluasi:",
         ("K-Nearest Neighbors (KNN)", "Decision Tree", "Random Forest + SMOTE")
     )
-
     st.header(f"Hasil Evaluasi: {model_choice}")
 
-    # --- Logika Pemodelan ---
     model = None
     if model_choice == "K-Nearest Neighbors (KNN)":
         model = KNeighborsClassifier(n_neighbors=5)
         model.fit(X_train_scaled, y_train)
         y_pred = model.predict(X_test_scaled)
-
     elif model_choice == "Decision Tree":
         model = DecisionTreeClassifier(random_state=42)
         model.fit(X_train_scaled, y_train)
         y_pred = model.predict(X_test_scaled)
-        
     elif model_choice == "Random Forest + SMOTE":
         st.write("**Catatan**: Model ini menggunakan teknik SMOTE untuk menyeimbangkan data latih.")
-        
         smote = SMOTE(random_state=42)
         X_train_resampled, y_train_resampled = smote.fit_resample(X_train_scaled, y_train)
-        
         st.write(f"Distribusi kelas sebelum SMOTE: {Counter(y_train)}")
         st.write(f"Distribusi kelas setelah SMOTE: {Counter(y_train_resampled)}")
-        
         model = RandomForestClassifier(random_state=42)
         model.fit(X_train_resampled, y_train_resampled)
         y_pred = model.predict(X_test_scaled)
 
-    # --- Tampilkan Hasil Evaluasi ---
     if model:
         accuracy = accuracy_score(y_test, y_pred)
         report = classification_report(y_test, y_pred, target_names=['Tidak Sakit', 'Sakit Hati'], output_dict=True)
@@ -153,10 +117,8 @@ def show_modeling_and_evaluation(df):
         with col1:
             st.subheader("Akurasi Model")
             st.metric("Akurasi", f"{accuracy:.2%}")
-            
             st.subheader("Classification Report")
             st.table(pd.DataFrame(report).transpose())
-            
         with col2:
             st.subheader("Confusion Matrix")
             fig, ax = plt.subplots()
@@ -167,24 +129,22 @@ def show_modeling_and_evaluation(df):
             ax.set_xlabel('Prediksi')
             st.pyplot(fig)
 
-def show_conclusion():
+def show_conclusion(X_train_scaled, X_test_scaled, y_train, y_test):
     """Menampilkan halaman kesimpulan."""
     st.title("📊 Perbandingan & Kesimpulan")
 
-    # Re-kalkulasi akurasi untuk perbandingan
-    # 1. KNN
-    knn = KNeighborsClassifier(n_neighbors=5).fit(X_train_scaled, y_train)
-    acc_knn = accuracy_score(y_test, knn.predict(X_test_scaled))
-
-    # 2. Decision Tree
-    dt = DecisionTreeClassifier(random_state=42).fit(X_train_scaled, y_train)
-    acc_dt = accuracy_score(y_test, dt.predict(X_test_scaled))
-
-    # 3. Random Forest + SMOTE
-    smote = SMOTE(random_state=42)
-    X_train_res, y_train_res = smote.fit_resample(X_train_scaled, y_train)
-    rf_smote = RandomForestClassifier(random_state=42).fit(X_train_res, y_train_res)
-    acc_rf_smote = accuracy_score(y_test, rf_smote.predict(X_test_scaled))
+    with st.spinner("Menghitung ulang akurasi model untuk perbandingan..."):
+        # 1. KNN
+        knn = KNeighborsClassifier(n_neighbors=5).fit(X_train_scaled, y_train)
+        acc_knn = accuracy_score(y_test, knn.predict(X_test_scaled))
+        # 2. Decision Tree
+        dt = DecisionTreeClassifier(random_state=42).fit(X_train_scaled, y_train)
+        acc_dt = accuracy_score(y_test, dt.predict(X_test_scaled))
+        # 3. Random Forest + SMOTE
+        smote = SMOTE(random_state=42)
+        X_train_res, y_train_res = smote.fit_resample(X_train_scaled, y_train)
+        rf_smote = RandomForestClassifier(random_state=42).fit(X_train_res, y_train_res)
+        acc_rf_smote = accuracy_score(y_test, rf_smote.predict(X_test_scaled))
 
     df_akurasi = pd.DataFrame({
         'Model': ['KNN', 'Decision Tree', 'Random Forest + SMOTE'],
@@ -211,26 +171,43 @@ def show_conclusion():
 
 # --- MAIN APP LOGIC ---
 
-# Sidebar untuk navigasi
-st.sidebar.title("Navigasi Aplikasi")
-page = st.sidebar.radio(
-    "Pilih Halaman:",
-    ("Pendahuluan Proyek", "Analisis & Visualisasi Data", "Pra-Pemrosesan & Pemodelan", "Kesimpulan")
-)
+def main():
+    """Fungsi utama untuk menjalankan aplikasi Streamlit."""
+    st.sidebar.title("Navigasi Aplikasi")
+    page = st.sidebar.radio(
+        "Pilih Halaman:",
+        ("Pendahuluan Proyek", "Analisis & Visualisasi Data", "Pra-Pemrosesan & Pemodelan", "Kesimpulan")
+    )
 
-# Unggah file di sidebar
-uploaded_file = st.sidebar.file_uploader("Unggah file 'Indian Liver Patient Dataset (ILPD).csv'", type=['csv'])
+    uploaded_file = st.sidebar.file_uploader("Unggah file 'Indian Liver Patient Dataset (ILPD).csv'", type=['csv'])
 
-if uploaded_file is not None:
-    df = load_data(uploaded_file)
-    if df is not None:
+    if uploaded_file:
+        df = load_and_preprocess_data(uploaded_file)
+        
+        # Data preparation is done here, making variables available for all pages
+        X = df.drop('Selector', axis=1)
+        y = df['Selector']
+        X_columns = X.columns.tolist()
+
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=0.2, random_state=42, stratify=y
+        )
+        
+        scaler = MinMaxScaler()
+        X_train_scaled = scaler.fit_transform(X_train)
+        X_test_scaled = scaler.transform(X_test)
+        
+        # Page routing
         if page == "Pendahuluan Proyek":
             show_introduction()
         elif page == "Analisis & Visualisasi Data":
             show_eda(df)
         elif page == "Pra-Pemrosesan & Pemodelan":
-            show_modeling_and_evaluation(df)
+            show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test, X_columns)
         elif page == "Kesimpulan":
-            show_conclusion()
-else:
-    st.warning("Silakan unggah file dataset ILPD.csv melalui sidebar untuk memulai analisis.")
+            show_conclusion(X_train_scaled, X_test_scaled, y_train, y_test)
+    else:
+        st.warning("Silakan unggah file dataset ILPD.csv melalui sidebar untuk memulai analisis.")
+
+if __name__ == "__main__":
+    main()
