@@ -21,14 +21,13 @@ def load_and_preprocess_data():
     """
     Memuat dan memproses data agar sesuai dengan logika di Jupyter Notebook.
     - Menggunakan nama kolom yang salah.
-    - Menangani missing value pada kolom yang salah.
-    - Mengubah nama kolom target menjadi 'Class'.
-    - Mengubah nilai target dari [1, 2] menjadi [1, 0].
+    - Menangani missing value pada kolom 'Protein'.
+    - Variabel target 'Class' tetap menggunakan nilai asli [1, 2].
     """
     try:
         df = pd.read_csv("mybook/Indian Liver Patient Dataset (ILPD).csv", header=None)
         
-        # 1. Menggunakan nama kolom yang sama persis seperti di notebook (tidak sesuai standar)
+        # 1. Menggunakan nama kolom yang sama persis seperti di notebook
         df.columns = [
             "Age", "Gender", "Urea", "Creatinine", "Hemoglobin", "WBC", "RBC",
             "pH", "Specific Gravity", "Protein", "Class"
@@ -37,9 +36,7 @@ def load_and_preprocess_data():
         # 2. Menangani missing value pada kolom 'Protein' seperti di notebook
         df['Protein'] = df['Protein'].fillna(df['Protein'].median())
         
-        # 3. Mengubah kolom target dari [1, 2] menjadi [1, 0] untuk konsistensi
-        # 1 (sakit hati) menjadi 1, dan 2 (tidak sakit) menjadi 0
-        df['Class'] = df['Class'].apply(lambda x: 1 if x == 1 else 0)
+        # 3. Variabel target 'Class' tidak diubah, nilainya tetap 1 dan 2
         
         df['Gender'] = LabelEncoder().fit_transform(df['Gender'])
         return df
@@ -67,11 +64,11 @@ def show_eda(df):
     col1, col2 = st.columns(2)
     with col1:
         fig1, ax1 = plt.subplots()
-        # Menggunakan kolom 'Class' untuk visualisasi
         sns.countplot(data=df, x='Class', palette='pastel', ax=ax1)
         ax1.set_title('Distribusi Kelas')
-        ax1.set_xticks([0, 1])
-        ax1.set_xticklabels(['Tidak Sakit', 'Sakit Hati'])
+        # Menyesuaikan label untuk nilai 1 (Sakit) dan 2 (Tidak Sakit)
+        ax1.set_xticks([1, 2])
+        ax1.set_xticklabels(['Sakit Hati', 'Tidak Sakit'])
         st.pyplot(fig1)
     with col2:
         fig2, ax2 = plt.subplots(figsize=(10, 8))
@@ -91,22 +88,25 @@ def show_modeling_and_evaluation(X_train, X_test, y_train, y_test):
     )
     st.header(f"Hasil Evaluasi: {model_choice}")
 
+    # Memastikan y_train dalam bentuk numpy array untuk SMOTE
+    y_train_np = np.asarray(y_train)
+
     if model_choice == "K-Nearest Neighbors (KNN)":
         model = KNeighborsClassifier(n_neighbors=5)
-        model.fit(X_train, y_train)
+        model.fit(X_train, y_train_np)
         y_pred = model.predict(X_test)
 
     elif model_choice == "Decision Tree":
         model = DecisionTreeClassifier(random_state=42)
-        model.fit(X_train, y_train)
+        model.fit(X_train, y_train_np)
         y_pred = model.predict(X_test)
 
     elif model_choice == "Random Forest + SMOTE":
         st.write("Menggunakan SMOTE untuk menyeimbangkan data latih.")
         smote = SMOTE(random_state=42)
-        X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
+        X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train_np)
         
-        st.write(f"Distribusi kelas sebelum SMOTE: {Counter(y_train)}")
+        st.write(f"Distribusi kelas sebelum SMOTE: {Counter(y_train_np)}")
         st.write(f"Distribusi kelas setelah SMOTE: {Counter(y_train_resampled)}")
         
         model = RandomForestClassifier(random_state=42)
@@ -114,21 +114,29 @@ def show_modeling_and_evaluation(X_train, X_test, y_train, y_test):
         y_pred = model.predict(X_test)
 
     accuracy = accuracy_score(y_test, y_pred)
-    report = classification_report(y_test, y_pred, target_names=['Tidak Sakit', 'Sakit Hati'], output_dict=True)
-    cm = confusion_matrix(y_test, y_pred)
+    # Menyesuaikan label untuk classification report (1=Sakit, 2=Tidak Sakit)
+    # Sklearn akan mengurutkan label menjadi [1, 2]
+    report_labels = [1, 2]
+    report_target_names = ['Sakit Hati', 'Tidak Sakit']
+    report = classification_report(y_test, y_pred, labels=report_labels, target_names=report_target_names, output_dict=True)
+    cm = confusion_matrix(y_test, y_pred, labels=report_labels)
 
     col1, col2 = st.columns(2)
     with col1:
         st.subheader("Akurasi Model")
-        st.metric("Akurasi", f"{accuracy:.4%}") # Menampilkan 4 angka desimal untuk perbandingan
+        # Menampilkan presisi yang lebih tinggi untuk perbandingan
+        st.metric("Akurasi", f"{accuracy:.12f}") 
         st.subheader("Classification Report")
         st.table(pd.DataFrame(report).transpose())
     with col2:
         st.subheader("Confusion Matrix")
         fig, ax = plt.subplots()
+        # Menyesuaikan label untuk confusion matrix
+        cm_xticklabels = ['Prediksi Sakit', 'Prediksi Tidak Sakit']
+        cm_yticklabels = ['Aktual Sakit', 'Aktual Tidak Sakit']
         sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
-                      xticklabels=['Prediksi Tidak Sakit', 'Prediksi Sakit'],
-                      yticklabels=['Aktual Tidak Sakit', 'Aktual Sakit'])
+                      xticklabels=cm_xticklabels,
+                      yticklabels=cm_yticklabels)
         ax.set_ylabel('Aktual')
         ax.set_xlabel('Prediksi')
         st.pyplot(fig)
@@ -136,17 +144,19 @@ def show_modeling_and_evaluation(X_train, X_test, y_train, y_test):
 def show_conclusion(X_train, X_test, y_train, y_test):
     st.title("📊 Perbandingan & Kesimpulan")
 
+    y_train_np = np.asarray(y_train)
+
     # KNN
-    knn_model = KNeighborsClassifier(n_neighbors=5).fit(X_train, y_train)
+    knn_model = KNeighborsClassifier(n_neighbors=5).fit(X_train, y_train_np)
     acc_knn = accuracy_score(y_test, knn_model.predict(X_test))
     
     # Decision Tree
-    dt_model = DecisionTreeClassifier(random_state=42).fit(X_train, y_train)
+    dt_model = DecisionTreeClassifier(random_state=42).fit(X_train, y_train_np)
     acc_dt = accuracy_score(y_test, dt_model.predict(X_test))
 
     # Random Forest + SMOTE
     smote = SMOTE(random_state=42)
-    X_res, y_res = smote.fit_resample(X_train, y_train)
+    X_res, y_res = smote.fit_resample(X_train, y_train_np)
     rf_model = RandomForestClassifier(random_state=42).fit(X_res, y_res)
     acc_rf = accuracy_score(y_test, rf_model.predict(X_test))
 
@@ -156,17 +166,17 @@ def show_conclusion(X_train, X_test, y_train, y_test):
     }).sort_values(by='Akurasi', ascending=False)
 
     st.subheader("Tabel Perbandingan Akurasi")
-    st.table(df_akurasi.style.format({'Akurasi': "{:.4%}"}))
+    st.table(df_akurasi.style.format({'Akurasi': "{:.12f}"}))
 
     st.subheader("Visualisasi Perbandingan")
     fig, ax = plt.subplots()
     sns.barplot(data=df_akurasi, x='Akurasi', y='Model', palette='viridis', ax=ax)
-    ax.set_xlim(0.5, 0.8) # Menyesuaikan rentang untuk visualisasi yang lebih jelas
+    ax.set_xlim(0.5, 0.8) 
     ax.set_title('Perbandingan Akurasi Model')
     st.pyplot(fig)
 
     st.header("Kesimpulan")
-    st.success(f"**Model Terbaik (sesuai notebook): {df_akurasi.iloc[0]['Model']}** dengan akurasi **{df_akurasi.iloc[0]['Akurasi']:.4%}**.")
+    st.success(f"**Model Terbaik (sesuai notebook): {df_akurasi.iloc[0]['Model']}** dengan akurasi **{df_akurasi.iloc[0]['Akurasi']:.12f}**.")
     st.warning("Catatan: Akurasi ini didasarkan pada pemrosesan data yang sama dengan file notebook (nama kolom tidak standar dan tanpa normalisasi).")
 
 
@@ -180,24 +190,20 @@ def main():
     df = load_and_preprocess_data()
 
     if df is not None:
-        # Menggunakan 'Class' sebagai target
         X = df.drop('Class', axis=1)
         y = df['Class']
 
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=0.2, random_state=42, stratify=y
         )
-
-        # Menghapus langkah penskalaan (MinMaxScaler) agar sesuai dengan notebook
+        
         if page == "Pendahuluan Proyek":
             show_introduction()
         elif page == "Analisis & Visualisasi Data":
             show_eda(df)
         elif page == "Pra-Pemrosesan & Pemodelan":
-            # Mengirimkan data mentah ke fungsi pemodelan
             show_modeling_and_evaluation(X_train, X_test, y_train, y_test)
         elif page == "Kesimpulan":
-            # Mengirimkan data mentah ke fungsi kesimpulan
             show_conclusion(X_train, X_test, y_train, y_test)
 
 if __name__ == "__main__":
