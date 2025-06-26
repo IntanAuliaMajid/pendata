@@ -22,7 +22,6 @@ st.set_page_config(page_title="Analisis Penyakit Hati", page_icon="🩺", layout
 
 @st.cache_data
 def load_and_preprocess_data():
-    """Memuat dan memproses dataset dari URL langsung (UCI Repository)."""
     url = "https://archive.ics.uci.edu/dataset/225/ilpd+indian+liver+patient+dataset"
     try:
         df = pd.read_csv(url, header=None)
