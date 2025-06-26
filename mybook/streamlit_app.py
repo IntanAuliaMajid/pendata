@@ -25,22 +25,33 @@ st.set_page_config(
 # --- FUNGSI-FUNGSI UTAMA ---
 
 @st.cache_data
-def load_and_preprocess_data(uploaded_file):
-    """Memuat dan melakukan pra-pemrosesan awal pada dataset."""
-    df = pd.read_csv(uploaded_file, header=None)
-    df.columns = [
-        "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin", 
-        "Alkaline_Phosphotase", "Alamine_Aminotransferase", 
-        "Aspartate_Aminotransferase", "Total_Protiens", "Albumin", 
-        "Albumin_and_Globulin_Ratio", "Selector"
-    ]
+def load_and_preprocess_data():
+    """Memuat dan melakukan pra-pemrosesan awal pada dataset dari URL."""
+    # URL langsung ke file data CSV dari repositori UCI
+    data_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/00225/Indian%20Liver%20Patient%20Dataset%20(ILPD).csv"
     
-    df['Albumin_and_Globulin_Ratio'].fillna(df['Albumin_and_Globulin_Ratio'].median(), inplace=True)
-    df['Selector'] = df['Selector'].apply(lambda x: 1 if x == 1 else 0)
-    
-    le = LabelEncoder()
-    df['Gender'] = le.fit_transform(df['Gender'])
-    return df
+    try:
+        df = pd.read_csv(data_url, header=None)
+        df.columns = [
+            "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin", 
+            "Alkaline_Phosphotase", "Alamine_Aminotransferase", 
+            "Aspartate_Aminotransferase", "Total_Protiens", "Albumin", 
+            "Albumin_and_Globulin_Ratio", "Selector"
+        ]
+        
+        # Mengisi missing values di kolom A/G Ratio dengan median
+        df['Albumin_and_Globulin_Ratio'].fillna(df['Albumin_and_Globulin_Ratio'].median(), inplace=True)
+        
+        # Mengubah label target (Selector): 1 -> 1 (sakit), 2 -> 0 (tidak sakit)
+        df['Selector'] = df['Selector'].apply(lambda x: 1 if x == 1 else 0)
+
+        # Label Encoding untuk kolom Gender
+        le = LabelEncoder()
+        df['Gender'] = le.fit_transform(df['Gender'])
+        return df
+    except Exception as e:
+        st.error(f"Gagal memuat data dari URL. Error: {e}")
+        return None
 
 def show_introduction():
     """Menampilkan halaman pendahuluan."""
@@ -179,12 +190,11 @@ def main():
         ("Pendahuluan Proyek", "Analisis & Visualisasi Data", "Pra-Pemrosesan & Pemodelan", "Kesimpulan")
     )
 
-    uploaded_file = st.sidebar.file_uploader("Unggah file 'Indian Liver Patient Dataset (ILPD).csv'", type=['csv'])
-
-    if uploaded_file:
-        df = load_and_preprocess_data(uploaded_file)
-        
-        # Data preparation is done here, making variables available for all pages
+    # Memuat data secara otomatis
+    df = load_and_preprocess_data()
+    
+    if df is not None:
+        # Persiapan data dilakukan di sini agar variabel tersedia untuk semua halaman
         X = df.drop('Selector', axis=1)
         y = df['Selector']
         X_columns = X.columns.tolist()
@@ -197,7 +207,7 @@ def main():
         X_train_scaled = scaler.fit_transform(X_train)
         X_test_scaled = scaler.transform(X_test)
         
-        # Page routing
+        # Perutean halaman
         if page == "Pendahuluan Proyek":
             show_introduction()
         elif page == "Analisis & Visualisasi Data":
@@ -207,7 +217,7 @@ def main():
         elif page == "Kesimpulan":
             show_conclusion(X_train_scaled, X_test_scaled, y_train, y_test)
     else:
-        st.warning("Silakan unggah file dataset ILPD.csv melalui sidebar untuk memulai analisis.")
+        st.error("Gagal memuat data. Mohon periksa kembali koneksi atau URL data.")
 
 if __name__ == "__main__":
     main()
