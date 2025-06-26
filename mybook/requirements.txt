@@ -9,3 +9,4 @@ nltk
 streamlit
 plotly
 xgboost
+imbalanced-learn
