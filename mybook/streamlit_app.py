@@ -45,7 +45,7 @@ def load_and_preprocess_data():
         df['Gender'] = le.fit_transform(df['Gender'])
         return df
     except Exception as e:
-        st.error(f"Gagal memuat data dari file lokal. Error: {e}")
+        st.error(f"Gagal memuat data dari file lokal. Pastikan file 'Indian Liver Patient Dataset (ILPD).csv' ada di repositori. Error: {e}")
         return None
 
 def show_introduction():
@@ -212,7 +212,7 @@ def main():
         elif page == "Kesimpulan":
             show_conclusion(X_train_scaled, X_test_scaled, y_train, y_test)
     else:
-        st.error("Gagal memuat data. Mohon periksa kembali koneksi atau URL data.")
+        st.error("Gagal memuat data.")
 
 if __name__ == "__main__":
     main()
