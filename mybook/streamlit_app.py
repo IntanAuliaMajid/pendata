@@ -6,7 +6,7 @@ import seaborn as sns
 from collections import Counter
 
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -25,6 +25,8 @@ def load_and_preprocess_data():
     - Variabel target 'Class' tetap menggunakan nilai asli [1, 2].
     """
     try:
+        # Ganti dengan path file Anda yang benar jika diperlukan
+        # df = pd.read_csv("Indian Liver Patient Dataset (ILPD).csv", header=None)
         df = pd.read_csv("mybook/Indian Liver Patient Dataset (ILPD).csv", header=None)
         
         # 1. Menggunakan nama kolom yang sama persis seperti di notebook
@@ -33,7 +35,7 @@ def load_and_preprocess_data():
             "pH", "Specific Gravity", "Protein", "Class"
         ]
         
-        # 2. Menangani missing value pada kolom 'Protein' seperti di notebook
+        # 2. Menangani missing value pada kolom 'Protein'
         df['Protein'] = df['Protein'].fillna(df['Protein'].median())
         
         # 3. Variabel target 'Class' tidak diubah, nilainya tetap 1 dan 2
@@ -64,11 +66,10 @@ def show_eda(df):
     col1, col2 = st.columns(2)
     with col1:
         fig1, ax1 = plt.subplots()
-        sns.countplot(data=df, x='Class', palette='pastel', ax=ax1)
+        sns.countplot(data=df, x='Class', palette='pastel', ax=ax1, order=[1, 2])
         ax1.set_title('Distribusi Kelas')
-        # Menyesuaikan label untuk nilai 1 (Sakit) dan 2 (Tidak Sakit)
-        ax1.set_xticks([1, 2])
-        ax1.set_xticklabels(['Sakit Hati', 'Tidak Sakit'])
+        ax1.set_xticks([0, 1])
+        ax1.set_xticklabels(['Sakit Hati (1)', 'Tidak Sakit (2)'])
         st.pyplot(fig1)
     with col2:
         fig2, ax2 = plt.subplots(figsize=(10, 8))
@@ -76,10 +77,7 @@ def show_eda(df):
         ax2.set_title("Heatmap Korelasi Fitur")
         st.pyplot(fig2)
 
-def show_modeling_and_evaluation(X_train, X_test, y_train, y_test):
-    """
-    Fungsi untuk melatih dan mengevaluasi model pada data mentah (tidak diskalakan).
-    """
+def show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test):
     st.title("🧠 Pemodelan & Evaluasi")
     st.sidebar.header("Opsi Model")
     model_choice = st.sidebar.selectbox(
@@ -88,50 +86,45 @@ def show_modeling_and_evaluation(X_train, X_test, y_train, y_test):
     )
     st.header(f"Hasil Evaluasi: {model_choice}")
 
-    # Memastikan y_train dalam bentuk numpy array untuk SMOTE
     y_train_np = np.asarray(y_train)
 
     if model_choice == "K-Nearest Neighbors (KNN)":
         model = KNeighborsClassifier(n_neighbors=5)
-        model.fit(X_train, y_train_np)
-        y_pred = model.predict(X_test)
+        model.fit(X_train_scaled, y_train_np)
+        y_pred = model.predict(X_test_scaled)
 
     elif model_choice == "Decision Tree":
         model = DecisionTreeClassifier(random_state=42)
-        model.fit(X_train, y_train_np)
-        y_pred = model.predict(X_test)
+        model.fit(X_train_scaled, y_train_np)
+        y_pred = model.predict(X_test_scaled)
 
     elif model_choice == "Random Forest + SMOTE":
         st.write("Menggunakan SMOTE untuk menyeimbangkan data latih.")
         smote = SMOTE(random_state=42)
-        X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train_np)
+        X_train_resampled, y_train_resampled = smote.fit_resample(X_train_scaled, y_train_np)
         
         st.write(f"Distribusi kelas sebelum SMOTE: {Counter(y_train_np)}")
         st.write(f"Distribusi kelas setelah SMOTE: {Counter(y_train_resampled)}")
         
         model = RandomForestClassifier(random_state=42)
         model.fit(X_train_resampled, y_train_resampled)
-        y_pred = model.predict(X_test)
+        y_pred = model.predict(X_test_scaled)
 
     accuracy = accuracy_score(y_test, y_pred)
-    # Menyesuaikan label untuk classification report (1=Sakit, 2=Tidak Sakit)
-    # Sklearn akan mengurutkan label menjadi [1, 2]
-    report_labels = [1, 2]
+    report_labels = [1, 2] 
     report_target_names = ['Sakit Hati', 'Tidak Sakit']
-    report = classification_report(y_test, y_pred, labels=report_labels, target_names=report_target_names, output_dict=True)
+    report = classification_report(y_test, y_pred, labels=report_labels, target_names=report_target_names, output_dict=True, zero_division=0)
     cm = confusion_matrix(y_test, y_pred, labels=report_labels)
 
     col1, col2 = st.columns(2)
     with col1:
         st.subheader("Akurasi Model")
-        # Menampilkan presisi yang lebih tinggi untuk perbandingan
-        st.metric("Akurasi", f"{accuracy:.12f}") 
+        st.metric("Akurasi", f"{accuracy:.6f}") 
         st.subheader("Classification Report")
         st.table(pd.DataFrame(report).transpose())
     with col2:
         st.subheader("Confusion Matrix")
         fig, ax = plt.subplots()
-        # Menyesuaikan label untuk confusion matrix
         cm_xticklabels = ['Prediksi Sakit', 'Prediksi Tidak Sakit']
         cm_yticklabels = ['Aktual Sakit', 'Aktual Tidak Sakit']
         sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
@@ -141,32 +134,40 @@ def show_modeling_and_evaluation(X_train, X_test, y_train, y_test):
         ax.set_xlabel('Prediksi')
         st.pyplot(fig)
 
-def show_conclusion(X_train, X_test, y_train, y_test):
+def show_conclusion(X_train_scaled, X_test_scaled, y_train, y_test):
     st.title("📊 Perbandingan & Kesimpulan")
 
     y_train_np = np.asarray(y_train)
 
+    # Memastikan setiap akurasi dihitung secara terpisah untuk memperbaiki bug
     # KNN
-    knn_model = KNeighborsClassifier(n_neighbors=5).fit(X_train, y_train_np)
-    acc_knn = accuracy_score(y_test, knn_model.predict(X_test))
+    knn_model = KNeighborsClassifier(n_neighbors=5)
+    knn_model.fit(X_train_scaled, y_train_np)
+    acc_knn = accuracy_score(y_test, knn_model.predict(X_test_scaled))
     
     # Decision Tree
-    dt_model = DecisionTreeClassifier(random_state=42).fit(X_train, y_train_np)
-    acc_dt = accuracy_score(y_test, dt_model.predict(X_test))
+    dt_model = DecisionTreeClassifier(random_state=42)
+    dt_model.fit(X_train_scaled, y_train_np)
+    acc_dt = accuracy_score(y_test, dt_model.predict(X_test_scaled))
 
     # Random Forest + SMOTE
     smote = SMOTE(random_state=42)
-    X_res, y_res = smote.fit_resample(X_train, y_train_np)
-    rf_model = RandomForestClassifier(random_state=42).fit(X_res, y_res)
-    acc_rf = accuracy_score(y_test, rf_model.predict(X_test))
+    X_res, y_res = smote.fit_resample(X_train_scaled, y_train_np)
+    rf_model = RandomForestClassifier(random_state=42)
+    rf_model.fit(X_res, y_res)
+    acc_rf = accuracy_score(y_test, rf_model.predict(X_test_scaled))
 
     df_akurasi = pd.DataFrame({
         'Model': ['KNN', 'Decision Tree', 'Random Forest + SMOTE'],
         'Akurasi': [acc_knn, acc_dt, acc_rf]
-    }).sort_values(by='Akurasi', ascending=False)
+    })
+    
+    df_akurasi['Model'] = pd.Categorical(df_akurasi['Model'], ["KNN", "Decision Tree", "Random Forest + SMOTE"])
+    df_akurasi = df_akurasi.sort_values('Model')
+
 
     st.subheader("Tabel Perbandingan Akurasi")
-    st.table(df_akurasi.style.format({'Akurasi': "{:.12f}"}))
+    st.table(df_akurasi.style.format({'Akurasi': "{:.6f}"}))
 
     st.subheader("Visualisasi Perbandingan")
     fig, ax = plt.subplots()
@@ -176,9 +177,8 @@ def show_conclusion(X_train, X_test, y_train, y_test):
     st.pyplot(fig)
 
     st.header("Kesimpulan")
-    st.success(f"**Model Terbaik (sesuai notebook): {df_akurasi.iloc[0]['Model']}** dengan akurasi **{df_akurasi.iloc[0]['Akurasi']:.12f}**.")
-    st.warning("Catatan: Akurasi ini didasarkan pada pemrosesan data yang sama dengan file notebook (nama kolom tidak standar dan tanpa normalisasi).")
-
+    df_akurasi_sorted = df_akurasi.sort_values(by='Akurasi', ascending=False)
+    st.success(f"**Model Terbaik (sesuai notebook): {df_akurasi_sorted.iloc[0]['Model']}** dengan akurasi **{df_akurasi_sorted.iloc[0]['Akurasi']:.6f}**.")
 
 def main():
     st.sidebar.title("Navigasi Aplikasi")
@@ -197,14 +197,26 @@ def main():
             X, y, test_size=0.2, random_state=42, stratify=y
         )
         
+        # *** MENAMBAHKAN KEMBALI NORMALISASI SEPERTI DI NOTEBOOK ***
+        scaler = MinMaxScaler()
+        
+        # Hanya kolom numerik yang dinormalisasi
+        numerical_cols = X.select_dtypes(include=np.number).columns.tolist()
+        
+        X_train_scaled = X_train.copy()
+        X_test_scaled = X_test.copy()
+        
+        X_train_scaled[numerical_cols] = scaler.fit_transform(X_train[numerical_cols])
+        X_test_scaled[numerical_cols] = scaler.transform(X_test[numerical_cols])
+        
         if page == "Pendahuluan Proyek":
             show_introduction()
         elif page == "Analisis & Visualisasi Data":
             show_eda(df)
         elif page == "Pra-Pemrosesan & Pemodelan":
-            show_modeling_and_evaluation(X_train, X_test, y_train, y_test)
+            show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test)
         elif page == "Kesimpulan":
-            show_conclusion(X_train, X_test, y_train, y_test)
+            show_conclusion(X_train_scaled, X_test_scaled, y_train, y_test)
 
 if __name__ == "__main__":
     main()
