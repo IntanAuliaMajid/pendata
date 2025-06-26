@@ -85,7 +85,10 @@ def show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test,
     elif model_choice == "Random Forest + SMOTE":
         st.write("Menggunakan SMOTE untuk menyeimbangkan data latih.")
         smote = SMOTE(random_state=42)
-        X_train_resampled, y_train_resampled = smote.fit_resample(X_train_scaled, y_train.ravel())
+        X_train_resampled, y_train_resampled = smote.fit_resample(
+            np.array(X_train_scaled), 
+            np.array(y_train).ravel()
+        )
         st.write(f"Sebelum SMOTE: {Counter(y_train)}")
         st.write(f"Setelah SMOTE: {Counter(y_train_resampled)}")
         model = RandomForestClassifier(random_state=42)
@@ -118,7 +121,10 @@ def show_conclusion(X_train_scaled, X_test_scaled, y_train, y_test):
     acc_dt = accuracy_score(y_test, DecisionTreeClassifier(random_state=42).fit(X_train_scaled, y_train).predict(X_test_scaled))
 
     smote = SMOTE(random_state=42)
-    X_res, y_res = smote.fit_resample(X_train_scaled, y_train.ravel())
+    X_res, y_res = smote.fit_resample(
+        np.array(X_train_scaled), 
+        np.array(y_train).ravel()
+    )
     acc_rf = accuracy_score(y_test, RandomForestClassifier(random_state=42).fit(X_res, y_res).predict(X_test_scaled))
 
     df_akurasi = pd.DataFrame({
@@ -169,6 +175,7 @@ def main():
             show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test, X_columns)
         elif page == "Kesimpulan":
             show_conclusion(X_train_scaled, X_test_scaled, y_train, y_test)
+
     else:
         st.error("Gagal memuat data.")
 
