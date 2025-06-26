@@ -12,7 +12,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
-# Coba import SMOTE, tapi jika gagal, set jadi None
 try:
     from imblearn.over_sampling import SMOTE
 except ImportError:
@@ -21,8 +20,6 @@ except ImportError:
 st.set_page_config(page_title="Analisis Penyakit Hati", page_icon="🩺", layout="wide")
 
 @st.cache_data
-def load_and_preprocess_data():
-    @st.cache_data
 def load_and_preprocess_data():
     url = "https://archive.ics.uci.edu/ml/machine-learning-databases/ilpd/ILPD.csv"
     try:
@@ -41,31 +38,12 @@ def load_and_preprocess_data():
         st.error(f"Gagal memuat data dari URL. Error: {e}")
         return None
 
-    try:
-        df = pd.read_csv(url, header=None)
-        df.columns = [
-            "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin", 
-            "Alkaline_Phosphotase", "Alamine_Aminotransferase", 
-            "Aspartate_Aminotransferase", "Total_Protiens", "Albumin", 
-            "Albumin_and_Globulin_Ratio", "Selector"
-        ]
-        df['Albumin_and_Globulin_Ratio'].fillna(df['Albumin_and_Globulin_Ratio'].median(), inplace=True)
-        df['Selector'] = df['Selector'].apply(lambda x: 1 if x == 1 else 0)
-        df['Gender'] = LabelEncoder().fit_transform(df['Gender'])
-        return df
-    except Exception as e:
-        st.error(f"Gagal memuat data dari URL. Error: {e}")
-        return None
-
-
 def show_introduction():
     st.title("UAS Penambangan Data: Analisis Penyakit Hati")
     st.markdown("**Nama:** Intan Aulia Majid  \n**NIM:** 230411100001")
     st.header("Dataset Pasien Hati India")
-    st.write("""
-    Dataset ini digunakan untuk membangun model klasifikasi untuk memprediksi apakah pasien menderita penyakit hati.
-    """)
-    st.info("Sumber Data: [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/225/ilpd+indian+liver+patient+dataset)")
+    st.write("Dataset ini digunakan untuk membangun model klasifikasi untuk memprediksi apakah pasien menderita penyakit hati.")
+    st.info("Sumber Data: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/ILPD+(Indian+Liver+Patient+Dataset))")
 
 def show_eda(df):
     st.title("📊 Analisis & Visualisasi Data")
