@@ -1,3 +1,6 @@
+import os
+os.system('pip install imbalanced-learn')
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -12,39 +15,32 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
-try:
-    from imblearn.over_sampling import SMOTE
-except ImportError:
-    SMOTE = None
+from imblearn.over_sampling import SMOTE
 
 st.set_page_config(page_title="Analisis Penyakit Hati", page_icon="🩺", layout="wide")
 
 @st.cache_data
 def load_and_preprocess_data():
-    url = "https://archive.ics.uci.edu/ml/machine-learning-databases/00225/Indian%20Liver%20Patient%20Dataset%20(ILPD).csv"
-    try:
-        df = pd.read_csv(url, header=None)
-        df.columns = [
-            "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin", 
-            "Alkaline_Phosphotase", "Alamine_Aminotransferase", 
-            "Aspartate_Aminotransferase", "Total_Protiens", "Albumin", 
-            "Albumin_and_Globulin_Ratio", "Selector"
-        ]
-        df['Albumin_and_Globulin_Ratio'].fillna(df['Albumin_and_Globulin_Ratio'].median(), inplace=True)
-        df['Selector'] = df['Selector'].apply(lambda x: 1 if x == 1 else 0)
-        df['Gender'] = LabelEncoder().fit_transform(df['Gender'])
-        return df
-    except Exception as e:
-        st.error(f"Gagal memuat data dari URL. Error: {e}")
-        return None
-
+    # Ganti dengan URL CSV asli, bukan halaman HTML
+    url = "https://raw.githubusercontent.com/datasciencedojo/datasets/master/Indian%20Liver%20Patient%20Dataset%20(ILPD).csv"
+    df = pd.read_csv(url, header=None)
+    df.columns = [
+        "Age", "Gender", "Total_Bilirubin", "Direct_Bilirubin", 
+        "Alkaline_Phosphotase", "Alamine_Aminotransferase", 
+        "Aspartate_Aminotransferase", "Total_Protiens", "Albumin", 
+        "Albumin_and_Globulin_Ratio", "Selector"
+    ]
+    df['Albumin_and_Globulin_Ratio'] = df['Albumin_and_Globulin_Ratio'].fillna(df['Albumin_and_Globulin_Ratio'].median())
+    df['Selector'] = df['Selector'].apply(lambda x: 1 if x == 1 else 0)
+    df['Gender'] = LabelEncoder().fit_transform(df['Gender'])
+    return df
 
 def show_introduction():
     st.title("UAS Penambangan Data: Analisis Penyakit Hati")
     st.markdown("**Nama:** Intan Aulia Majid  \n**NIM:** 230411100001")
     st.header("Dataset Pasien Hati India")
     st.write("Dataset ini digunakan untuk membangun model klasifikasi untuk memprediksi apakah pasien menderita penyakit hati.")
-    st.info("Sumber Data: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/ILPD+(Indian+Liver+Patient+Dataset))")
+    st.info("Sumber Data: [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/225/ilpd+indian+liver+patient+dataset)")
 
 def show_eda(df):
     st.title("📊 Analisis & Visualisasi Data")
@@ -53,12 +49,12 @@ def show_eda(df):
     st.subheader("Statistik Deskriptif")
     st.dataframe(df.describe())
 
-    st.subheader("Visualisasi Data")
     col1, col2 = st.columns(2)
     with col1:
         fig1, ax1 = plt.subplots()
         sns.countplot(data=df, x='Selector', palette='pastel', ax=ax1)
         ax1.set_title('Distribusi Kelas')
+        ax1.set_xticks([0, 1])
         ax1.set_xticklabels(['Tidak Sakit', 'Sakit Hati'])
         st.pyplot(fig1)
     with col2:
@@ -76,7 +72,6 @@ def show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test,
     )
     st.header(f"Hasil Evaluasi: {model_choice}")
 
-    model = None
     if model_choice == "K-Nearest Neighbors (KNN)":
         model = KNeighborsClassifier(n_neighbors=5)
         model.fit(X_train_scaled, y_train)
@@ -88,58 +83,46 @@ def show_modeling_and_evaluation(X_train_scaled, X_test_scaled, y_train, y_test,
         y_pred = model.predict(X_test_scaled)
 
     elif model_choice == "Random Forest + SMOTE":
-        if SMOTE is None:
-            st.warning("SMOTE tidak tersedia. Model dijalankan tanpa SMOTE.")
-            model = RandomForestClassifier(random_state=42)
-            model.fit(X_train_scaled, y_train)
-            y_pred = model.predict(X_test_scaled)
-        else:
-            st.write("Menggunakan SMOTE untuk menyeimbangkan data latih.")
-            smote = SMOTE(random_state=42)
-            X_train_resampled, y_train_resampled = smote.fit_resample(X_train_scaled, y_train)
-            st.write(f"Sebelum SMOTE: {Counter(y_train)}")
-            st.write(f"Setelah SMOTE: {Counter(y_train_resampled)}")
-            model = RandomForestClassifier(random_state=42)
-            model.fit(X_train_resampled, y_train_resampled)
-            y_pred = model.predict(X_test_scaled)
+        st.write("Menggunakan SMOTE untuk menyeimbangkan data latih.")
+        smote = SMOTE(random_state=42)
+        X_train_resampled, y_train_resampled = smote.fit_resample(X_train_scaled, y_train)
+        st.write(f"Sebelum SMOTE: {Counter(y_train)}")
+        st.write(f"Setelah SMOTE: {Counter(y_train_resampled)}")
+        model = RandomForestClassifier(random_state=42)
+        model.fit(X_train_resampled, y_train_resampled)
+        y_pred = model.predict(X_test_scaled)
 
-    if model:
-        accuracy = accuracy_score(y_test, y_pred)
-        report = classification_report(y_test, y_pred, target_names=['Tidak Sakit', 'Sakit Hati'], output_dict=True)
-        cm = confusion_matrix(y_test, y_pred)
+    accuracy = accuracy_score(y_test, y_pred)
+    report = classification_report(y_test, y_pred, target_names=['Tidak Sakit', 'Sakit Hati'], output_dict=True)
+    cm = confusion_matrix(y_test, y_pred)
 
-        col1, col2 = st.columns(2)
-        with col1:
-            st.subheader("Akurasi Model")
-            st.metric("Akurasi", f"{accuracy:.2%}")
-            st.subheader("Classification Report")
-            st.table(pd.DataFrame(report).transpose())
-        with col2:
-            st.subheader("Confusion Matrix")
-            fig, ax = plt.subplots()
-            sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
-                        xticklabels=['Prediksi Tidak Sakit', 'Prediksi Sakit'],
-                        yticklabels=['Aktual Tidak Sakit', 'Aktual Sakit'])
-            ax.set_ylabel('Aktual')
-            ax.set_xlabel('Prediksi')
-            st.pyplot(fig)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.subheader("Akurasi Model")
+        st.metric("Akurasi", f"{accuracy:.2%}")
+        st.subheader("Classification Report")
+        st.table(pd.DataFrame(report).transpose())
+    with col2:
+        st.subheader("Confusion Matrix")
+        fig, ax = plt.subplots()
+        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                    xticklabels=['Prediksi Tidak Sakit', 'Prediksi Sakit'],
+                    yticklabels=['Aktual Tidak Sakit', 'Aktual Sakit'])
+        ax.set_ylabel('Aktual')
+        ax.set_xlabel('Prediksi')
+        st.pyplot(fig)
 
 def show_conclusion(X_train_scaled, X_test_scaled, y_train, y_test):
     st.title("📊 Perbandingan & Kesimpulan")
+    acc_knn = accuracy_score(y_test, KNeighborsClassifier(n_neighbors=5).fit(X_train_scaled, y_train).predict(X_test_scaled))
+    acc_dt = accuracy_score(y_test, DecisionTreeClassifier(random_state=42).fit(X_train_scaled, y_train).predict(X_test_scaled))
 
-    with st.spinner("Menghitung ulang akurasi model..."):
-        acc_knn = accuracy_score(y_test, KNeighborsClassifier(n_neighbors=5).fit(X_train_scaled, y_train).predict(X_test_scaled))
-        acc_dt = accuracy_score(y_test, DecisionTreeClassifier(random_state=42).fit(X_train_scaled, y_train).predict(X_test_scaled))
-
-        if SMOTE is not None:
-            smote = SMOTE(random_state=42)
-            X_res, y_res = smote.fit_resample(X_train_scaled, y_train)
-            acc_rf = accuracy_score(y_test, RandomForestClassifier(random_state=42).fit(X_res, y_res).predict(X_test_scaled))
-        else:
-            acc_rf = accuracy_score(y_test, RandomForestClassifier(random_state=42).fit(X_train_scaled, y_train).predict(X_test_scaled))
+    smote = SMOTE(random_state=42)
+    X_res, y_res = smote.fit_resample(X_train_scaled, y_train)
+    acc_rf = accuracy_score(y_test, RandomForestClassifier(random_state=42).fit(X_res, y_res).predict(X_test_scaled))
 
     df_akurasi = pd.DataFrame({
-        'Model': ['KNN', 'Decision Tree', 'Random Forest + SMOTE' if SMOTE else 'Random Forest'],
+        'Model': ['KNN', 'Decision Tree', 'Random Forest + SMOTE'],
         'Akurasi': [acc_knn, acc_dt, acc_rf]
     }).sort_values(by='Akurasi', ascending=False)
 
