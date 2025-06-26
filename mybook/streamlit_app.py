@@ -21,7 +21,7 @@ st.set_page_config(page_title="Analisis Penyakit Hati", page_icon="🩺", layout
 
 @st.cache_data
 def load_and_preprocess_data():
-    url = "https://archive.ics.uci.edu/ml/machine-learning-databases/ilpd/ILPD.csv"
+    url = "https://archive.ics.uci.edu/ml/machine-learning-databases/00225/Indian%20Liver%20Patient%20Dataset%20(ILPD).csv"
     try:
         df = pd.read_csv(url, header=None)
         df.columns = [
@@ -37,6 +37,7 @@ def load_and_preprocess_data():
     except Exception as e:
         st.error(f"Gagal memuat data dari URL. Error: {e}")
         return None
+
 
 def show_introduction():
     st.title("UAS Penambangan Data: Analisis Penyakit Hati")
